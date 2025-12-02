@@ -1,0 +1,62 @@
+@startuml
+
+class User {
+    -idUser: int
+    -name: String
+    -email: String
+    -address: String
+}
+
+
+class Cart {
+    -idCart: int
+    -total: float
+    -price: float
+    -date: Date
+    -status: String
+    -user: User
+}
+
+class CartProduct {
+    -idCartProduct: int
+    -quantity: int
+    -cart: Cart
+    -product: Product
+}
+
+class Product {
+    -idProduct: int
+    -name: String
+    -description: String
+    -price: float
+    -stock: int
+    -subcategory: Subcategory
+    -style: Style
+}
+
+enum Style {
+    -idStyle: int
+    -name: String
+}
+
+class Subcategory {
+    -idSubcategory: int
+    -name: String
+    -category: Category
+}
+
+class Category {
+    -idCategory: int
+    -name: St   ring
+}
+
+
+User "1" -- "1" Cart
+Cart "1" -- "*" CartProduct
+CartProduct "*" -- "1" Product
+
+Product "*" -- "1" Subcategory
+Subcategory "*" -- "1" Category
+
+
+@enduml
