@@ -1,23 +1,26 @@
 package tienda_back.domain.model;
 
-public class pruduct {
+import java.util.ArrayList;
+import java.util.List;
+
+public class product {
     private Long id;
     private String name;
     private String description;
     private double price;
     private int stock;
-    private String category;
+    private List<category> categories;
 
-    public pruduct() {
+    public product() {
     }
 
-    public pruduct(Long id, String name, String description, double price, int stock, String category) {
+    public product(Long id, String name, String description, double price, int stock, List<category> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.category = category;
+        this.categories = categories.isEmpty() ? categories : new ArrayList<>();
     }
 
     public Long getId() {
@@ -50,16 +53,16 @@ public class pruduct {
     public void setStock(int stock) {
         this.stock = stock;
     }
-    public String getCategory() {
-        return category;
+    public List<category> getCategories() {
+        return categories;
     }
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategories(List<category> categories) {
+        this.categories = categories;
     }
 
     @Override
     public String toString() {
-        return "pruduct [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock=" + stock + ", category=" + category + "]";
+        return "product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock=" + stock + ", categories=" + categories + "]";
     }
 
 
