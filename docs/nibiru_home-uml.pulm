@@ -7,7 +7,7 @@ class User {
     -password: String
     -phone: String
     -address: String
-    -role: String
+    -role: RoleUser
 }
 
 
@@ -37,10 +37,7 @@ class Product {
     -style: Style
 }
 
-enum Style {
-    -idStyle: int
-    -name: String
-}
+
 
 
 class Category {
@@ -48,6 +45,18 @@ class Category {
     -name: String
 }
 
+enum Style {
+    - minimalista
+    - moderno
+    - vintage
+    - contemporaneo
+    - anticuado
+}
+
+enum RoleUser {
+    - admin
+    - user
+}
 
 User "1" -- "1" Cart
 Cart "1" -- "*" CartProduct
