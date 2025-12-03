@@ -4,7 +4,10 @@ class User {
     -idUser: int
     -name: String
     -email: String
+    -password: String
+    -phone: String
     -address: String
+    -role: String
 }
 
 
@@ -39,15 +42,10 @@ enum Style {
     -name: String
 }
 
-class Subcategory {
-    -idSubcategory: int
-    -name: String
-    -category: Category
-}
 
 class Category {
     -idCategory: int
-    -name: St   ring
+    -name: String
 }
 
 
@@ -55,8 +53,6 @@ User "1" -- "1" Cart
 Cart "1" -- "*" CartProduct
 CartProduct "*" -- "1" Product
 
-Product "*" -- "1" Subcategory
-Subcategory "*" -- "1" Category
-
+Product "*" -- "1" Category
 
 @enduml
