@@ -7,9 +7,10 @@ public class product {
     private Long id;
     private String name;
     private String description;
-    private double price;
+    private Double price;
     private int stock;
     private List<category> categories;
+
 
     public product() {
     }
