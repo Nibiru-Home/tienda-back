@@ -8,7 +8,7 @@ import tienda_back.domain.respository.UserRepository;
 import tienda_back.domain.service.UserService;
 
 public class UserServiceImpl implements UserService {
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -31,12 +31,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
+        Long id = user.getId();
+        if (id == null || !userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El usuario con el id: " + id + " no existe");
+        }
         return userRepository.update(user);
     }
 
     @Override
     public void deleteById(Long id) {
-        userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("El usuario con el id: " + id + " no existe"));
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El usuario con el id: " + id + " no existe");
+        }
         userRepository.deleteById(id);
     }
 }

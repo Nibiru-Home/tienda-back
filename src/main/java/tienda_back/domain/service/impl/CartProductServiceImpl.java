@@ -8,7 +8,7 @@ import tienda_back.domain.respository.CartProductRepository;
 import tienda_back.domain.service.CartProductService;
 
 public class CartProductServiceImpl implements CartProductService {
-    CartProductRepository cartProductRepository;
+    private final CartProductRepository cartProductRepository;
 
     public CartProductServiceImpl(CartProductRepository cartProductRepository) {
         this.cartProductRepository = cartProductRepository;
@@ -31,12 +31,18 @@ public class CartProductServiceImpl implements CartProductService {
 
     @Override
     public CartProduct update(CartProduct cartProduct) {
+        Long id = cartProduct.getId();
+        if (id == null || !cartProductRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El producto del carrito con el id: " + id + " no existe");
+        }
         return cartProductRepository.update(cartProduct);
     }
 
     @Override
     public void deleteById(Long id) {
-        cartProductRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("El producto del carrito con el id: " + id + " no existe"));
+        if (!cartProductRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El producto del carrito con el id: " + id + " no existe");
+        }
         cartProductRepository.deleteById(id);
     }
 }
