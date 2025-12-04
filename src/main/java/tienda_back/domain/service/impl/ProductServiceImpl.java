@@ -8,7 +8,7 @@ import tienda_back.domain.respository.ProductRepository;
 import tienda_back.domain.service.ProductService;
 
 public class ProductServiceImpl implements ProductService {
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public ProductServiceImpl(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -31,15 +31,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product update(Product product) {
+        Long id = product.getId();
+        if (id == null || !productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El producto con el id: " + id + " no existe");
+        }
         return productRepository.update(product);
     }
 
     @Override
     public void deleteById(Long id) {
-        productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("El producto con el id: " + id + " no existe"));
+        if (!productRepository.existsById(id)) {
+            throw new ResourceNotFoundException("El producto con el id: " + id + " no existe");
+        }
         productRepository.deleteById(id);
     }
-
-
-    
 }
