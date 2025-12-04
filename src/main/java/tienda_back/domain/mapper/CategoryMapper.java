@@ -1,12 +1,13 @@
 package tienda_back.domain.mapper;
 
-import tienda_back.domain.model.category;
-import tienda_back.domain.dto.categoryDto;
+import tienda_back.domain.model.Category;
+import tienda_back.domain.dto.CategoryDto;
 
 public class CategoryMapper {
     private static CategoryMapper INSTANCE;
 
-    private CategoryMapper() {}
+    private CategoryMapper() {
+    }
 
     public static CategoryMapper getInstance() {
         if (INSTANCE == null) {
@@ -15,25 +16,23 @@ public class CategoryMapper {
         return INSTANCE;
     }
 
-    public categoryDto categoryToCategoryDto(category category) {
+    public CategoryDto categoryToCategoryDto(Category category) {
         if (category == null) {
             return null;
         }
 
-        return new categoryDto(
+        return new CategoryDto(
                 category.getId(),
-                category.getName()
-        );
+                category.getName());
     }
 
-    public category categoryDtoToCategory(categoryDto categoryDto) {
+    public Category categoryDtoToCategory(CategoryDto categoryDto) {
         if (categoryDto == null) {
             return null;
         }
 
-        return new category(
+        return new Category(
                 categoryDto.id(),
-                categoryDto.name()
-        );
+                categoryDto.name());
     }
 }

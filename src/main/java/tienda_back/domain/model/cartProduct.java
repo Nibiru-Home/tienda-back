@@ -1,10 +1,10 @@
 package tienda_back.domain.model;
 
-public class cartProduct {
+public class CartProduct {
     private Long id;
     private int quantity;
-    private cart cart;
-    private product product;
+    private Cart cart;
+    private Product product;
 
     public Long getId() {
         return id;
@@ -22,25 +22,25 @@ public class cartProduct {
         this.quantity = quantity;
     }
 
-    public cart getCart() {
+    public Cart getCart() {
         return cart;
     }
 
-    public void setCart(cart cart) {
+    public void setCart(Cart cart) {
         this.cart = cart;
     }
 
-    public product getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
     @Override
     public String toString() {
-        return "cartProduct{" +
+        return "CartProduct{" +
                 "id=" + id +
                 ", quantity=" + quantity +
                 ", cart=" + cart +

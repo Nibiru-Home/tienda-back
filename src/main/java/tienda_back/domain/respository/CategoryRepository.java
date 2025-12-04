@@ -1,15 +1,16 @@
 package tienda_back.domain.respository;
 
-import tienda_back.domain.model.category;
+import tienda_back.domain.model.Category;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CategoryRepository {
-    category save(category category);
-    Optional<category> findById(Long id);
-    List<category> findAll();
-    Optional<category> findByName(String name);
+    Category save(Category category);
+    Optional<Category> findById(Long id);
+    List<Category> findAll();
+    Optional<Category> findByName(String name);
     void deleteById(Long id);
     boolean existsById(Long id);
+    Category update(Category category);
 }

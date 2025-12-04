@@ -3,16 +3,17 @@ package tienda_back.domain.respository;
 import java.util.List;
 import java.util.Optional;
 
-import tienda_back.domain.model.category;
-import tienda_back.domain.model.product;
+import tienda_back.domain.model.Category;
+import tienda_back.domain.model.Product;
 
 public interface ProductRepository {
-    product save(product product);
-    Optional<product> findById(Long id);
-    List<product> findAll();
-    List<product> findByNameContaining(String name);
-    List<product> findByCategory(category category);
-    List<product> findByPriceBetween(Double minPrice, Double maxPrice);
+    Product save(Product product);
+    Optional<Product> findById(Long id);
+    List<Product> findAll();
+    List<Product> findByNameContaining(String name);
+    List<Product> findByCategory(Category category);
+    List<Product> findByPriceBetween(Double minPrice, Double maxPrice);
     void deleteById(Long id);
     boolean existsById(Long id);
+    Product update(Product product);
 }

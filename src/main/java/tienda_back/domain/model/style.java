@@ -1,9 +1,9 @@
 package tienda_back.domain.model;
 
-public enum style {
+public enum Style {
     MINIMALISTA,
     MODERNO,
     VINTAGE,
     CONTEMPORANEO,
-    ANTICUADO 
+    ANTICUADO
 }

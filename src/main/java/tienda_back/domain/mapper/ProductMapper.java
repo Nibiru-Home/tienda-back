@@ -1,13 +1,15 @@
 package tienda_back.domain.mapper;
 
-import tienda_back.domain.model.product;
-import tienda_back.domain.dto.productDto;
+import tienda_back.domain.model.Product;
+import tienda_back.domain.dto.ProductDto;
+import tienda_back.domain.model.Category;
 import java.util.ArrayList;
 
 public class ProductMapper {
     private static ProductMapper INSTANCE;
 
-    private ProductMapper() {}
+    private ProductMapper() {
+    }
 
     public static ProductMapper getInstance() {
         if (INSTANCE == null) {
@@ -16,33 +18,32 @@ public class ProductMapper {
         return INSTANCE;
     }
 
-    public productDto productToProductDto(product product) {
+    public ProductDto productToProductDto(Product product) {
         if (product == null) {
             return null;
         }
 
         // Tomar la primera categoría si existe, o null
-        tienda_back.domain.model.category category = null;
+        Category category = null;
         if (product.getCategories() != null && !product.getCategories().isEmpty()) {
             category = product.getCategories().get(0);
         }
 
-        return new productDto(
+        return new ProductDto(
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
                 product.getStock(),
-                category
-        );
+                category);
     }
 
-    public product productDtoToProduct(productDto productDto) {
+    public Product productDtoToProduct(ProductDto productDto) {
         if (productDto == null) {
             return null;
         }
 
-        product product = new product();
+        Product product = new Product();
         product.setId(productDto.id());
         product.setName(productDto.name());
         product.setDescription(productDto.description());
@@ -51,7 +52,7 @@ public class ProductMapper {
 
         // Crear lista de categorías con la categoría del DTO
         if (productDto.category() != null) {
-            ArrayList<tienda_back.domain.model.category> categories = new ArrayList<>();
+            ArrayList<Category> categories = new ArrayList<>();
             categories.add(productDto.category());
             product.setCategories(categories);
         } else {
