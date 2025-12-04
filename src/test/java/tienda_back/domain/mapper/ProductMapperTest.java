@@ -1,0 +1,158 @@
+package tienda_back.domain.mapper;
+
+import org.junit.jupiter.api.Test;
+import tienda_back.domain.dto.ProductDto;
+import tienda_back.domain.model.Category;
+import tienda_back.domain.model.Product;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+class ProductMapperTest {
+
+    @Test
+    void testGetInstance_ReturnsSameInstance() {
+        ProductMapper instance1 = ProductMapper.getInstance();
+        ProductMapper instance2 = ProductMapper.getInstance();
+
+        assertSame(instance1, instance2, "getInstance should return the same instance");
+    }
+
+    @Test
+    void testProductToProductDto_WithNullProduct_ReturnsNull() {
+        ProductMapper mapper = ProductMapper.getInstance();
+
+        ProductDto result = mapper.productToProductDto(null);
+
+        assertNull(result, "Mapping null Product should return null");
+    }
+
+    @Test
+    void testProductDtoToProduct_WithNullDto_ReturnsNull() {
+        ProductMapper mapper = ProductMapper.getInstance();
+
+        Product result = mapper.productDtoToProduct(null);
+
+        assertNull(result, "Mapping null ProductDto should return null");
+    }
+
+    @Test
+    void testProductToProductDto_WithCategoryList_TakesFirstCategory() {
+        ProductMapper mapper = ProductMapper.getInstance();
+        Category category1 = new Category(1L, "Electronics");
+        Category category2 = new Category(2L, "Computers");
+        List<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Laptop");
+        product.setDescription("Gaming laptop");
+        product.setPrice(999.99);
+        product.setStock(10);
+        product.setCategories(categories);
+
+        ProductDto result = mapper.productToProductDto(product);
+
+        assertNotNull(result);
+        assertEquals(1L, result.id());
+        assertEquals("Laptop", result.name());
+        assertEquals("Gaming laptop", result.description());
+        assertEquals(999.99, result.price());
+        assertEquals(10, result.stock());
+        assertNotNull(result.category());
+        assertEquals(category1.getId(), result.category().getId());
+        assertEquals(category1.getName(), result.category().getName());
+    }
+
+    @Test
+    void testProductToProductDto_WithEmptyCategoryList_MapsNullCategory() {
+        ProductMapper mapper = ProductMapper.getInstance();
+        Product product = new Product();
+        product.setId(2L);
+        product.setName("Mouse");
+        product.setDescription("Wireless mouse");
+        product.setPrice(29.99);
+        product.setStock(50);
+        product.setCategories(new ArrayList<>());
+
+        ProductDto result = mapper.productToProductDto(product);
+
+        assertNotNull(result);
+        assertEquals(2L, result.id());
+        assertNull(result.category(), "Empty category list should map to null category");
+    }
+
+    @Test
+    void testProductToProductDto_WithNullCategoryList_MapsNullCategory() {
+        ProductMapper mapper = ProductMapper.getInstance();
+        Product product = new Product();
+        product.setId(3L);
+        product.setName("Keyboard");
+        product.setDescription("Mechanical keyboard");
+        product.setPrice(79.99);
+        product.setStock(25);
+        product.setCategories(null);
+
+        ProductDto result = mapper.productToProductDto(product);
+
+        assertNotNull(result);
+        assertEquals(3L, result.id());
+        assertNull(result.category(), "Null category list should map to null category");
+    }
+
+    @Test
+    void testProductDtoToProduct_WithCategory_CreatesListWithOneCategory() {
+        ProductMapper mapper = ProductMapper.getInstance();
+        Category category = new Category(1L, "Electronics");
+        ProductDto productDto = new ProductDto(4L, "Monitor", "4K Monitor", 399.99, 15, category);
+
+        Product result = mapper.productDtoToProduct(productDto);
+
+        assertNotNull(result);
+        assertEquals(4L, result.getId());
+        assertEquals("Monitor", result.getName());
+        assertEquals("4K Monitor", result.getDescription());
+        assertEquals(399.99, result.getPrice());
+        assertEquals(15, result.getStock());
+        assertNotNull(result.getCategories());
+        assertEquals(1, result.getCategories().size());
+        assertEquals(category.getId(), result.getCategories().get(0).getId());
+        assertEquals(category.getName(), result.getCategories().get(0).getName());
+    }
+
+    @Test
+    void testProductDtoToProduct_WithNullCategory_CreatesEmptyList() {
+        ProductMapper mapper = ProductMapper.getInstance();
+        ProductDto productDto = new ProductDto(5L, "Cable", "USB Cable", 9.99, 100, null);
+
+        Product result = mapper.productDtoToProduct(productDto);
+
+        assertNotNull(result);
+        assertEquals(5L, result.getId());
+        assertNotNull(result.getCategories());
+        assertTrue(result.getCategories().isEmpty(), "Null category should create empty list");
+    }
+
+    @Test
+    void testBidirectionalMapping_WithCategory_PreservesData() {
+        ProductMapper mapper = ProductMapper.getInstance();
+        Category category = new Category(1L, "Electronics");
+        ProductDto originalDto = new ProductDto(6L, "Tablet", "10-inch tablet", 299.99, 30, category);
+
+        Product product = mapper.productDtoToProduct(originalDto);
+        ProductDto resultDto = mapper.productToProductDto(product);
+
+        assertNotNull(resultDto);
+        assertEquals(originalDto.id(), resultDto.id());
+        assertEquals(originalDto.name(), resultDto.name());
+        assertEquals(originalDto.description(), resultDto.description());
+        assertEquals(originalDto.price(), resultDto.price());
+        assertEquals(originalDto.stock(), resultDto.stock());
+        assertNotNull(resultDto.category());
+        assertEquals(originalDto.category().getId(), resultDto.category().getId());
+    }
+}
