@@ -11,7 +11,7 @@ public class user {
 
     public user() {
     }
-    
+
     public user(Long id, String name, String email, String password, String address, String phone, roleUser role) {
         this.id = id;
         this.name = name;
@@ -64,11 +64,11 @@ public class user {
     public void setRole(roleUser role) {
         this.role = role;
     }
-    
+
     @Override
     public String toString() {
         return "user [id=" + id + ", name=" + name + ", email=" + email +  ",password=" + password + ", address=" + address + ", phone=" + phone + ", role=" + role + "]";
     }
-    
+
     
 }
