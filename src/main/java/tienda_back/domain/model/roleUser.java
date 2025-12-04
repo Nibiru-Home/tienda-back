@@ -1,6 +1,6 @@
 package tienda_back.domain.model;
 
-public enum roleUser {
+public enum RoleUser {
     ADMIN,
     CUSTOMER
 }

@@ -2,22 +2,22 @@ package tienda_back.domain.model;
 
 import java.util.Date;
 
-public class cart {
+public class Cart {
     private Long id;
     private Float total;
     private Float price;
     private Date date;
     private String status;
-    private user user;
+    private User user;
 
-    public cart() {
+    public Cart() {
     }
 
-    public user getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(user user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
@@ -63,7 +63,7 @@ public class cart {
 
     @Override
     public String toString() {
-        return "cart{" +
+        return "Cart{" +
                 "id=" + id +
                 ", total=" + total +
                 ", price=" + price +

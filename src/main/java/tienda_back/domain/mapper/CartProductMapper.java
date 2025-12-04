@@ -1,12 +1,13 @@
 package tienda_back.domain.mapper;
 
-import tienda_back.domain.model.cartProduct;
-import tienda_back.domain.dto.cartProductDto;
+import tienda_back.domain.model.CartProduct;
+import tienda_back.domain.dto.CartProductDto;
 
 public class CartProductMapper {
     private static CartProductMapper INSTANCE;
 
-    private CartProductMapper() {}
+    private CartProductMapper() {
+    }
 
     public static CartProductMapper getInstance() {
         if (INSTANCE == null) {
@@ -15,25 +16,24 @@ public class CartProductMapper {
         return INSTANCE;
     }
 
-    public cartProductDto cartProductToCartProductDto(cartProduct cartProduct) {
+    public CartProductDto cartProductToCartProductDto(CartProduct cartProduct) {
         if (cartProduct == null) {
             return null;
         }
 
-        return new cartProductDto(
+        return new CartProductDto(
                 cartProduct.getId(),
                 cartProduct.getQuantity(),
                 cartProduct.getCart(),
-                cartProduct.getProduct()
-        );
+                cartProduct.getProduct());
     }
 
-    public cartProduct cartProductDtoToCartProduct(cartProductDto cartProductDto) {
+    public CartProduct cartProductDtoToCartProduct(CartProductDto cartProductDto) {
         if (cartProductDto == null) {
             return null;
         }
 
-        cartProduct cartProduct = new cartProduct();
+        CartProduct cartProduct = new CartProduct();
         cartProduct.setId(cartProductDto.id());
         cartProduct.setQuantity(cartProductDto.quantity());
         cartProduct.setCart(cartProductDto.cart());

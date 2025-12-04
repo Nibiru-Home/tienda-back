@@ -1,12 +1,11 @@
 package tienda_back.domain.dto;
 
-import tienda_back.domain.model.cart;
-import tienda_back.domain.model.product;
+import tienda_back.domain.model.Cart;
+import tienda_back.domain.model.Product;
 
-public record cartProductDto(
-        Long id,
-        int quantity,
-        cart cart,
-        product product
-) {
+public record CartProductDto(
+                Long id,
+                int quantity,
+                Cart cart,
+                Product product) {
 }

@@ -1,18 +1,19 @@
 package tienda_back.domain.respository;
 
-import tienda_back.domain.model.cart;
-import tienda_back.domain.model.user;
+import tienda_back.domain.model.Cart;
+import tienda_back.domain.model.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CartRepository {
-    cart save(cart cart);
-    Optional<cart> findById(Long id);
-    List<cart> findAll();
-    List<cart> findByUser(user user);
-    List<cart> findByStatus(String status);
-    List<cart> findByUserAndStatus(user user, String status);
+    Cart save(Cart cart);
+    Optional<Cart> findById(Long id);
+    List<Cart> findAll();
+    List<Cart> findByUser(User user);
+    List<Cart> findByStatus(String status);
+    List<Cart> findByUserAndStatus(User user, String status);
     void deleteById(Long id);
     boolean existsById(Long id);
+    Cart update(Cart cart);
 }
