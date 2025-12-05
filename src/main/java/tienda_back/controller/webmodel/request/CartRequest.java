@@ -1,12 +1,13 @@
-package tienda_back.domain.dto;
+package tienda_back.controller.webmodel.request;
 
 import java.util.Date;
 
-public record CartDto(
+public record CartRequest(
         Long id,
         Float total,
         Float price,
         Date date,
         String status,
-        UserDto user) {
+        UserRequest user) {
+
 }

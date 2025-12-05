@@ -24,8 +24,8 @@ public class CartProductMapper {
         return new CartProductDto(
                 cartProduct.getId(),
                 cartProduct.getQuantity(),
-                cartProduct.getCart(),
-                cartProduct.getProduct());
+                CartMapper.getInstance().cartToCartDto(cartProduct.getCart()),
+                ProductMapper.getInstance().productToProductDto(cartProduct.getProduct()));
     }
 
     public CartProduct cartProductDtoToCartProduct(CartProductDto cartProductDto) {
@@ -36,8 +36,8 @@ public class CartProductMapper {
         CartProduct cartProduct = new CartProduct();
         cartProduct.setId(cartProductDto.id());
         cartProduct.setQuantity(cartProductDto.quantity());
-        cartProduct.setCart(cartProductDto.cart());
-        cartProduct.setProduct(cartProductDto.product());
+        cartProduct.setCart(CartMapper.getInstance().cartDtoToCart(cartProductDto.cart()));
+        cartProduct.setProduct(ProductMapper.getInstance().productDtoToProduct(cartProductDto.product()));
 
         return cartProduct;
     }
