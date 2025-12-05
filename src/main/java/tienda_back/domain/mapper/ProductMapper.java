@@ -2,8 +2,6 @@ package tienda_back.domain.mapper;
 
 import tienda_back.domain.model.Product;
 import tienda_back.domain.dto.ProductDto;
-import tienda_back.domain.model.Category;
-import java.util.ArrayList;
 
 public class ProductMapper {
     private static ProductMapper INSTANCE;
@@ -23,19 +21,14 @@ public class ProductMapper {
             return null;
         }
 
-        // Tomar la primera categoría si existe, o null
-        Category category = null;
-        if (product.getCategories() != null && !product.getCategories().isEmpty()) {
-            category = product.getCategories().get(0);
-        }
-
         return new ProductDto(
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
                 product.getStock(),
-                category);
+                product.getCategories().stream().map(CategoryMapper.getInstance()::categoryToCategoryDto).toList()
+        );
     }
 
     public Product productDtoToProduct(ProductDto productDto) {
@@ -49,15 +42,7 @@ public class ProductMapper {
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());
         product.setStock(productDto.stock());
-
-        // Crear lista de categorías con la categoría del DTO
-        if (productDto.category() != null) {
-            ArrayList<Category> categories = new ArrayList<>();
-            categories.add(productDto.category());
-            product.setCategories(categories);
-        } else {
-            product.setCategories(new ArrayList<>());
-        }
+        product.setCategories(productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
 
         return product;
     }

@@ -2,6 +2,7 @@ package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
 import tienda_back.domain.dto.ProductDto;
+import tienda_back.domain.dto.CategoryDto;
 import tienda_back.domain.model.Category;
 import tienda_back.domain.model.Product;
 
@@ -64,8 +65,8 @@ class ProductMapperTest {
         assertEquals(999.99, result.price());
         assertEquals(10, result.stock());
         assertNotNull(result.category());
-        assertEquals(category1.getId(), result.category().getId());
-        assertEquals(category1.getName(), result.category().getName());
+        assertEquals(category1.getId(), result.category().get(0).id());
+        assertEquals(category1.getName(), result.category().get(0).name());
     }
 
     @Test
@@ -107,8 +108,10 @@ class ProductMapperTest {
     @Test
     void testProductDtoToProduct_WithCategory_CreatesListWithOneCategory() {
         ProductMapper mapper = ProductMapper.getInstance();
-        Category category = new Category(1L, "Electronics");
-        ProductDto productDto = new ProductDto(4L, "Monitor", "4K Monitor", 399.99, 15, category);
+        CategoryDto categoryDto = new CategoryDto(1L, "Electronics");
+        List<CategoryDto> categories = new ArrayList<>();
+        categories.add(categoryDto);
+        ProductDto productDto = new ProductDto(4L, "Monitor", "4K Monitor", 399.99, 15, categories);
 
         Product result = mapper.productDtoToProduct(productDto);
 
@@ -120,8 +123,8 @@ class ProductMapperTest {
         assertEquals(15, result.getStock());
         assertNotNull(result.getCategories());
         assertEquals(1, result.getCategories().size());
-        assertEquals(category.getId(), result.getCategories().get(0).getId());
-        assertEquals(category.getName(), result.getCategories().get(0).getName());
+        assertEquals(categoryDto.id(), result.getCategories().get(0).getId());
+        assertEquals(categoryDto.name(), result.getCategories().get(0).getName());
     }
 
     @Test
@@ -140,8 +143,10 @@ class ProductMapperTest {
     @Test
     void testBidirectionalMapping_WithCategory_PreservesData() {
         ProductMapper mapper = ProductMapper.getInstance();
-        Category category = new Category(1L, "Electronics");
-        ProductDto originalDto = new ProductDto(6L, "Tablet", "10-inch tablet", 299.99, 30, category);
+        CategoryDto categoryDto = new CategoryDto(1L, "Electronics");
+        List<CategoryDto> categories = new ArrayList<>();
+        categories.add(categoryDto);
+        ProductDto originalDto = new ProductDto(6L, "Tablet", "10-inch tablet", 299.99, 30, categories);
 
         Product product = mapper.productDtoToProduct(originalDto);
         ProductDto resultDto = mapper.productToProductDto(product);
@@ -153,6 +158,6 @@ class ProductMapperTest {
         assertEquals(originalDto.price(), resultDto.price());
         assertEquals(originalDto.stock(), resultDto.stock());
         assertNotNull(resultDto.category());
-        assertEquals(originalDto.category().getId(), resultDto.category().getId());
+        assertEquals(originalDto.category().get(0).id(), resultDto.category().get(0).id());
     }
 }

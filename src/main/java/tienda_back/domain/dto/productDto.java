@@ -1,6 +1,6 @@
 package tienda_back.domain.dto;
 
-import tienda_back.domain.model.Category;
+import java.util.List;
 
 public record ProductDto(
         Long id,
@@ -8,6 +8,6 @@ public record ProductDto(
         String description,
         Double price,
         int stock,
-        Category category) {
+        List<CategoryDto> category) {
 
 }

@@ -1,7 +1,7 @@
 package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
-import tienda_back.domain.dto.CartProductDto;
+import tienda_back.domain.dto.*;
 import tienda_back.domain.model.*;
 
 import java.util.ArrayList;
@@ -76,9 +76,9 @@ class CartProductMapperTest {
         assertEquals(1L, result.id());
         assertEquals(2, result.quantity());
         assertNotNull(result.cart());
-        assertEquals(cart.getId(), result.cart().getId());
+        assertEquals(cart.getId(), result.cart().id());
         assertNotNull(result.product());
-        assertEquals(product.getId(), result.product().getId());
+        assertEquals(product.getId(), result.product().id());
     }
 
     @Test
@@ -107,7 +107,14 @@ class CartProductMapperTest {
         product.setStock(50);
         product.setCategories(new ArrayList<>());
 
-        CartProductDto cartProductDto = new CartProductDto(2L, 5, cart, product);
+        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getPassword(),
+                user.getAddress(), user.getPhone(), user.getRole());
+        CartDto cartDto = new CartDto(cart.getId(), cart.getTotal(), cart.getPrice(), cart.getDate(), cart.getStatus(),
+                userDto);
+        ProductDto productDto = new ProductDto(product.getId(), product.getName(), product.getDescription(),
+                product.getPrice(), product.getStock(), new ArrayList<>());
+
+        CartProductDto cartProductDto = new CartProductDto(2L, 5, cartDto, productDto);
 
         CartProduct result = mapper.cartProductDtoToCartProduct(cartProductDto);
 

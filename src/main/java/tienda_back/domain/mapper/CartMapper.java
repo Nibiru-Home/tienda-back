@@ -27,7 +27,7 @@ public class CartMapper {
                 cart.getPrice(),
                 cart.getDate(),
                 cart.getStatus(),
-                cart.getUser());
+                UserMapper.getInstance().userToUserDto(cart.getUser()));
     }
 
     public Cart cartDtoToCart(CartDto cartDto) {
@@ -41,7 +41,7 @@ public class CartMapper {
         cart.setPrice(cartDto.price());
         cart.setDate(cartDto.date());
         cart.setStatus(cartDto.status());
-        cart.setUser(cartDto.user());
+        cart.setUser(UserMapper.getInstance().userDtoToUser(cartDto.user()));
 
         return cart;
     }
