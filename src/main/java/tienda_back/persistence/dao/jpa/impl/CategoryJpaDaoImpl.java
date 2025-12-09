@@ -33,14 +33,6 @@ public class CategoryJpaDaoImpl implements CategoryJpaDao {
     }
 
     @Override
-    public Optional<CategoryJpaEntity> findByName(String name) {
-        String sql = "SELECT c FROM CategoryJpaEntity c WHERE c.name = :name";
-        TypedQuery<CategoryJpaEntity> query = entityManager.createQuery(sql, CategoryJpaEntity.class);
-        query.setParameter("name", name);
-        return query.getResultStream().findFirst();
-    }
-
-    @Override
     public CategoryJpaEntity insert(CategoryJpaEntity jpaEntity) {
         entityManager.persist(jpaEntity);
         return jpaEntity;
@@ -62,6 +54,14 @@ public class CategoryJpaDaoImpl implements CategoryJpaDao {
         if (entity != null) {
             entityManager.remove(entity);
         }
+    }
+
+    @Override
+    public Optional<CategoryJpaEntity> findByName(String name) {
+        String sql = "SELECT c FROM CategoryJpaEntity c WHERE c.name = :name";
+        TypedQuery<CategoryJpaEntity> query = entityManager.createQuery(sql, CategoryJpaEntity.class);
+        query.setParameter("name", name);
+        return query.getResultStream().findFirst();
     }
 
 }

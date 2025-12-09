@@ -1,10 +1,12 @@
 package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
-import tienda_back.domain.dto.ProductDto;
+import tienda_back.controller.mapper.ProductMapper;
+import tienda_back.controller.webmodel.request.CategoryRequest;
+import tienda_back.controller.webmodel.request.ProductRequest;
+import tienda_back.controller.webmodel.response.ProductResponse;
 import tienda_back.domain.dto.CategoryDto;
-import tienda_back.domain.model.Category;
-import tienda_back.domain.model.Product;
+import tienda_back.domain.dto.ProductDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,145 +24,90 @@ class ProductMapperTest {
     }
 
     @Test
-    void testProductToProductDto_WithNullProduct_ReturnsNull() {
+    void testProductRequestToProductDto_WithNullRequest_ReturnsNull() {
         ProductMapper mapper = ProductMapper.getInstance();
-
-        ProductDto result = mapper.productToProductDto(null);
-
-        assertNull(result, "Mapping null Product should return null");
+        ProductDto result = mapper.productRequestToProductDto(null);
+        assertNull(result, "Mapping null request should return null");
     }
 
     @Test
-    void testProductDtoToProduct_WithNullDto_ReturnsNull() {
+    void testProductDtoToProductResponse_WithNullDto_ReturnsNull() {
         ProductMapper mapper = ProductMapper.getInstance();
-
-        Product result = mapper.productDtoToProduct(null);
-
-        assertNull(result, "Mapping null ProductDto should return null");
+        ProductResponse result = mapper.productDtoToProductResponse(null);
+        assertNull(result, "Mapping null dto should return null");
     }
 
     @Test
-    void testProductToProductDto_WithCategoryList_TakesFirstCategory() {
+    void testProductRequestToProductDto_MapsCorrectly() {
         ProductMapper mapper = ProductMapper.getInstance();
-        Category category1 = new Category(1L, "Electronics");
-        Category category2 = new Category(2L, "Computers");
-        List<Category> categories = new ArrayList<>();
-        categories.add(category1);
-        categories.add(category2);
 
-        Product product = new Product();
-        product.setId(1L);
-        product.setName("Laptop");
-        product.setDescription("Gaming laptop");
-        product.setPrice(999.99);
-        product.setStock(true);
-        product.setCategories(categories);
+        // Create CategoryRequest list
+        List<CategoryRequest> categories = new ArrayList<>();
+        categories.add(new CategoryRequest(1L, "Electronics"));
+        categories.add(new CategoryRequest(2L, "Computing"));
 
-        ProductDto result = mapper.productToProductDto(product);
+        // Create ProductRequest
+        ProductRequest request = new ProductRequest(
+                10L,
+                "Laptop",
+                "High performance laptop",
+                999.99,
+                50,
+                categories,
+                new ArrayList<>());
 
+        // Execute mapping
+        ProductDto result = mapper.productRequestToProductDto(request);
+
+        // Verify
         assertNotNull(result);
-        assertEquals(1L, result.id());
-        assertEquals("Laptop", result.name());
-        assertEquals("Gaming laptop", result.description());
-        assertEquals(999.99, result.price());
-        assertEquals(true, result.stock());
+        assertEquals(request.id(), result.id());
+        assertEquals(request.name(), result.name());
+        assertEquals(request.description(), result.description());
+        assertEquals(request.price(), result.price());
+        assertEquals(request.stock(), result.stock());
+
+        // Verify Categories
         assertNotNull(result.category());
-        assertEquals(category1.getId(), result.category().get(0).id());
-        assertEquals(category1.getName(), result.category().get(0).name());
+        assertEquals(2, result.category().size());
+        assertEquals(categories.get(0).id(), result.category().get(0).id());
+        assertEquals(categories.get(0).name(), result.category().get(0).name());
+        assertEquals(categories.get(1).id(), result.category().get(1).id());
     }
 
     @Test
-    void testProductToProductDto_WithEmptyCategoryList_MapsNullCategory() {
+    void testProductDtoToProductResponse_MapsCorrectly() {
         ProductMapper mapper = ProductMapper.getInstance();
-        Product product = new Product();
-        product.setId(2L);
-        product.setName("Mouse");
-        product.setDescription("Wireless mouse");
-        product.setPrice(29.99);
-        product.setStock(false);  
-        product.setCategories(new ArrayList<>());
 
-        ProductDto result = mapper.productToProductDto(product);
-
-        assertNotNull(result);
-        assertEquals(2L, result.id());
-        assertNull(result.category(), "Empty category list should map to null category");
-    }
-
-    @Test
-    void testProductToProductDto_WithNullCategoryList_MapsNullCategory() {
-        ProductMapper mapper = ProductMapper.getInstance();
-        Product product = new Product();
-        product.setId(6L);
-        product.setName("Monitor");
-        product.setDescription("4K Monitor");
-        product.setPrice(300.0);
-        product.setStock(true);  
-        product.setCategories(null);
-
-        ProductDto result = mapper.productToProductDto(product);
-
-        assertNotNull(result);
-        assertEquals(6L, result.id());
-        assertNull(result.category(), "Null category list should map to null category");
-    }
-
-    @Test
-    void testProductDtoToProduct_WithCategory_CreatesListWithOneCategory() {
-        ProductMapper mapper = ProductMapper.getInstance();
-        List<CategoryDto> categoryDtos = List.of(new CategoryDto(1L, "Accessory"));
-        ProductDto productDto = new ProductDto(3L, "Keyboard", "Mechanical Keyboard", 150.0, true, categoryDtos);  
-                                                                                                                   
-                                                                                                                   
-                                                                                                                   
-                                                                                                                   
-
-        Product result = mapper.productDtoToProduct(productDto);
-
-        assertNotNull(result);
-        assertEquals(productDto.id(), result.getId());
-        assertEquals(productDto.name(), result.getName());
-        assertEquals(productDto.description(), result.getDescription());
-        assertEquals(productDto.price(), result.getPrice());
-        assertEquals(productDto.stock(), result.getStock());
-        assertNotNull(result.getCategories());
-        assertEquals(1, result.getCategories().size());
-        assertEquals("Accessory", result.getCategories().get(0).getName());
-    }
-
-    @Test
-    void testProductDtoToProduct_WithNullCategory_CreatesEmptyList() {
-        ProductMapper mapper = ProductMapper.getInstance();
-        ProductDto productDto = new ProductDto(5L, "Cable", "USB Cable", 9.99, true, null);  
-                                                                                             
-
-        Product result = mapper.productDtoToProduct(productDto);
-
-        assertNotNull(result);
-        assertEquals(5L, result.getId());
-        assertNull(result.getCategories(), "Null category should ensure category list is null");
-    }
-
-    @Test
-    void testBidirectionalMapping_WithCategory_PreservesData() {
-        ProductMapper mapper = ProductMapper.getInstance();
-        CategoryDto categoryDto = new CategoryDto(1L, "Electronics");
+        // Create CategoryDto list
         List<CategoryDto> categories = new ArrayList<>();
-        categories.add(categoryDto);
-        ProductDto originalDto = new ProductDto(6L, "Tablet", "10-inch tablet", 299.99, true, categories);  
-                                                                                                            
-                                                                                                            
+        categories.add(new CategoryDto(3L, "Books"));
 
-        Product product = mapper.productDtoToProduct(originalDto);
-        ProductDto resultDto = mapper.productToProductDto(product);
+        // Create ProductDto
+        ProductDto dto = new ProductDto(
+                20L,
+                "Novel",
+                "Best selling novel",
+                15.50,
+                100,
+                categories,
+                new ArrayList<>());
 
-        assertNotNull(resultDto);
-        assertEquals(originalDto.id(), resultDto.id());
-        assertEquals(originalDto.name(), resultDto.name());
-        assertEquals(originalDto.description(), resultDto.description());
-        assertEquals(originalDto.price(), resultDto.price());
-        assertEquals(originalDto.stock(), resultDto.stock());
-        assertNotNull(resultDto.category());
-        assertEquals(originalDto.category().get(0).id(), resultDto.category().get(0).id());
+        // Execute mapping
+        ProductResponse result = mapper.productDtoToProductResponse(dto);
+
+        // Verify
+        assertNotNull(result);
+        assertEquals(dto.id(), result.id());
+        assertEquals(dto.name(), result.name());
+        assertEquals(dto.description(), result.description());
+        assertEquals(dto.price(), result.price());
+        assertEquals(dto.stock(), result.stock());
+
+        // Verify Categories
+        assertNotNull(result.category());
+        assertEquals(1, result.category().size());
+        assertEquals(categories.get(0).id(), result.category().get(0).id());
+        assertEquals(categories.get(0).name(), result.category().get(0).name());
     }
 }

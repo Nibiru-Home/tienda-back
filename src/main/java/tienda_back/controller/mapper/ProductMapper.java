@@ -23,12 +23,13 @@ public class ProductMapper {
         }
 
         return new ProductDto(
-            productRequest.id(),
-            productRequest.name(),
-            productRequest.description(),
-            productRequest.price(),
-            productRequest.stock(),
-            productRequest.category().stream().map(CategoryMapper.getInstance()::categoryRequestToCategoryDto).toList());
+                productRequest.id(),
+                productRequest.name(),
+                productRequest.description(),
+                productRequest.price(),
+                productRequest.stock(),
+                productRequest.category().stream().map(CategoryMapper.getInstance()::categoryRequestToCategoryDto).toList(),
+                productRequest.styles());
     }
 
     public ProductResponse productDtoToProductResponse(ProductDto productDto) {
@@ -37,11 +38,12 @@ public class ProductMapper {
         }
 
         return new ProductResponse(
-            productDto.id(),
-            productDto.name(),
-            productDto.description(),
-            productDto.price(),
-            productDto.stock(),
-            productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse).toList());
+                productDto.id(),
+                productDto.name(),
+                productDto.description(),
+                productDto.price(),
+                productDto.stock(),
+                productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse).toList(),
+                productDto.styles());
     }
 }

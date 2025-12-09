@@ -1,5 +1,6 @@
 package tienda_back.controller.webmodel.request;
 
+import tienda_back.domain.model.Style;
 import java.util.List;
 
 public record ProductRequest(
@@ -7,6 +8,7 @@ public record ProductRequest(
         String name,
         String description,
         Double price,
-        boolean stock,
-        List<CategoryRequest> category) {
+        int stock,
+        List<CategoryRequest> category,
+        List<Style> styles) {
 }

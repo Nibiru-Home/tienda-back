@@ -8,19 +8,22 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private boolean stock;
+    private int stock;
     private List<Category> categories;
+    private List<Style> styles;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, double price, boolean stock, List<Category> categories) {
+    public Product(Long id, String name, String description, double price, int stock, List<Category> categories,
+            List<Style> styles) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
-        this.categories = categories.isEmpty() ? categories : new ArrayList<>();
+        this.categories = (categories == null || categories.isEmpty()) ? new ArrayList<>() : categories;
+        this.styles = (styles == null || styles.isEmpty()) ? new ArrayList<>() : styles;
     }
 
     public Long getId() {
@@ -55,11 +58,11 @@ public class Product {
         this.price = price;
     }
 
-    public boolean getStock() {
+    public int getStock() {
         return stock;
     }
 
-    public void setStock(boolean stock) {
+    public void setStock(int stock) {
         this.stock = stock;
     }
 
@@ -71,9 +74,17 @@ public class Product {
         this.categories = categories;
     }
 
+    public List<Style> getStyles() {
+        return styles;
+    }
+
+    public void setStyles(List<Style> styles) {
+        this.styles = styles;
+    }
+
     @Override
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock="
-                + stock + ", categories=" + categories + "]";
+                + stock + ", categories=" + categories + ", styles=" + styles + "]";
     }
 }
