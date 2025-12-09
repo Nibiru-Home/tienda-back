@@ -14,15 +14,13 @@ public class ProductJpaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private String slug;
 
     public ProductJpaEntity() {
     }
 
-    public ProductJpaEntity(Integer id, String name, String slug) {
+    public ProductJpaEntity(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.slug = slug;
     }
 
     public Integer getId() {
@@ -41,11 +39,4 @@ public class ProductJpaEntity {
         this.name = name;
     }
 
-    public String getSlug() {
-        return slug;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
 }

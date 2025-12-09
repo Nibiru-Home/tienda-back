@@ -35,7 +35,7 @@ public class ProductRepositoryImplTest {
 
     @Test
     void testFindAll() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(productJpaDao.findAll(anyInt(), anyInt())).thenReturn(Collections.singletonList(entity));
 
         List<Product> result = productRepository.findAll();
@@ -48,7 +48,7 @@ public class ProductRepositoryImplTest {
 
     @Test
     void testFindById_Found() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(productJpaDao.findById(1L)).thenReturn(Optional.of(entity));
 
         Optional<Product> result = productRepository.findById(1L);
@@ -70,7 +70,7 @@ public class ProductRepositoryImplTest {
     void testSave_New() {
         Product product = new Product();
         product.setName("Laptop");
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
 
         when(productJpaDao.insert(any(ProductJpaEntity.class))).thenReturn(entity);
 
@@ -86,7 +86,7 @@ public class ProductRepositoryImplTest {
         Product product = new Product();
         product.setId(1L);
         product.setName("Laptop");
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
 
         when(productJpaDao.update(any(ProductJpaEntity.class))).thenReturn(entity);
 

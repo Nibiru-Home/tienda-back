@@ -35,7 +35,7 @@ public class CategoryJpaDaoImplTest {
 
     @Test
     void testFindById_Found() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(entityManager.find(CategoryJpaEntity.class, 1)).thenReturn(entity);
 
         Optional<CategoryJpaEntity> result = categoryJpaDao.findById(1L);
@@ -55,7 +55,7 @@ public class CategoryJpaDaoImplTest {
 
     @Test
     void testFindAll() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(entityManager.createQuery(anyString(), eq(CategoryJpaEntity.class))).thenReturn(typedQuery);
         when(typedQuery.setFirstResult(anyInt())).thenReturn(typedQuery);
         when(typedQuery.setMaxResults(anyInt())).thenReturn(typedQuery);
@@ -69,21 +69,21 @@ public class CategoryJpaDaoImplTest {
     }
 
     @Test
-    void testFindBySlug() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+    void testFindByName() {
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(entityManager.createQuery(anyString(), eq(CategoryJpaEntity.class))).thenReturn(typedQuery);
-        when(typedQuery.setParameter(eq("slug"), anyString())).thenReturn(typedQuery);
+        when(typedQuery.setParameter(eq("name"), anyString())).thenReturn(typedQuery);
         when(typedQuery.getResultStream()).thenReturn(Stream.of(entity));
 
-        Optional<CategoryJpaEntity> result = categoryJpaDao.findBySlug("electronics");
+        Optional<CategoryJpaEntity> result = categoryJpaDao.findByName("Electronics");
 
         assertTrue(result.isPresent());
-        assertEquals("electronics", result.get().getSlug());
+        assertEquals("Electronics", result.get().getName());
     }
 
     @Test
     void testInsert() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
 
         CategoryJpaEntity result = categoryJpaDao.insert(entity);
 
@@ -93,7 +93,7 @@ public class CategoryJpaDaoImplTest {
 
     @Test
     void testUpdate() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(entityManager.find(CategoryJpaEntity.class, 1)).thenReturn(entity);
         when(entityManager.merge(entity)).thenReturn(entity);
 
@@ -106,7 +106,7 @@ public class CategoryJpaDaoImplTest {
 
     @Test
     void testDeleteById() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(entityManager.find(CategoryJpaEntity.class, 1)).thenReturn(entity);
 
         categoryJpaDao.deleteById(1L);

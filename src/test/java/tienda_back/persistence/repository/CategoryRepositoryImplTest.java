@@ -35,7 +35,7 @@ public class CategoryRepositoryImplTest {
 
     @Test
     void testFindAll() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(categoryJpaDao.findAll(anyInt(), anyInt())).thenReturn(Collections.singletonList(entity));
 
         List<Category> result = categoryRepository.findAll();
@@ -48,7 +48,7 @@ public class CategoryRepositoryImplTest {
 
     @Test
     void testFindById_Found() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
         when(categoryJpaDao.findById(1L)).thenReturn(Optional.of(entity));
 
         Optional<Category> result = categoryRepository.findById(1L);
@@ -68,8 +68,8 @@ public class CategoryRepositoryImplTest {
 
     @Test
     void testFindByName_Found() {
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
-        when(categoryJpaDao.findBySlug("Electronics")).thenReturn(Optional.of(entity));
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
+        when(categoryJpaDao.findByName("Electronics")).thenReturn(Optional.of(entity));
 
         Optional<Category> result = categoryRepository.findByName("Electronics");
 
@@ -80,7 +80,7 @@ public class CategoryRepositoryImplTest {
     @Test
     void testSave_New() {
         Category category = new Category(null, "Electronics");
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
 
         when(categoryJpaDao.insert(any(CategoryJpaEntity.class))).thenReturn(entity);
 
@@ -94,7 +94,7 @@ public class CategoryRepositoryImplTest {
     @Test
     void testSave_Update() {
         Category category = new Category(1L, "Electronics");
-        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics", "electronics");
+        CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
 
         when(categoryJpaDao.update(any(CategoryJpaEntity.class))).thenReturn(entity);
 

@@ -36,7 +36,6 @@ public class ProductMapper {
             entity.setId(domain.getId().intValue());
         }
         entity.setName(domain.getName());
-        entity.setSlug(domain.getName());
         return entity;
     }
 }

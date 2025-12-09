@@ -37,8 +37,6 @@ public class CategoryMapper {
             categoryJpaEntity.setId(category.getId().intValue());
         }
         categoryJpaEntity.setName(category.getName());
-        categoryJpaEntity.setSlug(category.getName());
-
         return categoryJpaEntity;
     }
 }

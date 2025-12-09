@@ -37,14 +37,6 @@ public class ProductJpaDaoImpl implements ProductJpaDao {
     }
 
     @Override
-    public Optional<ProductJpaEntity> findBySlug(String slug) {
-        String sql = "SELECT p FROM ProductJpaEntity p WHERE p.slug = :slug";
-        TypedQuery<ProductJpaEntity> query = entityManager.createQuery(sql, ProductJpaEntity.class);
-        query.setParameter("slug", slug);
-        return query.getResultStream().findFirst();
-    }
-
-    @Override
     public ProductJpaEntity insert(ProductJpaEntity jpaEntity) {
         entityManager.persist(jpaEntity);
         return jpaEntity;
@@ -68,9 +60,4 @@ public class ProductJpaDaoImpl implements ProductJpaDao {
         }
     }
 
-    @Override
-    public void deleteBySlug(String slug) {
-        Optional<ProductJpaEntity> entity = findBySlug(slug);
-        entity.ifPresent(entityManager::remove);
-    }
 }

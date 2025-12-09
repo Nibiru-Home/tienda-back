@@ -37,7 +37,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public Optional<Category> findByName(String name) {
 
-        return categoryJpaDao.findBySlug(name).map(CategoryMapper.getInstance()::categoryJpaEntityToCategory);
+        return categoryJpaDao.findByName(name).map(CategoryMapper.getInstance()::categoryJpaEntityToCategory);
     }
 
     @Override

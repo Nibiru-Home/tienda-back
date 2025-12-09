@@ -9,7 +9,6 @@ import static org.mockito.Mockito.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +34,7 @@ public class ProductDaoJpaImplTest {
 
     @Test
     void testFindById_Found() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(entityManager.find(ProductJpaEntity.class, 1)).thenReturn(entity);
 
         Optional<ProductJpaEntity> result = productJpaDao.findById(1L);
@@ -55,7 +54,7 @@ public class ProductDaoJpaImplTest {
 
     @Test
     void testFindAll() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(entityManager.createQuery(anyString(), eq(ProductJpaEntity.class))).thenReturn(typedQuery);
         when(typedQuery.setFirstResult(anyInt())).thenReturn(typedQuery);
         when(typedQuery.setMaxResults(anyInt())).thenReturn(typedQuery);
@@ -69,21 +68,8 @@ public class ProductDaoJpaImplTest {
     }
 
     @Test
-    void testFindBySlug() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
-        when(entityManager.createQuery(anyString(), eq(ProductJpaEntity.class))).thenReturn(typedQuery);
-        when(typedQuery.setParameter(eq("slug"), anyString())).thenReturn(typedQuery);
-        when(typedQuery.getResultStream()).thenReturn(Stream.of(entity));
-
-        Optional<ProductJpaEntity> result = productJpaDao.findBySlug("laptop");
-
-        assertTrue(result.isPresent());
-        assertEquals("laptop", result.get().getSlug());
-    }
-
-    @Test
     void testInsert() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
 
         ProductJpaEntity result = productJpaDao.insert(entity);
 
@@ -93,7 +79,7 @@ public class ProductDaoJpaImplTest {
 
     @Test
     void testUpdate() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(entityManager.find(ProductJpaEntity.class, 1)).thenReturn(entity);
         when(entityManager.merge(entity)).thenReturn(entity);
 
@@ -106,7 +92,7 @@ public class ProductDaoJpaImplTest {
 
     @Test
     void testDeleteById() {
-        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop", "laptop");
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(entityManager.find(ProductJpaEntity.class, 1)).thenReturn(entity);
 
         productJpaDao.deleteById(1L);

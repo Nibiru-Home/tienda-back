@@ -9,7 +9,6 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.persistence.dao.jpa.CategoryJpaDao;
 import tienda_back.persistence.dao.jpa.entity.CategoryJpaEntity;
 
-
 public class CategoryJpaDaoImpl implements CategoryJpaDao {
 
     @PersistenceContext
@@ -34,10 +33,10 @@ public class CategoryJpaDaoImpl implements CategoryJpaDao {
     }
 
     @Override
-    public Optional<CategoryJpaEntity> findBySlug(String slug) {
-        String sql = "SELECT c FROM CategoryJpaEntity c WHERE c.slug = :slug";
+    public Optional<CategoryJpaEntity> findByName(String name) {
+        String sql = "SELECT c FROM CategoryJpaEntity c WHERE c.name = :name";
         TypedQuery<CategoryJpaEntity> query = entityManager.createQuery(sql, CategoryJpaEntity.class);
-        query.setParameter("slug", slug);
+        query.setParameter("name", name);
         return query.getResultStream().findFirst();
     }
 
@@ -65,9 +64,4 @@ public class CategoryJpaDaoImpl implements CategoryJpaDao {
         }
     }
 
-    @Override
-    public void deleteBySlug(String slug) {
-        Optional<CategoryJpaEntity> entity = findBySlug(slug);
-        entity.ifPresent(entityManager::remove);
-    }
 }
