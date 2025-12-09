@@ -33,7 +33,7 @@ class Product {
     -description: String
     -price: float
     -stock: int
-    -subcategory: Subcategory
+    -category: Category
     -style: Style
 }
 
