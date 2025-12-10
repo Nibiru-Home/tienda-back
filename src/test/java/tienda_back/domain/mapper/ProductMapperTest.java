@@ -136,8 +136,7 @@ class ProductMapperTest {
 
         assertNotNull(result);
         assertEquals(5L, result.getId());
-        assertNotNull(result.getCategories());
-        assertTrue(result.getCategories().isEmpty(), "Null category should create empty list");
+        assertNull(result.getCategories(), "Null category should ensure category list is null");
     }
 
     @Test

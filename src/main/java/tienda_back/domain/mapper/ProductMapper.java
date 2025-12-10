@@ -1,7 +1,9 @@
 package tienda_back.domain.mapper;
 
-import tienda_back.domain.model.Product;
+import java.util.List;
+import tienda_back.domain.dto.CategoryDto;
 import tienda_back.domain.dto.ProductDto;
+import tienda_back.domain.model.Product;
 
 public class ProductMapper {
     private static ProductMapper INSTANCE;
@@ -21,14 +23,20 @@ public class ProductMapper {
             return null;
         }
 
+        List<CategoryDto> categories = null;
+        if (product.getCategories() != null && !product.getCategories().isEmpty()) {
+            categories = product.getCategories().stream()
+                    .map(CategoryMapper.getInstance()::categoryToCategoryDto)
+                    .toList();
+        }
+
         return new ProductDto(
                 product.getId(),
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
                 product.getStock(),
-                product.getCategories().stream().map(CategoryMapper.getInstance()::categoryToCategoryDto).toList()
-        );
+                categories);
     }
 
     public Product productDtoToProduct(ProductDto productDto) {
@@ -42,8 +50,13 @@ public class ProductMapper {
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());
         product.setStock(productDto.stock());
-        product.setCategories(productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
+        if (productDto.category() != null) {
+            product.setCategories(productDto.category().stream()
+                    .map(CategoryMapper.getInstance()::categoryDtoToCategory)
+                    .toList());
+        }
 
         return product;
     }
+
 }

@@ -24,6 +24,16 @@ public class ProductMapper {
         Product product = new Product();
         product.setId(jpaEntity.getId().longValue());
         product.setName(jpaEntity.getName());
+        product.setDescription(jpaEntity.getDescription());
+        product.setPrice(jpaEntity.getPrice());
+        product.setStock(jpaEntity.getStock());
+        if (jpaEntity.getCategories() != null) {
+            product.setCategories(jpaEntity.getCategories().stream()
+                    .map(CategoryMapper.getInstance()::categoryJpaEntityToCategory)
+                    .toList());
+        } else {
+            product.setCategories(new java.util.ArrayList<>());
+        }
         return product;
     }
 
@@ -36,6 +46,14 @@ public class ProductMapper {
             entity.setId(domain.getId().intValue());
         }
         entity.setName(domain.getName());
+        entity.setDescription(domain.getDescription());
+        entity.setPrice(domain.getPrice());
+        entity.setStock(domain.getStock());
+        if (domain.getCategories() != null) {
+            entity.setCategories(domain.getCategories().stream()
+                    .map(CategoryMapper.getInstance()::categoryToCategoryJpaEntity)
+                    .toList());
+        }
         return entity;
     }
 }
