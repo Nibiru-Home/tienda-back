@@ -4,7 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.util.List;
 
 @Entity
 @Table(name = "products")
@@ -16,11 +21,11 @@ public class ProductJpaEntity {
     private String name;
     private String description;
     private Double price;
-    private int stock;
+    private boolean stock;
 
-    @jakarta.persistence.ManyToMany
-    @jakarta.persistence.JoinTable(name = "product_categories", joinColumns = @jakarta.persistence.JoinColumn(name = "product_id"), inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "category_id"))
-    private java.util.List<CategoryJpaEntity> categories;
+    @ManyToMany
+    @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<CategoryJpaEntity> categories;
 
     public ProductJpaEntity() {
     }
@@ -30,8 +35,8 @@ public class ProductJpaEntity {
         this.name = name;
     }
 
-    public ProductJpaEntity(Integer id, String name, String description, Double price, int stock,
-            java.util.List<CategoryJpaEntity> categories) {
+    public ProductJpaEntity(Integer id, String name, String description, Double price, boolean stock,
+            List<CategoryJpaEntity> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -72,19 +77,19 @@ public class ProductJpaEntity {
         this.price = price;
     }
 
-    public int getStock() {
+    public boolean getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(boolean stock) {
         this.stock = stock;
     }
 
-    public java.util.List<CategoryJpaEntity> getCategories() {
+    public List<CategoryJpaEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(java.util.List<CategoryJpaEntity> categories) {
+    public void setCategories(List<CategoryJpaEntity> categories) {
         this.categories = categories;
     }
 
