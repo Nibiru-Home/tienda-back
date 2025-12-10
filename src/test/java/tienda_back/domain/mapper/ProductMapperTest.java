@@ -53,7 +53,7 @@ class ProductMapperTest {
         product.setName("Laptop");
         product.setDescription("Gaming laptop");
         product.setPrice(999.99);
-        product.setStock(10);
+        product.setStock(true);
         product.setCategories(categories);
 
         ProductDto result = mapper.productToProductDto(product);
@@ -63,7 +63,7 @@ class ProductMapperTest {
         assertEquals("Laptop", result.name());
         assertEquals("Gaming laptop", result.description());
         assertEquals(999.99, result.price());
-        assertEquals(10, result.stock());
+        assertEquals(true, result.stock());
         assertNotNull(result.category());
         assertEquals(category1.getId(), result.category().get(0).id());
         assertEquals(category1.getName(), result.category().get(0).name());
@@ -77,7 +77,7 @@ class ProductMapperTest {
         product.setName("Mouse");
         product.setDescription("Wireless mouse");
         product.setPrice(29.99);
-        product.setStock(50);
+        product.setStock(false); // Changed from int to boolean
         product.setCategories(new ArrayList<>());
 
         ProductDto result = mapper.productToProductDto(product);
@@ -95,7 +95,7 @@ class ProductMapperTest {
         product.setName("Monitor");
         product.setDescription("4K Monitor");
         product.setPrice(300.0);
-        product.setStock(15);
+        product.setStock(true); // Changed from int to boolean
         product.setCategories(null);
 
         ProductDto result = mapper.productToProductDto(product);
@@ -109,7 +109,11 @@ class ProductMapperTest {
     void testProductDtoToProduct_WithCategory_CreatesListWithOneCategory() {
         ProductMapper mapper = ProductMapper.getInstance();
         List<CategoryDto> categoryDtos = List.of(new CategoryDto(1L, "Accessory"));
-        ProductDto productDto = new ProductDto(3L, "Keyboard", "Mechanical Keyboard", 150.0, 20, categoryDtos);
+        ProductDto productDto = new ProductDto(3L, "Keyboard", "Mechanical Keyboard", 150.0, true, categoryDtos); // Changed
+                                                                                                                  // from
+                                                                                                                  // int
+                                                                                                                  // to
+                                                                                                                  // boolean
 
         Product result = mapper.productDtoToProduct(productDto);
 
@@ -127,7 +131,8 @@ class ProductMapperTest {
     @Test
     void testProductDtoToProduct_WithNullCategory_CreatesEmptyList() {
         ProductMapper mapper = ProductMapper.getInstance();
-        ProductDto productDto = new ProductDto(5L, "Cable", "USB Cable", 9.99, 100, null);
+        ProductDto productDto = new ProductDto(5L, "Cable", "USB Cable", 9.99, true, null); // Changed from int to
+                                                                                            // boolean
 
         Product result = mapper.productDtoToProduct(productDto);
 
@@ -142,7 +147,9 @@ class ProductMapperTest {
         CategoryDto categoryDto = new CategoryDto(1L, "Electronics");
         List<CategoryDto> categories = new ArrayList<>();
         categories.add(categoryDto);
-        ProductDto originalDto = new ProductDto(6L, "Tablet", "10-inch tablet", 299.99, 30, categories);
+        ProductDto originalDto = new ProductDto(6L, "Tablet", "10-inch tablet", 299.99, true, categories); // Changed
+                                                                                                           // from int
+                                                                                                           // to boolean
 
         Product product = mapper.productDtoToProduct(originalDto);
         ProductDto resultDto = mapper.productToProductDto(product);

@@ -60,7 +60,7 @@ class CartProductMapperTest {
         product.setName("Laptop");
         product.setDescription("Gaming laptop");
         product.setPrice(999.99);
-        product.setStock(10);
+        product.setStock(true); // Reverted from boolean to int                                             
         product.setCategories(new ArrayList<>());
 
         // Create CartProduct
@@ -104,7 +104,7 @@ class CartProductMapperTest {
         product.setName("Mouse");
         product.setDescription("Wireless mouse");
         product.setPrice(29.99);
-        product.setStock(50);
+        product.setStock(true);
         product.setCategories(new ArrayList<>());
 
         UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getPassword(),
@@ -178,7 +178,7 @@ class CartProductMapperTest {
         product.setName("Keyboard");
         product.setDescription("Mechanical keyboard");
         product.setPrice(79.99);
-        product.setStock(10); // Reverted from boolean to int
+        product.setStock(true); // Reverted from boolean to int
         product.setCategories(new ArrayList<>());
 
         // Create CartProduct
