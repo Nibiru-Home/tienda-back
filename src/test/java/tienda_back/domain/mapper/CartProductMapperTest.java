@@ -41,11 +41,11 @@ class CartProductMapperTest {
     void testCartProductToCartProductDto_WithCompleteCartProduct_MapsAllFields() {
         CartProductMapper mapper = CartProductMapper.getInstance();
 
-        // Create User
+         
         User user = new User(1L, "John Doe", "john@example.com", "password123",
                 "123 Main St", "555-1234", RoleUser.CUSTOMER);
 
-        // Create Cart
+         
         Cart cart = new Cart();
         cart.setId(1L);
         cart.setTotal(2.0f);
@@ -54,16 +54,16 @@ class CartProductMapperTest {
         cart.setStatus("PENDING");
         cart.setUser(user);
 
-        // Create Product
+         
         Product product = new Product();
         product.setId(1L);
         product.setName("Laptop");
         product.setDescription("Gaming laptop");
         product.setPrice(999.99);
-        product.setStock(true); // Reverted from boolean to int                                             
+        product.setStock(true);  
         product.setCategories(new ArrayList<>());
 
-        // Create CartProduct
+         
         CartProduct cartProduct = new CartProduct();
         cartProduct.setId(1L);
         cartProduct.setQuantity(2);
@@ -85,11 +85,11 @@ class CartProductMapperTest {
     void testCartProductDtoToCartProduct_WithCompleteDto_MapsAllFields() {
         CartProductMapper mapper = CartProductMapper.getInstance();
 
-        // Create User
+         
         User user = new User(2L, "Jane Smith", "jane@example.com", "pass456",
                 "789 Oak Rd", "555-9012", RoleUser.ADMIN);
 
-        // Create Cart
+         
         Cart cart = new Cart();
         cart.setId(2L);
         cart.setTotal(3.0f);
@@ -98,7 +98,7 @@ class CartProductMapperTest {
         cart.setStatus("COMPLETED");
         cart.setUser(user);
 
-        // Create Product
+         
         Product product = new Product();
         product.setId(2L);
         product.setName("Mouse");
@@ -159,11 +159,11 @@ class CartProductMapperTest {
     void testBidirectionalMapping_PreservesData() {
         CartProductMapper mapper = CartProductMapper.getInstance();
 
-        // Create User
+         
         User user = new User(3L, "Test User", "test@example.com", "test123",
                 "Test Address", "555-0000", RoleUser.CUSTOMER);
 
-        // Create Cart
+         
         Cart cart = new Cart();
         cart.setId(5L);
         cart.setTotal(1.0f);
@@ -172,16 +172,16 @@ class CartProductMapperTest {
         cart.setStatus("PENDING");
         cart.setUser(user);
 
-        // Create Product
+         
         Product product = new Product();
         product.setId(5L);
         product.setName("Keyboard");
         product.setDescription("Mechanical keyboard");
         product.setPrice(79.99);
-        product.setStock(true); // Reverted from boolean to int
+        product.setStock(true);  
         product.setCategories(new ArrayList<>());
 
-        // Create CartProduct
+         
         CartProduct originalCartProduct = new CartProduct();
         originalCartProduct.setId(5L);
         originalCartProduct.setQuantity(3);

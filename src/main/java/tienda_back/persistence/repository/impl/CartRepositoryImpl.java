@@ -47,19 +47,19 @@ public class CartRepositoryImpl implements CartRepository {
 
     @Override
     public List<Cart> findByUser(User user) {
-        // User field not available in CartJpaEntity
+         
         return Collections.emptyList();
     }
 
     @Override
     public List<Cart> findByStatus(String status) {
-        // Status field not available in CartJpaEntity/Dao
+         
         return Collections.emptyList();
     }
 
     @Override
     public List<Cart> findByUserAndStatus(User user, String status) {
-        // User and Status fields not available
+         
         return Collections.emptyList();
     }
 

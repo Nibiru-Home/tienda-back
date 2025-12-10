@@ -49,19 +49,19 @@ public class CartProductRepositoryImpl implements CartProductRepository {
 
     @Override
     public List<CartProduct> findByCart(Cart cart) {
-        // CartJpaDao/Entity limitations
+         
         return Collections.emptyList();
     }
 
     @Override
     public List<CartProduct> findByProduct(Product product) {
-        // ProductJpaDao/Entity limitations
+         
         return Collections.emptyList();
     }
 
     @Override
     public Optional<CartProduct> findByCartAndProduct(Cart cart, Product product) {
-        // Limitations
+         
         return Optional.empty();
     }
 

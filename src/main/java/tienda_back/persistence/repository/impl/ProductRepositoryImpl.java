@@ -47,19 +47,19 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findByNameContaining(String name) {
-        // Not implemented in DAO/Entity
+         
         return Collections.emptyList();
     }
 
     @Override
     public List<Product> findByCategory(Category category) {
-        // Not implemented in DAO/Entity
+         
         return Collections.emptyList();
     }
 
     @Override
     public List<Product> findByPriceBetween(Double minPrice, Double maxPrice) {
-        // Not implemented in DAO/Entity
+         
         return Collections.emptyList();
     }
 
