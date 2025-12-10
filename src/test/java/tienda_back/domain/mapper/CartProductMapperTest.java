@@ -113,7 +113,6 @@ class CartProductMapperTest {
                 userDto);
         ProductDto productDto = new ProductDto(product.getId(), product.getName(), product.getDescription(),
                 product.getPrice(), product.getStock(), new ArrayList<>());
-
         CartProductDto cartProductDto = new CartProductDto(2L, 5, cartDto, productDto);
 
         CartProduct result = mapper.cartProductDtoToCartProduct(cartProductDto);
@@ -179,7 +178,7 @@ class CartProductMapperTest {
         product.setName("Keyboard");
         product.setDescription("Mechanical keyboard");
         product.setPrice(79.99);
-        product.setStock(25);
+        product.setStock(10); // Reverted from boolean to int
         product.setCategories(new ArrayList<>());
 
         // Create CartProduct

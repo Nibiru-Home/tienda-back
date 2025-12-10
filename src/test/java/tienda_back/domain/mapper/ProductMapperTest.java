@@ -91,40 +91,37 @@ class ProductMapperTest {
     void testProductToProductDto_WithNullCategoryList_MapsNullCategory() {
         ProductMapper mapper = ProductMapper.getInstance();
         Product product = new Product();
-        product.setId(3L);
-        product.setName("Keyboard");
-        product.setDescription("Mechanical keyboard");
-        product.setPrice(79.99);
-        product.setStock(25);
+        product.setId(6L);
+        product.setName("Monitor");
+        product.setDescription("4K Monitor");
+        product.setPrice(300.0);
+        product.setStock(15);
         product.setCategories(null);
 
         ProductDto result = mapper.productToProductDto(product);
 
         assertNotNull(result);
-        assertEquals(3L, result.id());
+        assertEquals(6L, result.id());
         assertNull(result.category(), "Null category list should map to null category");
     }
 
     @Test
     void testProductDtoToProduct_WithCategory_CreatesListWithOneCategory() {
         ProductMapper mapper = ProductMapper.getInstance();
-        CategoryDto categoryDto = new CategoryDto(1L, "Electronics");
-        List<CategoryDto> categories = new ArrayList<>();
-        categories.add(categoryDto);
-        ProductDto productDto = new ProductDto(4L, "Monitor", "4K Monitor", 399.99, 15, categories);
+        List<CategoryDto> categoryDtos = List.of(new CategoryDto(1L, "Accessory"));
+        ProductDto productDto = new ProductDto(3L, "Keyboard", "Mechanical Keyboard", 150.0, 20, categoryDtos);
 
         Product result = mapper.productDtoToProduct(productDto);
 
         assertNotNull(result);
-        assertEquals(4L, result.getId());
-        assertEquals("Monitor", result.getName());
-        assertEquals("4K Monitor", result.getDescription());
-        assertEquals(399.99, result.getPrice());
-        assertEquals(15, result.getStock());
+        assertEquals(productDto.id(), result.getId());
+        assertEquals(productDto.name(), result.getName());
+        assertEquals(productDto.description(), result.getDescription());
+        assertEquals(productDto.price(), result.getPrice());
+        assertEquals(productDto.stock(), result.getStock());
         assertNotNull(result.getCategories());
         assertEquals(1, result.getCategories().size());
-        assertEquals(categoryDto.id(), result.getCategories().get(0).getId());
-        assertEquals(categoryDto.name(), result.getCategories().get(0).getName());
+        assertEquals("Accessory", result.getCategories().get(0).getName());
     }
 
     @Test

@@ -8,13 +8,13 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private int stock;
+    private boolean stock;
     private List<Category> categories;
 
     public Product() {
     }
 
-    public Product(Long id, String name, String description, double price, int stock, List<Category> categories) {
+    public Product(Long id, String name, String description, double price, boolean stock, List<Category> categories) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -55,11 +55,11 @@ public class Product {
         this.price = price;
     }
 
-    public int getStock() {
+    public boolean getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(boolean stock) {
         this.stock = stock;
     }
 
