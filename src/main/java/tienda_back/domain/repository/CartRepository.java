@@ -1,4 +1,4 @@
-package tienda_back.domain.respository;
+package tienda_back.domain.repository;
 
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.User;

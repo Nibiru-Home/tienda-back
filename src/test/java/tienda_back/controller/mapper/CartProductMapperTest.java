@@ -9,7 +9,7 @@ import tienda_back.controller.webmodel.response.CartProductResponse;
 import tienda_back.domain.dto.CartDto;
 import tienda_back.domain.dto.CartProductDto;
 import tienda_back.domain.dto.ProductDto;
-import tienda_back.domain.dto.UserDto;
+import tienda_back.domain.dto.UserRegisterDto;
 import tienda_back.domain.model.RoleUser;
 import tienda_back.domain.model.Style;
 
@@ -57,7 +57,7 @@ class CartProductMapperTest {
 
     @Test
     void testCartProductDtoToCartProductResponse_Success() {
-        UserDto userDto = new UserDto(1L, "John", "john@test.com", "pass", "addr", "123", RoleUser.CUSTOMER);
+        UserRegisterDto userDto = new UserRegisterDto(1L, "John", "john@test.com", "pass", "addr", "123", RoleUser.CUSTOMER);
         CartDto cartDto = new CartDto(1L, 100.0f, 90.0f, new Date(), "PENDING", userDto);
         ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, Collections.emptyList(),
                 Collections.singletonList(Style.MODERNO));

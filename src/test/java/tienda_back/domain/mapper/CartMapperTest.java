@@ -2,7 +2,7 @@ package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
 import tienda_back.domain.dto.CartDto;
-import tienda_back.domain.dto.UserDto;
+import tienda_back.domain.dto.UserRegisterDto;
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.RoleUser;
 import tienda_back.domain.model.User;
@@ -72,7 +72,7 @@ class CartMapperTest {
         CartMapper mapper = CartMapper.getInstance();
         User user = new User(2L, "Jane Smith", "jane@example.com", "pass456",
                 "789 Oak Rd", "555-9012", RoleUser.ADMIN);
-        UserDto userDto = new UserDto(2L, "Jane Smith", "jane@example.com", "pass456",
+        UserRegisterDto userDto = new UserRegisterDto(2L, "Jane Smith", "jane@example.com", "pass456",
                 "789 Oak Rd", "555-9012", RoleUser.ADMIN);
         Date date = new Date();
 

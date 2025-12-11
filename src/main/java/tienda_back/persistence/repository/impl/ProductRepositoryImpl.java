@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import tienda_back.domain.model.Category;
 import tienda_back.domain.model.Product;
-import tienda_back.domain.respository.ProductRepository;
+import tienda_back.domain.repository.ProductRepository;
 import tienda_back.persistence.dao.jpa.ProductJpaDao;
 import tienda_back.persistence.dao.jpa.entity.ProductJpaEntity;
 import tienda_back.persistence.repository.mapper.ProductMapper;

@@ -1,7 +1,9 @@
 package tienda_back.domain.model;
 
+import java.util.UUID;
+
 public class User {
-    private Long id;
+    private UUID id;
     private String name;
     private String email;
     private String password;
@@ -12,7 +14,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password, String address, String phone, RoleUser role) {
+    public User(UUID id, String name, String email, String password, String address, String phone, RoleUser role) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -22,11 +24,11 @@ public class User {
         this.role = role;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

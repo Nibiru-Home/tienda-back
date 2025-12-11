@@ -9,14 +9,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
 public class UserJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String name;
     private String email;
@@ -30,7 +31,7 @@ public class UserJpaEntity {
     public UserJpaEntity() {
     }
 
-    public UserJpaEntity(Long id, String name, String email, String password, String address, String phone,
+    public UserJpaEntity(UUID id, String name, String email, String password, String address, String phone,
             RoleUser role) {
         this.id = id;
         this.name = name;
@@ -41,11 +42,11 @@ public class UserJpaEntity {
         this.role = role;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

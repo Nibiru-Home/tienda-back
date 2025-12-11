@@ -2,12 +2,13 @@ package tienda_back.persistence.repository.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
 import tienda_back.domain.model.User;
-import tienda_back.domain.respository.UserRepository;
+import tienda_back.domain.repository.UserRepository;
 import tienda_back.persistence.dao.jpa.UserJpaDao;
 import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 import tienda_back.persistence.repository.mapper.UserMapper;
@@ -29,7 +30,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
+    public Optional<User> findById(UUID id) {
         return userJpaDao.findById(id).map(UserMapper.getInstance()::toUser);
     }
 
@@ -54,13 +55,18 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         userJpaDao.deleteById(id);
     }
 
     @Override
-    public boolean existsById(Long id) {
+    public boolean existsById(UUID id) {
         return userJpaDao.findById(id).isPresent();
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return userJpaDao.findByEmail(email).isPresent();
     }
 
 }

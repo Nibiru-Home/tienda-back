@@ -4,7 +4,7 @@ import java.util.List;
 
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.CartProduct;
-import tienda_back.domain.respository.CartProductRepository;
+import tienda_back.domain.repository.CartProductRepository;
 import tienda_back.domain.service.CartProductService;
 
 public class CartProductServiceImpl implements CartProductService {

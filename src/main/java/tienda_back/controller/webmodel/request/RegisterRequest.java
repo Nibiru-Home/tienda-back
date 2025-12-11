@@ -1,6 +1,6 @@
 package tienda_back.controller.webmodel.request;
 
-public record UserRequest(
+public record RegisterRequest(
         String name,
         String email,
         String password,

@@ -5,9 +5,10 @@ import tienda_back.controller.webmodel.request.CartRequest;
 import tienda_back.controller.webmodel.response.CartResponse;
 
 public class CartMapper {
+
     private static CartMapper INSTANCE;
-    private CartMapper() {
-    }
+
+    private CartMapper() {}
 
     public static CartMapper getInstance() {
         if (INSTANCE == null) {
@@ -16,31 +17,33 @@ public class CartMapper {
         return INSTANCE;
     }
 
-    public CartDto cartRequestToCartDto(CartRequest cartRequest) {
-        if (cartRequest == null) {
+    public CartDto cartRequestToCartDto(CartRequest request) {
+        if (request == null) {
             return null;
         }
 
         return new CartDto(
-                cartRequest.id(),
-                cartRequest.total(),
-                cartRequest.price(),
-                cartRequest.date(),
-                cartRequest.status(),
-                UserMapper.getInstance().userRequestToUserDto(cartRequest.user()));
+                request.id(),
+                request.total(),
+                request.price(),
+                request.date(),
+                request.status(),
+                UserMapper.getInstance().userRequestToUserDto(request.user())
+        );
     }
 
-    public CartResponse cartDtoToCartResponse(CartDto cartDto) {
-        if (cartDto == null) {
+    public CartResponse cartDtoToCartResponse(CartDto dto) {
+        if (dto == null) {
             return null;
         }
 
         return new CartResponse(
-                cartDto.id(),
-                cartDto.total(),
-                cartDto.price(),
-                cartDto.date(),
-                cartDto.status(),
-                UserMapper.getInstance().userDtoToUserResponse(cartDto.user()));
+                dto.id(),
+                dto.total(),
+                dto.price(),
+                dto.date(),
+                dto.status(),
+                UserMapper.getInstance().userDtoToUserResponse(dto.user())
+        );
     }
 }

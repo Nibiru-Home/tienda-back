@@ -1,4 +1,4 @@
-package tienda_back.domain.respository;
+package tienda_back.domain.repository;
 
 import java.util.List;
 import java.util.Optional;

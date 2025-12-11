@@ -5,7 +5,7 @@ import tienda_back.controller.webmodel.request.CartRequest;
 import tienda_back.controller.webmodel.request.UserRequest;
 import tienda_back.controller.webmodel.response.CartResponse;
 import tienda_back.domain.dto.CartDto;
-import tienda_back.domain.dto.UserDto;
+import tienda_back.domain.dto.UserRegisterDto;
 import tienda_back.domain.model.RoleUser;
 
 import java.util.Date;
@@ -50,7 +50,7 @@ class CartMapperTest {
 
     @Test
     void testCartDtoToCartResponse_Success() {
-        UserDto userDto = new UserDto(1L, "John", "john@test.com", "pass", "addr", "123", RoleUser.CUSTOMER);
+        UserRegisterDto userDto = new UserRegisterDto(1L, "John", "john@test.com", "pass", "addr", "123", RoleUser.CUSTOMER);
         Date date = new Date();
         CartDto dto = new CartDto(1L, 100.0f, 90.0f, date, "PENDING", userDto);
 

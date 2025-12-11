@@ -10,7 +10,7 @@ import tienda_back.controller.webmodel.response.CartProductResponse;
 import tienda_back.domain.dto.CartDto;
 import tienda_back.domain.dto.CartProductDto;
 import tienda_back.domain.dto.ProductDto;
-import tienda_back.domain.dto.UserDto;
+import tienda_back.domain.dto.UserRegisterDto;
 import tienda_back.domain.model.RoleUser;
 
 import java.util.ArrayList;
@@ -79,7 +79,7 @@ class CartProductMapperTest {
         CartProductMapper mapper = CartProductMapper.getInstance();
 
         // Create nested objects
-        UserDto userDto = new UserDto(2L, "Jane", "jane@test.com", "pass", "Address 2", "456", RoleUser.ADMIN);
+        UserRegisterDto userDto = new UserRegisterDto(2L, "Jane", "jane@test.com", "pass", "Address 2", "456", RoleUser.ADMIN);
         CartDto cartDto = new CartDto(30L, 200.0f, 200.0f, new Date(), "PENDING", userDto);
         ProductDto productDto = new ProductDto(40L, "Product 2", "Desc 2", 75.0, 5, new ArrayList<>(),new ArrayList<>());
 

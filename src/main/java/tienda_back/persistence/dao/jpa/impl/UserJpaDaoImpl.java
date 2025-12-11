@@ -2,6 +2,7 @@ package tienda_back.persistence.dao.jpa.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -22,7 +23,7 @@ public class UserJpaDaoImpl implements UserJpaDao {
     }
 
     @Override
-    public Optional<UserJpaEntity> findById(Long id) {
+    public Optional<UserJpaEntity> findById(UUID id) {
         return Optional.ofNullable(entityManager.find(UserJpaEntity.class, id));
     }
 
@@ -47,11 +48,22 @@ public class UserJpaDaoImpl implements UserJpaDao {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(UUID id) {
         UserJpaEntity user = entityManager.find(UserJpaEntity.class, id);
         if (user != null) {
             entityManager.remove(user);
         }
+    }
+
+    public boolean existsByEmail(String email) {
+        var query = entityManager.createQuery(
+                "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.email = :email",
+                Long.class
+        );
+        query.setParameter("email", email);
+
+        Long count = query.getSingleResult();
+        return count > 0;
     }
 
 }

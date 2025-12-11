@@ -3,7 +3,7 @@ package tienda_back.persistence.dao.jpa;
 import java.util.Optional;
 import tienda_back.persistence.dao.jpa.entity.CategoryJpaEntity;
 
-public interface CategoryJpaDao extends GenericJpaDao<CategoryJpaEntity> {
+public interface CategoryJpaDao extends GenericJpaDao<CategoryJpaEntity, Long> {
 
     Optional<CategoryJpaEntity> findByName(String name);
 }

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.User;
-import tienda_back.domain.respository.CartRepository;
+import tienda_back.domain.repository.CartRepository;
 import tienda_back.persistence.dao.jpa.CartJpaDao;
 import tienda_back.persistence.dao.jpa.entity.CartJpaEntity;
 import tienda_back.persistence.repository.mapper.CartMapper;
