@@ -38,3 +38,9 @@ create table user(
     address varchar(255) not null,
     role varchar(255) not null
 );
+
+create table sesion(
+    token varchar(255) primary key,   
+    idUser int not null,             
+    fecha datetime not null 
+);
