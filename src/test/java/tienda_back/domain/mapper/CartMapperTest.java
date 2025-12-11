@@ -69,8 +69,6 @@ class CartMapperTest {
     @Test
     void testCartDtoToCart_WithCompleteDto_MapsAllFields() {
         CartMapper mapper = CartMapper.getInstance();
-        User user = new User(java.util.UUID.randomUUID(), "Jane Smith", "jane@example.com", "pass456",
-                "789 Oak Rd", "555-9012", RoleUser.ADMIN);
         UserRegisterDto userDto = new UserRegisterDto("Jane Smith", "jane@example.com", "pass456",
                 "789 Oak Rd", "555-9012");
         Date date = new Date();
