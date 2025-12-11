@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Category;
-import tienda_back.domain.respository.CategoryRepository;
+import tienda_back.domain.repository.CategoryRepository;
 import tienda_back.domain.service.CategoryService;
 
 public class CategoryServiceImplTest {

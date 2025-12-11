@@ -42,7 +42,7 @@ class CartMapperTest {
     @Test
     void testCartToCartDto_WithCompleteCart_MapsAllFields() {
         CartMapper mapper = CartMapper.getInstance();
-        User user = new User(1L, "John Doe", "john@example.com", "password123",
+        User user = new User(java.util.UUID.randomUUID(), "John Doe", "john@example.com", "password123",
                 "123 Main St", "555-1234", RoleUser.CUSTOMER);
         Date date = new Date();
 
@@ -63,17 +63,16 @@ class CartMapperTest {
         assertEquals(date, result.date());
         assertEquals("PENDING", result.status());
         assertNotNull(result.user());
-        assertEquals(user.getId(), result.user().id());
         assertEquals(user.getName(), result.user().name());
     }
 
     @Test
     void testCartDtoToCart_WithCompleteDto_MapsAllFields() {
         CartMapper mapper = CartMapper.getInstance();
-        User user = new User(2L, "Jane Smith", "jane@example.com", "pass456",
+        User user = new User(java.util.UUID.randomUUID(), "Jane Smith", "jane@example.com", "pass456",
                 "789 Oak Rd", "555-9012", RoleUser.ADMIN);
-        UserRegisterDto userDto = new UserRegisterDto(2L, "Jane Smith", "jane@example.com", "pass456",
-                "789 Oak Rd", "555-9012", RoleUser.ADMIN);
+        UserRegisterDto userDto = new UserRegisterDto("Jane Smith", "jane@example.com", "pass456",
+                "789 Oak Rd", "555-9012");
         Date date = new Date();
 
         CartDto cartDto = new CartDto(2L, 5.0f, 299.99f, date, "COMPLETED", userDto);
@@ -87,13 +86,12 @@ class CartMapperTest {
         assertEquals(date, result.getDate());
         assertEquals("COMPLETED", result.getStatus());
         assertNotNull(result.getUser());
-        assertEquals(user.getId(), result.getUser().getId());
     }
 
     @Test
     void testCartToCartDto_WithDifferentStatuses_MapsCorrectly() {
         CartMapper mapper = CartMapper.getInstance();
-        User user = new User(3L, "Test User", "test@example.com", "test123",
+        User user = new User(java.util.UUID.randomUUID(), "Test User", "test@example.com", "test123",
                 "Test Address", "555-0000", RoleUser.CUSTOMER);
 
         Cart cart1 = new Cart();
@@ -122,7 +120,7 @@ class CartMapperTest {
     @Test
     void testBidirectionalMapping_PreservesData() {
         CartMapper mapper = CartMapper.getInstance();
-        User user = new User(4L, "Bidirectional User", "bi@example.com", "bipass",
+        User user = new User(java.util.UUID.randomUUID(), "Bidirectional User", "bi@example.com", "bipass",
                 "Bi Address", "555-1111", RoleUser.CUSTOMER);
         Date date = new Date();
 
@@ -143,13 +141,12 @@ class CartMapperTest {
         assertEquals(originalCart.getPrice(), resultCart.getPrice());
         assertEquals(originalCart.getDate(), resultCart.getDate());
         assertEquals(originalCart.getStatus(), resultCart.getStatus());
-        assertEquals(originalCart.getUser().getId(), resultCart.getUser().getId());
     }
 
     @Test
     void testCartToCartDto_WithZeroValues_MapsCorrectly() {
         CartMapper mapper = CartMapper.getInstance();
-        User user = new User(5L, "Zero User", "zero@example.com", "zero123",
+        User user = new User(java.util.UUID.randomUUID(), "Zero User", "zero@example.com", "zero123",
                 "Zero St", "555-0000", RoleUser.CUSTOMER);
 
         Cart cart = new Cart();

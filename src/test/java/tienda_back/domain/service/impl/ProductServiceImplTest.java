@@ -11,7 +11,7 @@ import java.util.Optional;
 
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Product;
-import tienda_back.domain.respository.ProductRepository;
+import tienda_back.domain.repository.ProductRepository;
 import tienda_back.domain.service.ProductService;
 
 public class ProductServiceImplTest {
