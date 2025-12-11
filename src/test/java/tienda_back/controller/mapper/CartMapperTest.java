@@ -6,7 +6,6 @@ import tienda_back.controller.webmodel.request.UserRequest;
 import tienda_back.controller.webmodel.response.CartResponse;
 import tienda_back.domain.dto.CartDto;
 import tienda_back.domain.dto.UserRegisterDto;
-import tienda_back.domain.model.RoleUser;
 
 import java.util.Date;
 
@@ -26,8 +25,7 @@ class CartMapperTest {
 
     @Test
     void testCartRequestToCartDto_Success() {
-        UserRequest userRequest = new UserRequest(1L, "John", "john@test.com", "pass", "addr", "123",
-                RoleUser.CUSTOMER);
+        UserRequest userRequest = new UserRequest("John", "john@test.com", "pass", "addr", "123");
         Date date = new Date();
         CartRequest request = new CartRequest(1L, 100.0f, 90.0f, date, "PENDING", userRequest);
 
@@ -39,7 +37,7 @@ class CartMapperTest {
         assertEquals(request.price(), result.price());
         assertEquals(request.date(), result.date());
         assertEquals(request.status(), result.status());
-        assertEquals(userRequest.id(), result.user().id());
+        assertEquals(userRequest.name(), result.user().name());
     }
 
     @Test
@@ -50,7 +48,7 @@ class CartMapperTest {
 
     @Test
     void testCartDtoToCartResponse_Success() {
-        UserRegisterDto userDto = new UserRegisterDto(1L, "John", "john@test.com", "pass", "addr", "123", RoleUser.CUSTOMER);
+        UserRegisterDto userDto = new UserRegisterDto("John", "john@test.com", "pass", "addr", "123");
         Date date = new Date();
         CartDto dto = new CartDto(1L, 100.0f, 90.0f, date, "PENDING", userDto);
 
@@ -62,7 +60,7 @@ class CartMapperTest {
         assertEquals(dto.price(), result.price());
         assertEquals(dto.date(), result.date());
         assertEquals(dto.status(), result.status());
-        assertEquals(userDto.id(), result.user().id());
+        assertEquals(userDto.name(), result.user().name());
     }
 
     @Test
