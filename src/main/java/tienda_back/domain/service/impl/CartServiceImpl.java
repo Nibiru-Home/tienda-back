@@ -6,7 +6,9 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.repository.CartRepository;
 import tienda_back.domain.service.CartService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
 
@@ -21,7 +23,8 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Cart getById(Long id) {
-        return cartRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("El carrito con el id: " + id + " no existe"));
+        return cartRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("El carrito con el id: " + id + " no existe"));
     }
 
     @Override

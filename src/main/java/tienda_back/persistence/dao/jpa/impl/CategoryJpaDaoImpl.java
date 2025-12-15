@@ -5,10 +5,12 @@ import java.util.Optional;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import org.springframework.stereotype.Repository;
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.persistence.dao.jpa.CategoryJpaDao;
 import tienda_back.persistence.dao.jpa.entity.CategoryJpaEntity;
 
+@Repository
 public class CategoryJpaDaoImpl implements CategoryJpaDao {
 
     @PersistenceContext

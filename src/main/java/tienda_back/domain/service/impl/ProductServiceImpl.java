@@ -6,7 +6,9 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Product;
 import tienda_back.domain.repository.ProductRepository;
 import tienda_back.domain.service.ProductService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
@@ -21,7 +23,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getById(Long id) {
-        return productRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("El producto con el id: " + id + " no existe"));
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("El producto con el id: " + id + " no existe"));
     }
 
     @Override
