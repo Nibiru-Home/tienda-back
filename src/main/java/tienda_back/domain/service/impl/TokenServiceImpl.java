@@ -5,7 +5,9 @@ import tienda_back.domain.model.Token;
 import tienda_back.domain.repository.TokenRepository;
 import java.time.Instant;
 import java.util.UUID;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TokenServiceImpl implements TokenService {
 
     private final TokenRepository tokenRepository;

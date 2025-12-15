@@ -6,9 +6,11 @@ import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.springframework.stereotype.Repository;
 import tienda_back.persistence.dao.jpa.UserJpaDao;
 import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 
+@Repository
 public class UserJpaDaoImpl implements UserJpaDao {
 
     @PersistenceContext
@@ -58,8 +60,12 @@ public class UserJpaDaoImpl implements UserJpaDao {
     public boolean existsByEmail(String email) {
         var query = entityManager.createQuery(
                 "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.email = :email",
+<<<<<<< HEAD
                 Long.class
         );
+=======
+                Long.class);
+>>>>>>> feature/ainhoa_14
         query.setParameter("email", email);
 
         Long count = query.getSingleResult();
