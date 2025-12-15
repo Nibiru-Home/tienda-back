@@ -60,12 +60,8 @@ public class UserJpaDaoImpl implements UserJpaDao {
     public boolean existsByEmail(String email) {
         var query = entityManager.createQuery(
                 "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.email = :email",
-<<<<<<< HEAD
                 Long.class
         );
-=======
-                Long.class);
->>>>>>> feature/ainhoa_14
         query.setParameter("email", email);
 
         Long count = query.getSingleResult();

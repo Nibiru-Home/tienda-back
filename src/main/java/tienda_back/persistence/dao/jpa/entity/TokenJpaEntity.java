@@ -5,11 +5,7 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Entity
-<<<<<<< HEAD
-@Table(name = "tokens")
-=======
 @Table(name = "sesions")
->>>>>>> feature/ainhoa_14
 public class TokenJpaEntity {
 
     @Id
