@@ -5,8 +5,6 @@ import java.security.MessageDigest;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.stereotype.Service;
-
 import tienda_back.domain.dto.UserLoginDto;
 import tienda_back.domain.dto.UserRegisterDto;
 import tienda_back.domain.exception.LoginFailedException;
@@ -17,6 +15,7 @@ import tienda_back.domain.model.User;
 import tienda_back.domain.repository.UserRepository;
 import tienda_back.domain.service.UserService;
 import tienda_back.domain.validation.DtoValidator;
+import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
