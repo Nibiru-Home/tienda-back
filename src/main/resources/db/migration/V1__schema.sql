@@ -1,6 +1,6 @@
 create table carts(
     id int primary key auto_increment,
-    user_id int not null,
+    user_id char(36) not null,
     total float not null,
     price float not null,
     date_cart date not null,
@@ -30,7 +30,7 @@ create table products(
 );
 
 create table users(
-    id int primary key auto_increment,
+    id char(36) primary key,
     name varchar(255) not null,
     email varchar(255) not null,
     password varchar(255) not null,
@@ -40,7 +40,8 @@ create table users(
 );
 
 create table sesions(
-    token varchar(255) primary key,   
-    idUser int not null,             
-    fecha datetime not null 
+    id char(36) primary key,
+    value varchar(255) not null unique,
+    user_id char(36) not null,
+    created_at datetime not null
 );

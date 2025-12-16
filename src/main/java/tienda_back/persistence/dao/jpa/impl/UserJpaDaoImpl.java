@@ -30,9 +30,9 @@ public class UserJpaDaoImpl implements UserJpaDao {
     }
 
     @Override
-    public Optional<UserJpaEntity> findByEmail(String email) {
-        return entityManager.createQuery("SELECT u FROM UserJpaEntity u WHERE u.email = :email", UserJpaEntity.class)
-                .setParameter("email", email)
+    public Optional<UserJpaEntity> findByName(String name) {
+        return entityManager.createQuery("SELECT u FROM UserJpaEntity u WHERE u.name = :name", UserJpaEntity.class)
+                .setParameter("name", name)
                 .getResultStream()
                 .findFirst();
     }
@@ -57,6 +57,25 @@ public class UserJpaDaoImpl implements UserJpaDao {
         }
     }
 
+    public boolean existsByName(String name) {
+        var query = entityManager.createQuery(
+                "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.name = :name",
+                Long.class);
+        query.setParameter("name", name);
+
+        Long count = query.getSingleResult();
+        return count > 0;
+    }
+
+    @Override
+    public Optional<UserJpaEntity> findByEmail(String email) {
+        return entityManager.createQuery("SELECT u FROM UserJpaEntity u WHERE u.email = :email", UserJpaEntity.class)
+                .setParameter("email", email)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
     public boolean existsByEmail(String email) {
         var query = entityManager.createQuery(
                 "SELECT COUNT(u) FROM UserJpaEntity u WHERE u.email = :email",

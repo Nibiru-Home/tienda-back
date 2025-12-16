@@ -7,7 +7,12 @@ import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 
 public interface UserJpaDao extends GenericJpaDao<UserJpaEntity, UUID> {
 
+    Optional<UserJpaEntity> findByName(String name);
+
+    boolean existsByName(String name);
+
     Optional<UserJpaEntity> findByEmail(String email);
+
     boolean existsByEmail(String email);
 
 }

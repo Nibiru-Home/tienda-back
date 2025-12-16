@@ -6,11 +6,16 @@ INSERT INTO categories (id,name) VALUES (4, 'Textiles');
 INSERT INTO categories (id,name) VALUES (5, 'Organizadores');
 
 -- Users
-INSERT INTO users (id, name, email, password, phone, address, role) VALUES (1, 'Alfonso', 'alfonso@example.com', 'alfonso123', '696781526', 'C/', 'ADMIN');
-INSERT INTO users (id, name, email, password, phone, address, role) VALUES (2, 'Marta', 'marta@example.com', 'marta123', '694518796', 'C/', 'CUSTOMER');
-INSERT INTO users (id, name, email, password, phone, address, role) VALUES (3, 'Ignacio', 'ignacio@example.com', 'ignacio123', '696718256', 'C/', 'CUSTOMER');
-INSERT INTO users (id, name, email, password, phone, address, role) VALUES (4, 'Sonia', 'sonia@example.com', 'sonia123', '697814256', 'C/', 'ADMIN');
-INSERT INTO users (id, name, email, password, phone, address, role) VALUES (5, 'Juan', 'juan@example.com', 'juan123', '696718256', 'C/', 'CUSTOMER');
+-- Alfonso (alfonso123 -> Plain Text)
+INSERT INTO users (id, name, email, password, phone, address, role) VALUES ('11111111-1111-1111-1111-111111111111', 'Alfonso', 'alfonso@example.com', 'alfonso123', '696781526', 'C/', 'ADMIN');
+-- Marta (marta123 -> Plain Text)
+INSERT INTO users (id, name, email, password, phone, address, role) VALUES ('22222222-2222-2222-2222-222222222222', 'Marta', 'marta@example.com', 'marta123', '694518796', 'C/', 'CUSTOMER');
+-- Ignacio (ignacio123 -> Plain Text)
+INSERT INTO users (id, name, email, password, phone, address, role) VALUES ('33333333-3333-3333-3333-333333333333', 'Ignacio', 'ignacio@example.com', 'ignacio123', '696718256', 'C/', 'CUSTOMER');
+-- Sonia (sonia123 -> Plain Text)
+INSERT INTO users (id, name, email, password, phone, address, role) VALUES ('44444444-4444-4444-4444-444444444444', 'Sonia', 'sonia@example.com', 'sonia123', '697814256', 'C/', 'ADMIN');
+-- Juan (juan123 -> Plain Text)
+INSERT INTO users (id, name, email, password, phone, address, role) VALUES ('55555555-5555-5555-5555-555555555555', 'Juan', 'juan@example.com', 'juan123', '696718256', 'C/', 'CUSTOMER');
 
 
 -- Products
@@ -21,11 +26,16 @@ INSERT INTO products (id, name, price, description, stock, style,category_id) VA
 INSERT INTO products (id, name, price, description, stock, style,category_id) VALUES (5, 'Cajonera', 25.00, 'Cajonera de madera', 90, 'Anticuado',5);
 
 -- Carts
-INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (1, 2, 285.00, 285.00, '2023-10-26', 'ACTIVE');
-INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (2, 1, 600.00, 600.00, '2024-06-12', 'ACTIVE');
-INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (3, 5, 400.00, 400.00, '2024-04-25', 'ACTIVE');
-INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (4, 3, 50.00, 50.00, '2025-02-24', 'ACTIVE');
-INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (5, 4, 80.00, 80.00, '2022-01-30', 'ACTIVE');
+-- User 2 -> Marta
+INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (1, '22222222-2222-2222-2222-222222222222', 285.00, 285.00, '2023-10-26', 'ACTIVE');
+-- User 1 -> Alfonso
+INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (2, '11111111-1111-1111-1111-111111111111', 600.00, 600.00, '2024-06-12', 'ACTIVE');
+-- User 5 -> Juan
+INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (3, '55555555-5555-5555-5555-555555555555', 400.00, 400.00, '2024-04-25', 'ACTIVE');
+-- User 3 -> Ignacio
+INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (4, '33333333-3333-3333-3333-333333333333', 50.00, 50.00, '2025-02-24', 'ACTIVE');
+-- User 4 -> Sonia
+INSERT INTO carts (id, user_id, total, price, date_cart, status) VALUES (5, '44444444-4444-4444-4444-444444444444', 80.00, 80.00, '2022-01-30', 'ACTIVE');
 
 -- Cart Products
 INSERT INTO cart_products (id, cart_id, product_id, quantity) VALUES (1, 1, 2, 1);
@@ -35,10 +45,13 @@ INSERT INTO cart_products (id, cart_id, product_id, quantity) VALUES (4, 2, 4, 1
 INSERT INTO cart_products (id, cart_id, product_id, quantity) VALUES (5, 3, 5, 1);
 
 -- Token
-INSERT INTO sesions (token, idUser, fecha) VALUES ('token1', 1, '2023-10-26');
-INSERT INTO sesions (token, idUser, fecha) VALUES ('token2', 2, '2024-06-12');
-INSERT INTO sesions (token, idUser, fecha) VALUES ('token3', 5, '2024-04-25');
-INSERT INTO sesions (token, idUser, fecha) VALUES ('token4', 3, '2025-02-24');
-INSERT INTO sesions (token, idUser, fecha) VALUES ('token5', 4, '2022-01-30');
-
-
+-- User 1 -> Alfonso
+INSERT INTO sesions (id, value, user_id, created_at) VALUES ('66666666-6666-6666-6666-666666666666', 'token1', '11111111-1111-1111-1111-111111111111', '2023-10-26 10:00:00');
+-- User 2 -> Marta
+INSERT INTO sesions (id, value, user_id, created_at) VALUES ('77777777-7777-7777-7777-777777777777', 'token2', '22222222-2222-2222-2222-222222222222', '2024-06-12 10:00:00');
+-- User 5 -> Juan
+INSERT INTO sesions (id, value, user_id, created_at) VALUES ('88888888-8888-8888-8888-888888888888', 'token3', '55555555-5555-5555-5555-555555555555', '2024-04-25 10:00:00');
+-- User 3 -> Ignacio
+INSERT INTO sesions (id, value, user_id, created_at) VALUES ('99999999-9999-9999-9999-999999999999', 'token4', '33333333-3333-3333-3333-333333333333', '2025-02-24 10:00:00');
+-- User 4 -> Sonia
+INSERT INTO sesions (id, value, user_id, created_at) VALUES ('00000000-0000-0000-0000-000000000000', 'token5', '44444444-4444-4444-4444-444444444444', '2022-01-30 10:00:00');

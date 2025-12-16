@@ -35,6 +35,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Optional<User> findByName(String name) {
+        return userJpaDao.findByName(name).map(UserMapper.getInstance()::toUser);
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         return userJpaDao.findByEmail(email).map(UserMapper.getInstance()::toUser);
     }
@@ -65,8 +70,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean existsByName(String name) {
+        return userJpaDao.existsByName(name);
+    }
+
+    @Override
     public boolean existsByEmail(String email) {
-        return userJpaDao.findByEmail(email).isPresent();
+        return userJpaDao.existsByEmail(email);
     }
 
 }

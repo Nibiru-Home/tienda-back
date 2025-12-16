@@ -12,7 +12,8 @@ public class UserMapper {
 
     private static UserMapper INSTANCE;
 
-    private UserMapper() {}
+    private UserMapper() {
+    }
 
     public static UserMapper getInstance() {
         if (INSTANCE == null) {
@@ -27,8 +28,7 @@ public class UserMapper {
                 request.email(),
                 request.password(),
                 request.address(),
-                request.phone()
-        );
+                request.phone());
     }
 
     public UserRegisterDto userRequestToUserDto(UserRequest request) {
@@ -37,8 +37,7 @@ public class UserMapper {
                 request.email(),
                 request.password(),
                 request.address(),
-                request.phone()
-        );
+                request.phone());
     }
 
     public UserResponse userDtoToUserResponse(UserRegisterDto dto) {
@@ -46,8 +45,7 @@ public class UserMapper {
                 dto.name(),
                 dto.email(),
                 dto.address(),
-                dto.phone()
-        );
+                dto.phone());
     }
 
     public AuthResponse toAuthResponse(User user, String token) {
@@ -57,7 +55,6 @@ public class UserMapper {
     public tienda_back.domain.dto.UserLoginDto toLoginDto(LoginRequest request) {
         return new tienda_back.domain.dto.UserLoginDto(
                 request.email(),
-                request.password()
-        );
+                request.password());
     }
 }

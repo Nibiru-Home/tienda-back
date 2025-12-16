@@ -22,8 +22,7 @@ public class TokenJpaDaoImpl implements TokenJpaDao {
     public Optional<TokenJpaEntity> findByValue(String value) {
         var query = entityManager.createQuery(
                 "SELECT t FROM TokenJpaEntity t WHERE t.value = :value",
-                TokenJpaEntity.class
-        );
+                TokenJpaEntity.class);
         query.setParameter("value", value);
 
         return query.getResultStream().findFirst();
@@ -31,26 +30,33 @@ public class TokenJpaDaoImpl implements TokenJpaDao {
 
     @Override
     public List<TokenJpaEntity> findAll(int page, int size) {
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return entityManager.createQuery("SELECT t FROM TokenJpaEntity t", TokenJpaEntity.class)
+                .setFirstResult((page - 1) * size)
+                .setMaxResults(size)
+                .getResultList();
     }
 
     @Override
     public Optional<TokenJpaEntity> findById(UUID id) {
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return Optional.ofNullable(entityManager.find(TokenJpaEntity.class, id));
     }
 
     @Override
     public TokenJpaEntity insert(TokenJpaEntity jpaEntity) {
-        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+        entityManager.persist(jpaEntity);
+        return jpaEntity;
     }
 
     @Override
     public TokenJpaEntity update(TokenJpaEntity jpaEntity) {
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        return entityManager.merge(jpaEntity);
     }
 
     @Override
     public void deleteById(UUID id) {
-        throw new UnsupportedOperationException("Unimplemented method 'deleteById'");
+        TokenJpaEntity entity = entityManager.find(TokenJpaEntity.class, id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
     }
 }

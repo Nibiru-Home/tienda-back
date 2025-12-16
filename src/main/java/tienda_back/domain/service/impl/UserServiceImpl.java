@@ -1,7 +1,5 @@
 package tienda_back.domain.service.impl;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,8 +60,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmail(String email) {
-        return userRepository.findByEmail(email)
+    public User getByName(String name) {
+        return userRepository.findByName(name)
                 .orElseThrow(() -> new LoginFailedException("El usuario no se ha encontrado"));
     }
 
@@ -71,7 +69,7 @@ public class UserServiceImpl implements UserService {
     public User login(UserLoginDto userLoginDto) {
         User user = userRepository.findByEmail(userLoginDto.email())
                 .orElseThrow(() -> new LoginFailedException("El usuario no existe"));
-        if (!hashPassword(userLoginDto.password()).equals(user.getPassword())) {
+        if (!userLoginDto.password().equals(user.getPassword())) {
             throw new LoginFailedException("La contraseña no es correcta");
         }
         return user;
@@ -83,22 +81,10 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(userRegisterDto.email())) {
             throw new UserAlreadyExistsException("El usuario ya existe");
         }
-        String passwordHash = hashPassword(userRegisterDto.password());
-        User user = userMapper.fromRegister(userRegisterDto, passwordHash);
+        String password = userRegisterDto.password();
+        User user = userMapper.fromRegister(userRegisterDto, password);
 
         userRepository.save(user);
     }
 
-    private String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encoded = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
-            for (byte b : encoded)
-                sb.append(String.format("%02x", b));
-            return sb.toString();
-        } catch (Exception e) {
-            throw new RuntimeException("Error al hashear contraseña", e);
-        }
-    }
 }

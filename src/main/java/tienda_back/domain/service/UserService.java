@@ -12,7 +12,7 @@ public interface UserService {
     User create(User user);
     User update(User user);
     void deleteById(UUID id);
-    User getByEmail(String email);
+    User getByName(String name);
     User login(UserLoginDto userLoginDto);
     void register(UserRegisterDto userRegisterDto);
 }
