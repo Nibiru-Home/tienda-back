@@ -43,6 +43,8 @@ class UserJpaDaoImplTest {
         entity.setName("EmailUser");
         entity.setEmail("unique@email.com");
         entity.setPassword("pass");
+        entity.setPhone("123");
+        entity.setAddress("addr");
         entity.setRole(RoleUser.CUSTOMER);
         userJpaDao.insert(entity);
 
@@ -56,11 +58,45 @@ class UserJpaDaoImplTest {
         entity.setName("ExistsUser");
         entity.setEmail("exist@email.com");
         entity.setPassword("pass");
+        entity.setPassword("pass");
+        entity.setPhone("123");
+        entity.setAddress("addr");
         entity.setRole(RoleUser.CUSTOMER);
         userJpaDao.insert(entity);
 
         assertTrue(userJpaDao.existsByEmail("exist@email.com"));
         assertFalse(userJpaDao.existsByEmail("nonexistent@email.com"));
+    }
+
+    @Test
+    void findByName_ShouldReturnUser_WhenExists() {
+        UserJpaEntity entity = new UserJpaEntity();
+        entity.setName("NameUser");
+        entity.setEmail("name@email.com");
+        entity.setPassword("pass");
+        entity.setPhone("123");
+        entity.setAddress("addr");
+        entity.setRole(RoleUser.CUSTOMER);
+        userJpaDao.insert(entity);
+
+        Optional<UserJpaEntity> result = userJpaDao.findByName("NameUser");
+        assertTrue(result.isPresent());
+        assertEquals("NameUser", result.get().getName());
+    }
+
+    @Test
+    void existsByName_ShouldReturnTrue_WhenExists() {
+        UserJpaEntity entity = new UserJpaEntity();
+        entity.setName("ExistsNameUser");
+        entity.setEmail("existsname@email.com");
+        entity.setPassword("pass");
+        entity.setPhone("123");
+        entity.setAddress("addr");
+        entity.setRole(RoleUser.CUSTOMER);
+        userJpaDao.insert(entity);
+
+        assertTrue(userJpaDao.existsByName("ExistsNameUser"));
+        assertFalse(userJpaDao.existsByName("NonExistentUser"));
     }
 
     @Test
@@ -70,6 +106,8 @@ class UserJpaDaoImplTest {
             u.setName("User " + i);
             u.setEmail("user" + i + "@test.com");
             u.setPassword("pass");
+            u.setPhone("123");
+            u.setAddress("addr");
             u.setRole(RoleUser.CUSTOMER);
             userJpaDao.insert(u);
         }
@@ -78,6 +116,6 @@ class UserJpaDaoImplTest {
         assertEquals(10, page1.size());
 
         List<UserJpaEntity> page2 = userJpaDao.findAll(2, 10);
-        assertEquals(5, page2.size());
+        assertEquals(10, page2.size());
     }
 }

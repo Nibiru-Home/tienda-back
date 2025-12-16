@@ -15,8 +15,6 @@ import tienda_back.domain.model.RoleUser;
 import tienda_back.domain.model.User;
 import tienda_back.domain.repository.UserRepository;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -34,19 +32,6 @@ class UserServiceImplTest {
 
     @InjectMocks
     private UserServiceImpl userService;
-
-    private String hashPassword(String password) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] encoded = digest.digest(password.getBytes(StandardCharsets.UTF_8));
-            StringBuilder sb = new StringBuilder();
-            for (byte b : encoded)
-                sb.append(String.format("%02x", b));
-            return sb.toString();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Nested
     class GetAllTests {
@@ -156,25 +141,25 @@ class UserServiceImplTest {
     }
 
     @Nested
-    class GetByEmailTests {
+    class GetByNameTests {
         @Test
-        void getByEmail_WithExistingEmail_ShouldReturnUser() {
-            String email = "test@example.com";
-            User user = new User(UUID.randomUUID(), "User", email, "pass", "addr", "111", RoleUser.CUSTOMER);
-            when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
+        void getByName_WithExistingName_ShouldReturnUser() {
+            String name = "TestUser";
+            User user = new User(UUID.randomUUID(), name, "u@test.com", "pass", "addr", "111", RoleUser.CUSTOMER);
+            when(userRepository.findByName(name)).thenReturn(Optional.of(user));
 
-            User result = userService.getByEmail(email);
+            User result = userService.getByName(name);
 
             assertNotNull(result);
-            assertEquals(email, result.getEmail());
+            assertEquals(name, result.getName());
         }
 
         @Test
-        void getByEmail_WithNonExistingEmail_ShouldThrowLoginFailedException() {
-            String email = "missing@example.com";
-            when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
+        void getByName_WithNonExistingName_ShouldThrowLoginFailedException() {
+            String name = "MissingUser";
+            when(userRepository.findByName(name)).thenReturn(Optional.empty());
 
-            assertThrows(LoginFailedException.class, () -> userService.getByEmail(email));
+            assertThrows(LoginFailedException.class, () -> userService.getByName(name));
         }
     }
 
@@ -184,8 +169,8 @@ class UserServiceImplTest {
         void login_WithValidCredentials_ShouldReturnUser() {
             String email = "valid@example.com";
             String password = "mypassword";
-            String hashed = hashPassword(password);
-            User user = new User(UUID.randomUUID(), "User", email, hashed, "addr", "111", RoleUser.CUSTOMER);
+            // String hashed = hashPassword(password); // Removed hashing
+            User user = new User(UUID.randomUUID(), "User", email, password, "addr", "111", RoleUser.CUSTOMER);
             UserLoginDto loginDto = new UserLoginDto(email, password);
 
             when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
@@ -199,8 +184,8 @@ class UserServiceImplTest {
         void login_WithWrongPassword_ShouldThrowException() {
             String email = "valid@example.com";
             String password = "wrongpassword";
-            String storedHash = hashPassword("correctpassword");
-            User user = new User(UUID.randomUUID(), "User", email, storedHash, "addr", "111", RoleUser.CUSTOMER);
+            // String storedHash = hashPassword("correctpassword"); // Removed hashing
+            User user = new User(UUID.randomUUID(), "User", email, "correctpassword", "addr", "111", RoleUser.CUSTOMER);
             UserLoginDto loginDto = new UserLoginDto(email, password);
 
             when(userRepository.findByEmail(email)).thenReturn(Optional.of(user));
@@ -230,10 +215,9 @@ class UserServiceImplTest {
             userService.register(dto);
 
             verify(userRepository).save(argThat(user -> user.getEmail().equals(dto.email()) &&
-                    !user.getPassword().equals(dto.password()) &&
+                    user.getPassword().equals(dto.password()) && // Expecting plain password
                     user.getName().equals(dto.name()) &&
-                    user.getId() != null 
-            ));
+                    user.getId() != null));
         }
 
         @Test

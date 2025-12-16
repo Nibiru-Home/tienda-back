@@ -79,6 +79,35 @@ class UserRepositoryImplTest {
     }
 
     @Nested
+    class FindByNameTests {
+        @Test
+        void findByName_WithExistingUser_ShouldReturnOptionalUser() {
+            String name = "Test User";
+            UserJpaEntity entity = new UserJpaEntity();
+            entity.setId(UUID.randomUUID());
+            entity.setName(name);
+            entity.setRole(RoleUser.CUSTOMER);
+
+            when(userJpaDao.findByName(name)).thenReturn(Optional.of(entity));
+
+            Optional<User> result = userRepository.findByName(name);
+
+            assertTrue(result.isPresent());
+            assertEquals(name, result.get().getName());
+        }
+
+        @Test
+        void findByName_WithNonExistingUser_ShouldReturnEmpty() {
+            String name = "Missing";
+            when(userJpaDao.findByName(name)).thenReturn(Optional.empty());
+
+            Optional<User> result = userRepository.findByName(name);
+
+            assertFalse(result.isPresent());
+        }
+    }
+
+    @Nested
     class FindByEmailTests {
         @Test
         void findByEmail_WithExistingUser_ShouldReturnOptionalUser() {
@@ -186,15 +215,29 @@ class UserRepositoryImplTest {
         @Test
         void existsByEmail_ShouldReturnTrueIfPresent() {
             String email = "e@mail.com";
-            when(userJpaDao.findByEmail(email)).thenReturn(Optional.of(new UserJpaEntity()));
+            when(userJpaDao.existsByEmail(email)).thenReturn(true);
             assertTrue(userRepository.existsByEmail(email));
         }
 
         @Test
         void existsByEmail_ShouldReturnFalseIfEmpty() {
             String email = "e@mail.com";
-            when(userJpaDao.findByEmail(email)).thenReturn(Optional.empty());
+            when(userJpaDao.existsByEmail(email)).thenReturn(false);
             assertFalse(userRepository.existsByEmail(email));
+        }
+
+        @Test
+        void existsByName_ShouldReturnTrueIfPresent() {
+            String name = "Test";
+            when(userJpaDao.existsByName(name)).thenReturn(true);
+            assertTrue(userRepository.existsByName(name));
+        }
+
+        @Test
+        void existsByName_ShouldReturnFalseIfEmpty() {
+            String name = "Test";
+            when(userJpaDao.existsByName(name)).thenReturn(false);
+            assertFalse(userRepository.existsByName(name));
         }
     }
 }

@@ -4,5 +4,6 @@ public record UserResponse(
         String name,
         String email,
         String address,
-        String phone
-) {}
+        String phone,
+        String role) {
+}

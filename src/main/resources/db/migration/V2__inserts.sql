@@ -46,12 +46,12 @@ INSERT INTO cart_products (id, cart_id, product_id, quantity) VALUES (5, 3, 5, 1
 
 -- Token
 -- User 1 -> Alfonso
-INSERT INTO sesions (id, value, user_id, created_at) VALUES ('66666666-6666-6666-6666-666666666666', 'token1', '11111111-1111-1111-1111-111111111111', '2023-10-26 10:00:00');
+INSERT INTO sesions (id, token_value, user_id, created_at) VALUES ('66666666-6666-6666-6666-666666666666', 'token1', '11111111-1111-1111-1111-111111111111', '2023-10-26 10:00:00');
 -- User 2 -> Marta
-INSERT INTO sesions (id, value, user_id, created_at) VALUES ('77777777-7777-7777-7777-777777777777', 'token2', '22222222-2222-2222-2222-222222222222', '2024-06-12 10:00:00');
+INSERT INTO sesions (id, token_value, user_id, created_at) VALUES ('77777777-7777-7777-7777-777777777777', 'token2', '22222222-2222-2222-2222-222222222222', '2024-06-12 10:00:00');
 -- User 5 -> Juan
-INSERT INTO sesions (id, value, user_id, created_at) VALUES ('88888888-8888-8888-8888-888888888888', 'token3', '55555555-5555-5555-5555-555555555555', '2024-04-25 10:00:00');
+INSERT INTO sesions (id, token_value, user_id, created_at) VALUES ('88888888-8888-8888-8888-888888888888', 'token3', '55555555-5555-5555-5555-555555555555', '2024-04-25 10:00:00');
 -- User 3 -> Ignacio
-INSERT INTO sesions (id, value, user_id, created_at) VALUES ('99999999-9999-9999-9999-999999999999', 'token4', '33333333-3333-3333-3333-333333333333', '2025-02-24 10:00:00');
+INSERT INTO sesions (id, token_value, user_id, created_at) VALUES ('99999999-9999-9999-9999-999999999999', 'token4', '33333333-3333-3333-3333-333333333333', '2025-02-24 10:00:00');
 -- User 4 -> Sonia
-INSERT INTO sesions (id, value, user_id, created_at) VALUES ('00000000-0000-0000-0000-000000000000', 'token5', '44444444-4444-4444-4444-444444444444', '2022-01-30 10:00:00');
+INSERT INTO sesions (id, token_value, user_id, created_at) VALUES ('00000000-0000-0000-0000-000000000000', 'token5', '44444444-4444-4444-4444-444444444444', '2022-01-30 10:00:00');

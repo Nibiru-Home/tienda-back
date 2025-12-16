@@ -41,7 +41,7 @@ create table users(
 
 create table sesions(
     id char(36) primary key,
-    value varchar(255) not null unique,
+    token_value varchar(255) not null unique,
     user_id char(36) not null,
     created_at datetime not null
 );

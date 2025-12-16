@@ -15,7 +15,7 @@ public class TokenJpaEntity {
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
 
-    @Column(name = "value", nullable = false, unique = true, length = 255)
+    @Column(name = "token_value", nullable = false, unique = true, length = 255)
     private String value;
 
     @Column(name = "user_id", nullable = false)

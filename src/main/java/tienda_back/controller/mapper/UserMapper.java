@@ -45,11 +45,18 @@ public class UserMapper {
                 dto.name(),
                 dto.email(),
                 dto.address(),
-                dto.phone());
+                dto.phone(),
+                "CUSTOMER");
     }
 
     public AuthResponse toAuthResponse(User user, String token) {
-        return new AuthResponse(token);
+        UserResponse userResponse = new UserResponse(
+                user.getName(),
+                user.getEmail(),
+                user.getAddress(),
+                user.getPhone(),
+                user.getRole() != null ? user.getRole().toString() : "CUSTOMER");
+        return new AuthResponse(token, userResponse);
     }
 
     public tienda_back.domain.dto.UserLoginDto toLoginDto(LoginRequest request) {
