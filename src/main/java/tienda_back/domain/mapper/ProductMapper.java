@@ -27,6 +27,7 @@ public class ProductMapper {
                 product.getDescription(),
                 product.getPrice(),
                 product.getStock(),
+                product.getImage(),
                 product.getCategories().stream().map(CategoryMapper.getInstance()::categoryToCategoryDto).toList(),
                 product.getStyles());
     }
@@ -42,7 +43,9 @@ public class ProductMapper {
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());
         product.setStock(productDto.stock());
-        product.setCategories(productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
+        product.setImage(productDto.image());
+        product.setCategories(
+                productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
         product.setStyles(productDto.styles());
 
         return product;

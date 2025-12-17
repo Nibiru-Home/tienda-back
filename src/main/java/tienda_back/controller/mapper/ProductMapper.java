@@ -28,7 +28,9 @@ public class ProductMapper {
                 productRequest.description(),
                 productRequest.price(),
                 productRequest.stock(),
-                productRequest.category().stream().map(CategoryMapper.getInstance()::categoryRequestToCategoryDto).toList(),
+                productRequest.image(),
+                productRequest.category().stream().map(CategoryMapper.getInstance()::categoryRequestToCategoryDto)
+                        .toList(),
                 productRequest.styles());
     }
 
@@ -43,7 +45,9 @@ public class ProductMapper {
                 productDto.description(),
                 productDto.price(),
                 productDto.stock(),
-                productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse).toList(),
+                productDto.image(),
+                productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse)
+                        .toList(),
                 productDto.styles());
     }
 }

@@ -19,11 +19,11 @@ INSERT INTO users (id, name, email, password, phone, address, role) VALUES ('555
 
 
 -- Products
-INSERT INTO products (id, name, price, description, stock, style,category_id) VALUES (1, 'Lampara', 30.00, 'Lampara de techo moderna en color azul', 78, 'Moderno',1);
-INSERT INTO products (id, name, price, description, stock, style,category_id) VALUES (2, 'Armario', 200.00, 'Armario de madera', 20, 'Vintage',2);
-INSERT INTO products (id, name, price, description, stock, style,category_id) VALUES (3, 'Cuadro', 60.00, 'Cuadro de arte de Londre', 50, 'Minimalista',3);
-INSERT INTO products (id, name, price, description, stock, style,category_id) VALUES (4, 'Manta', 20.00, 'Manta de algodón', 30, 'Contemporaneo',4);
-INSERT INTO products (id, name, price, description, stock, style,category_id) VALUES (5, 'Cajonera', 25.00, 'Cajonera de madera', 90, 'Anticuado',5);
+INSERT INTO products (id, name, price, description, stock, style, image, category_id) VALUES (1, 'Lampara', 30.00, 'Lampara de techo moderna en color azul', 78, 'Moderno', '1.jpg', 1);
+INSERT INTO products (id, name, price, description, stock, style, image, category_id) VALUES (2, 'Armario', 200.00, 'Armario de madera', 20, 'Vintage', '2.jpg', 2);
+INSERT INTO products (id, name, price, description, stock, style, image, category_id) VALUES (3, 'Cuadro', 60.00, 'Cuadro de arte de Londre', 50, 'Minimalista', '3.jpg', 3);
+INSERT INTO products (id, name, price, description, stock, style, image, category_id) VALUES (4, 'Manta', 20.00, 'Manta de algodón', 30, 'Contemporaneo', '4.jpg', 4);
+INSERT INTO products (id, name, price, description, stock, style, image, category_id) VALUES (5, 'Cajonera', 25.00, 'Cajonera de madera', 90, 'Anticuado', '5.jpg', 5);
 
 -- Carts
 -- User 2 -> Marta

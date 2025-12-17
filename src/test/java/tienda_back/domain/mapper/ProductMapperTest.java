@@ -53,6 +53,7 @@ class ProductMapperTest {
                 "High performance laptop",
                 999.99,
                 50,
+                "image.jpg",
                 categories,
                 new ArrayList<>());
 
@@ -90,6 +91,7 @@ class ProductMapperTest {
                 "Best selling novel",
                 15.50,
                 100,
+                "image.jpg",
                 categories,
                 new ArrayList<>());
 

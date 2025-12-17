@@ -33,7 +33,8 @@ class CartProductMapperTest {
     void testCartProductRequestToCartProductDto_Success() {
         UserRequest userRequest = new UserRequest("John", "john@test.com", "pass", "addr", "123");
         CartRequest cartRequest = new CartRequest(1L, 100.0f, 90.0f, new Date(), "PENDING", userRequest);
-        ProductRequest productRequest = new ProductRequest(1L, "Product", "Desc", 50.0, 10, Collections.emptyList(),
+        ProductRequest productRequest = new ProductRequest(1L, "Product", "Desc", 50.0, 10, "image.jpg",
+                Collections.emptyList(),
                 Collections.singletonList(Style.MODERNO));
 
         CartProductRequest request = new CartProductRequest(1L, 2, cartRequest, productRequest);
@@ -57,7 +58,8 @@ class CartProductMapperTest {
     void testCartProductDtoToCartProductResponse_Success() {
         UserRegisterDto userDto = new UserRegisterDto("John", "john@test.com", "pass", "addr", "123");
         CartDto cartDto = new CartDto(1L, 100.0f, 90.0f, new Date(), "PENDING", userDto);
-        ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, Collections.emptyList(),
+        ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, "image.jpg",
+                Collections.emptyList(),
                 Collections.singletonList(Style.MODERNO));
 
         CartProductDto dto = new CartProductDto(1L, 2, cartDto, productDto);

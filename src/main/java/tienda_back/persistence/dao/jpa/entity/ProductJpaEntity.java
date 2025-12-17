@@ -20,6 +20,7 @@ public class ProductJpaEntity {
     private String description;
     private Integer stock;
     private String style;
+    private String image;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -34,13 +35,14 @@ public class ProductJpaEntity {
     }
 
     public ProductJpaEntity(Integer id, String name, Double price, String description, Integer stock, String style,
-            CategoryJpaEntity category) {
+            String image, CategoryJpaEntity category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.stock = stock;
         this.style = style;
+        this.image = image;
         this.category = category;
     }
 
@@ -90,6 +92,14 @@ public class ProductJpaEntity {
 
     public void setStyle(String style) {
         this.style = style;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public CategoryJpaEntity getCategory() {

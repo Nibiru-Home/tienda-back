@@ -11,12 +11,13 @@ public class Product {
     private int stock;
     private List<Category> categories;
     private List<Style> styles;
+    private String image;
 
     public Product() {
     }
 
     public Product(Long id, String name, String description, double price, int stock, List<Category> categories,
-            List<Style> styles) {
+            List<Style> styles, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -24,6 +25,7 @@ public class Product {
         this.stock = stock;
         this.categories = (categories == null || categories.isEmpty()) ? new ArrayList<>() : categories;
         this.styles = (styles == null || styles.isEmpty()) ? new ArrayList<>() : styles;
+        this.image = image;
     }
 
     public Long getId() {
@@ -82,9 +84,17 @@ public class Product {
         this.styles = styles;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
         return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock="
-                + stock + ", categories=" + categories + ", styles=" + styles + "]";
+                + stock + ", categories=" + categories + ", styles=" + styles + ", image=" + image + "]";
     }
 }

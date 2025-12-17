@@ -33,6 +33,7 @@ class ProductMapperTest {
                 "Latest model",
                 999.99,
                 10,
+                "image.jpg",
                 Collections.singletonList(categoryRequest),
                 Collections.singletonList(Style.MODERNO) // Assuming Style is an enum or similar
         );
@@ -45,6 +46,7 @@ class ProductMapperTest {
         assertEquals(request.description(), result.description());
         assertEquals(request.price(), result.price());
         assertEquals(request.stock(), result.stock());
+        assertEquals(request.image(), result.image());
         assertEquals(1, result.category().size());
         assertEquals(categoryRequest.id(), result.category().get(0).id());
         assertEquals(1, result.styles().size());
@@ -66,6 +68,7 @@ class ProductMapperTest {
                 "Latest model",
                 999.99,
                 10,
+                "image.jpg",
                 Collections.singletonList(categoryDto),
                 Collections.singletonList(Style.MODERNO));
 
@@ -77,6 +80,7 @@ class ProductMapperTest {
         assertEquals(dto.description(), result.description());
         assertEquals(dto.price(), result.price());
         assertEquals(dto.stock(), result.stock());
+        assertEquals(dto.image(), result.image());
         assertEquals(1, result.category().size());
         assertEquals(categoryDto.id(), result.category().get(0).id());
         assertEquals(1, result.styles().size());

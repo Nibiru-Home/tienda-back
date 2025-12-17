@@ -38,7 +38,7 @@ class ProductControllerTest {
 
     @BeforeEach
     void setUp() {
-        product = new Product(1L, "Smartphone", "Latest model", 999.99, 10, null, null);
+        product = new Product(1L, "Smartphone", "Latest model", 999.99, 10, null, null, "image.jpg");
     }
 
     @Nested
@@ -74,9 +74,10 @@ class ProductControllerTest {
     class CreateProductTests {
         @Test
         void createProduct_ShouldReturnCreatedProduct() throws Exception {
-            ProductDto inputDto = new ProductDto(null, "New Product", "Desc", 50.0, 5, Collections.emptyList(),
+            ProductDto inputDto = new ProductDto(null, "New Product", "Desc", 50.0, 5, "image.jpg",
+                    Collections.emptyList(),
                     Collections.emptyList());
-            Product createdProduct = new Product(1L, "New Product", "Desc", 50.0, 5, null, null);
+            Product createdProduct = new Product(1L, "New Product", "Desc", 50.0, 5, null, null, "image.jpg");
 
             when(productService.create(any(Product.class))).thenReturn(createdProduct);
 
@@ -94,9 +95,10 @@ class ProductControllerTest {
         @Test
         void updateProduct_ShouldReturnUpdatedProduct() throws Exception {
             Long id = 1L;
-            ProductDto inputDto = new ProductDto(id, "Updated Product", "Desc", 60.0, 5, Collections.emptyList(),
+            ProductDto inputDto = new ProductDto(id, "Updated Product", "Desc", 60.0, 5, "image.jpg",
+                    Collections.emptyList(),
                     Collections.emptyList());
-            Product updatedProduct = new Product(id, "Updated Product", "Desc", 60.0, 5, null, null);
+            Product updatedProduct = new Product(id, "Updated Product", "Desc", 60.0, 5, null, null, "image.jpg");
 
             when(productService.update(any(Product.class))).thenReturn(updatedProduct);
 
