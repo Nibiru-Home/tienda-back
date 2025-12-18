@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import tienda_back.domain.model.Category;
 import tienda_back.domain.model.Product;
 import tienda_back.domain.repository.ProductRepository;
 import tienda_back.persistence.dao.jpa.ProductJpaDao;
@@ -52,9 +51,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> findByCategory(Category category) {
-
-        return Collections.emptyList();
+    public List<Product> findByCategoryId(Long categoryId) {
+        return productJpaDao.findByCategoryId(categoryId).stream()
+                .map(ProductMapper.getInstance()::productJpaEntityToProduct)
+                .collect(Collectors.toList());
     }
 
     @Override

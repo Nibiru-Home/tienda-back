@@ -54,6 +54,18 @@ class ProductControllerTest {
                     .andExpect(jsonPath("$[0].id").value(1))
                     .andExpect(jsonPath("$[0].name").value("Smartphone"));
         }
+
+        @Test
+        void getAllProducts_WithCategoryId_ShouldReturnFilteredProducts() throws Exception {
+            List<Product> products = Collections.singletonList(product);
+            when(productService.getByCategoryId(1L)).thenReturn(products);
+
+            mockMvc.perform(get("/api/products").param("categoryId", "1"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].id").value(1))
+                    .andExpect(jsonPath("$[0].name").value("Smartphone"));
+        }
     }
 
     @Nested

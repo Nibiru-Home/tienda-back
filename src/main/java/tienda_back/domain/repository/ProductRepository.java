@@ -3,7 +3,6 @@ package tienda_back.domain.repository;
 import java.util.List;
 import java.util.Optional;
 
-import tienda_back.domain.model.Category;
 import tienda_back.domain.model.Product;
 
 public interface ProductRepository {
@@ -15,7 +14,7 @@ public interface ProductRepository {
 
     List<Product> findByNameContaining(String name);
 
-    List<Product> findByCategory(Category category);
+    List<Product> findByCategoryId(Long categoryId);
 
     List<Product> findByPriceBetween(Double minPrice, Double maxPrice);
 

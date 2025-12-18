@@ -21,8 +21,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        List<Product> products = productService.getAll();
+    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) Long categoryId) {
+        List<Product> products;
+        if (categoryId != null) {
+            products = productService.getByCategoryId(categoryId);
+        } else {
+            products = productService.getAll();
+        }
         List<ProductDto> productDtos = products.stream()
                 .map(product -> ProductMapper.getInstance().productToProductDto(product))
                 .toList();
