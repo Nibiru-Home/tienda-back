@@ -60,4 +60,9 @@ public class ProductController {
         productService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countProducts() {
+        return new ResponseEntity<>(productService.count(), HttpStatus.OK);
+    }
 }

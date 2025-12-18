@@ -47,19 +47,19 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public List<Product> findByNameContaining(String name) {
-         
+
         return Collections.emptyList();
     }
 
     @Override
     public List<Product> findByCategory(Category category) {
-         
+
         return Collections.emptyList();
     }
 
     @Override
     public List<Product> findByPriceBetween(Double minPrice, Double maxPrice) {
-         
+
         return Collections.emptyList();
     }
 
@@ -76,5 +76,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public Product update(Product product) {
         return save(product);
+    }
+
+    @Override
+    public long count() {
+        return productJpaDao.count();
     }
 }

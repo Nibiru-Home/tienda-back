@@ -8,11 +8,20 @@ import tienda_back.domain.dto.UserLoginDto;
 
 public interface UserService {
     List<User> getAll();
+
     User getById(UUID id);
+
     User create(User user);
+
     User update(User user);
+
     void deleteById(UUID id);
+
     User getByName(String name);
+
     User login(UserLoginDto userLoginDto);
+
     void register(UserRegisterDto userRegisterDto);
+
+    long count();
 }

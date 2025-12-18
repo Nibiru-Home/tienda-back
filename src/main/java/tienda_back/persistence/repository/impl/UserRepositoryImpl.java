@@ -79,4 +79,9 @@ public class UserRepositoryImpl implements UserRepository {
         return userJpaDao.existsByEmail(email);
     }
 
+    @Override
+    public long count() {
+        return userJpaDao.count();
+    }
+
 }

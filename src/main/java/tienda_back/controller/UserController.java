@@ -50,4 +50,9 @@ public class UserController {
 
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/count")
+    public ResponseEntity<Long> countUsers() {
+        return new ResponseEntity<>(userService.count(), org.springframework.http.HttpStatus.OK);
+    }
 }

@@ -86,4 +86,9 @@ public class UserJpaDaoImpl implements UserJpaDao {
         return count > 0;
     }
 
+    @Override
+    public long count() {
+        return entityManager.createQuery("SELECT COUNT(u) FROM UserJpaEntity u", Long.class).getSingleResult();
+    }
+
 }

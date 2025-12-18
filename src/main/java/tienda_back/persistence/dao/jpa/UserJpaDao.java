@@ -15,4 +15,6 @@ public interface UserJpaDao extends GenericJpaDao<UserJpaEntity, UUID> {
 
     boolean existsByEmail(String email);
 
+    long count();
+
 }

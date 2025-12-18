@@ -60,4 +60,11 @@ public class ProductJpaDaoImpl implements ProductJpaDao {
         }
     }
 
+    @Override
+    public long count() {
+        String sql = "SELECT COUNT(p) FROM ProductJpaEntity p";
+        TypedQuery<Long> query = entityManager.createQuery(sql, Long.class);
+        return query.getSingleResult();
+    }
+
 }

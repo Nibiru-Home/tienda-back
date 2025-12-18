@@ -5,8 +5,14 @@ import tienda_back.domain.model.Product;
 
 public interface ProductService {
     List<Product> getAll();
+
     Product getById(Long id);
+
     Product create(Product product);
+
     Product update(Product product);
+
     void deleteById(Long id);
+
+    long count();
 }

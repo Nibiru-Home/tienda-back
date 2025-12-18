@@ -26,4 +26,6 @@ public interface UserRepository {
     boolean existsByName(String name);
 
     boolean existsByEmail(String email);
+
+    long count();
 }
