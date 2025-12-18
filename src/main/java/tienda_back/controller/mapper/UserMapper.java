@@ -1,5 +1,6 @@
 package tienda_back.controller.mapper;
 
+import tienda_back.domain.dto.UserLoginDto;
 import tienda_back.domain.dto.UserRegisterDto;
 import tienda_back.domain.model.User;
 import tienda_back.controller.webmodel.request.LoginRequest;
@@ -42,6 +43,7 @@ public class UserMapper {
 
     public UserResponse userDtoToUserResponse(UserRegisterDto dto) {
         return new UserResponse(
+                null,
                 dto.name(),
                 dto.email(),
                 dto.address(),
@@ -49,18 +51,23 @@ public class UserMapper {
                 "CUSTOMER");
     }
 
-    public AuthResponse toAuthResponse(User user, String token) {
-        UserResponse userResponse = new UserResponse(
+    public UserResponse toUserResponse(User user) {
+        return new UserResponse(
+                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getAddress(),
                 user.getPhone(),
                 user.getRole() != null ? user.getRole().toString() : "CUSTOMER");
+    }
+
+    public AuthResponse toAuthResponse(User user, String token) {
+        UserResponse userResponse = toUserResponse(user);
         return new AuthResponse(token, userResponse);
     }
 
-    public tienda_back.domain.dto.UserLoginDto toLoginDto(LoginRequest request) {
-        return new tienda_back.domain.dto.UserLoginDto(
+    public UserLoginDto toLoginDto(LoginRequest request) {
+        return new UserLoginDto(
                 request.email(),
                 request.password());
     }

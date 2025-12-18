@@ -3,6 +3,9 @@ package tienda_back.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import tienda_back.controller.mapper.UserMapper;
 import tienda_back.domain.dto.UserLoginDto;
 import tienda_back.domain.dto.UserRegisterDto;
@@ -12,6 +15,7 @@ import tienda_back.domain.service.TokenService;
 import tienda_back.controller.webmodel.request.LoginRequest;
 import tienda_back.controller.webmodel.request.RegisterRequest;
 import tienda_back.controller.webmodel.response.AuthResponse;
+import tienda_back.controller.webmodel.response.UserResponse;
 
 @RestController
 @RequestMapping("/user")
@@ -48,6 +52,15 @@ public class UserController {
 
         AuthResponse response = mapper.toAuthResponse(user, token.getValue());
 
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserResponse>> getAll() {
+        List<User> users = userService.getAll();
+        List<UserResponse> response = users.stream()
+                .map(mapper::toUserResponse)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(response);
     }
 

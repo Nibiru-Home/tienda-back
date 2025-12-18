@@ -24,7 +24,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> findAll() {
-        return userJpaDao.findAll(0, 1000).stream()
+        return userJpaDao.findAll(1, 1000).stream()
                 .map(UserMapper.getInstance()::toUser)
                 .collect(Collectors.toList());
     }
