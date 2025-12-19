@@ -12,7 +12,6 @@ import tienda_back.persistence.dao.jpa.UserJpaDao;
 import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 import tienda_back.persistence.repository.impl.UserRepositoryImpl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +38,7 @@ class UserRepositoryImplTest {
             entity.setName("Test User");
             entity.setRole(RoleUser.CUSTOMER);
 
-            when(userJpaDao.findAll(0, 1000)).thenReturn(Collections.singletonList(entity));
+            when(userJpaDao.findAll(1, 1000)).thenReturn(List.of(entity));
 
             List<User> result = userRepository.findAll();
 
