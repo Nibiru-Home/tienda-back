@@ -6,11 +6,8 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Product;
 import tienda_back.domain.repository.ProductRepository;
 import tienda_back.domain.service.ProductService;
-import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 @Transactional
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;

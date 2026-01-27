@@ -6,9 +6,6 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Category;
 import tienda_back.domain.repository.CategoryRepository;
 import tienda_back.domain.service.CategoryService;
-import org.springframework.stereotype.Service;
-
-@Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 

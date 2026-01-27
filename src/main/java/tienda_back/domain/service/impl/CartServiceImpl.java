@@ -6,9 +6,6 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.repository.CartRepository;
 import tienda_back.domain.service.CartService;
-import org.springframework.stereotype.Service;
-
-@Service
 public class CartServiceImpl implements CartService {
     private final CartRepository cartRepository;
 
