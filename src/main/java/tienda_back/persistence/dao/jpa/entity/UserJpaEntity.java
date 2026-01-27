@@ -18,7 +18,6 @@ import org.hibernate.type.SqlTypes;
 public class UserJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @JdbcTypeCode(SqlTypes.CHAR)
     private UUID id;
 
