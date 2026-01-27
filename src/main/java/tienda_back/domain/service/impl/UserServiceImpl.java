@@ -13,6 +13,9 @@ import tienda_back.domain.model.User;
 import tienda_back.domain.repository.UserRepository;
 import tienda_back.domain.service.UserService;
 import tienda_back.domain.validation.DtoValidator;
+import org.springframework.transaction.annotation.Transactional;
+
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
