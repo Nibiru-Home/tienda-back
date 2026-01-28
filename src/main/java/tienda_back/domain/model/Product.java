@@ -12,6 +12,7 @@ public class Product {
     private List<Category> categories;
     private List<Style> styles;
     private String image;
+    private List<String> images;
 
     public Product() {
     }
@@ -92,9 +93,11 @@ public class Product {
         this.image = image;
     }
 
-    @Override
-    public String toString() {
-        return "Product [id=" + id + ", name=" + name + ", description=" + description + ", price=" + price + ", stock="
-                + stock + ", categories=" + categories + ", styles=" + styles + ", image=" + image + "]";
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

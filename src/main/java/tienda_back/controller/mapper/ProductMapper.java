@@ -29,6 +29,7 @@ public class ProductMapper {
                 productRequest.price(),
                 productRequest.stock(),
                 productRequest.image(),
+                null, // Images not yet supported in request
                 productRequest.category().stream().map(CategoryMapper.getInstance()::categoryRequestToCategoryDto)
                         .toList(),
                 productRequest.styles());
@@ -46,6 +47,7 @@ public class ProductMapper {
                 productDto.price(),
                 productDto.stock(),
                 productDto.image(),
+                productDto.images(),
                 productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse)
                         .toList(),
                 productDto.styles());

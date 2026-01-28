@@ -88,6 +88,7 @@ class ProductControllerTest {
         void createProduct_ShouldReturnCreatedProduct() throws Exception {
             ProductDto inputDto = new ProductDto(null, "New Product", "Desc", 50.0, 5, "image.jpg",
                     Collections.emptyList(),
+                    Collections.emptyList(),
                     Collections.emptyList());
             Product createdProduct = new Product(1L, "New Product", "Desc", 50.0, 5, null, null, "image.jpg");
 
@@ -108,6 +109,7 @@ class ProductControllerTest {
         void updateProduct_ShouldReturnUpdatedProduct() throws Exception {
             Long id = 1L;
             ProductDto inputDto = new ProductDto(id, "Updated Product", "Desc", 60.0, 5, "image.jpg",
+                    Collections.emptyList(),
                     Collections.emptyList(),
                     Collections.emptyList());
             Product updatedProduct = new Product(id, "Updated Product", "Desc", 60.0, 5, null, null, "image.jpg");

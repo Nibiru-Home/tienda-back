@@ -60,6 +60,7 @@ class CartProductMapperTest {
         CartDto cartDto = new CartDto(1L, 100.0f, 90.0f, new Date(), "PENDING", userDto);
         ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, "image.jpg",
                 Collections.emptyList(),
+                Collections.emptyList(),
                 Collections.singletonList(Style.MODERNO));
 
         CartProductDto dto = new CartProductDto(1L, 2, cartDto, productDto);

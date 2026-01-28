@@ -32,6 +32,7 @@ public class ProductMapper {
         product.setPrice(jpaEntity.getPrice());
         product.setStock(jpaEntity.getStock() != null ? jpaEntity.getStock() : 0);
         product.setImage(jpaEntity.getImage());
+        product.setImages(jpaEntity.getImages());
 
         // Map CategoryJpaEntity (single) to List<Category>
         if (jpaEntity.getCategory() != null) {
@@ -69,6 +70,7 @@ public class ProductMapper {
         entity.setPrice(domain.getPrice());
         entity.setStock(domain.getStock());
         entity.setImage(domain.getImage());
+        entity.setImages(domain.getImages());
 
         // Map List<Category> (first item) to CategoryJpaEntity
         if (domain.getCategories() != null && !domain.getCategories().isEmpty()) {

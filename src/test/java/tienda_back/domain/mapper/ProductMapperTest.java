@@ -92,6 +92,7 @@ class ProductMapperTest {
                 15.50,
                 100,
                 "image.jpg",
+                new ArrayList<>(),
                 categories,
                 new ArrayList<>());
 

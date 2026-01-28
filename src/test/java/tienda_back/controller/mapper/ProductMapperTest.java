@@ -69,6 +69,7 @@ class ProductMapperTest {
                 999.99,
                 10,
                 "image.jpg",
+                Collections.emptyList(),
                 Collections.singletonList(categoryDto),
                 Collections.singletonList(Style.MODERNO));
 

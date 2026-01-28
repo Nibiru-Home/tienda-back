@@ -4,13 +4,14 @@ import java.util.List;
 import tienda_back.domain.model.Style;
 
 public record ProductResponse(
-                Long id,
-                String name,
-                String description,
-                Double price,
-                int stock,
-                String image,
-                List<CategoryResponse> category,
-                List<Style> styles) {
+        Long id,
+        String name,
+        String description,
+        Double price,
+        int stock,
+        String image,
+        List<String> images,
+        List<CategoryResponse> category,
+        List<Style> styles) {
 
 }

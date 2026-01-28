@@ -102,6 +102,19 @@ public class ProductJpaEntity {
         this.image = image;
     }
 
+    @jakarta.persistence.ElementCollection
+    @jakarta.persistence.CollectionTable(name = "product_images", joinColumns = @JoinColumn(name = "product_id"))
+    @jakarta.persistence.Column(name = "image_url")
+    private java.util.List<String> images = new java.util.ArrayList<>();
+
+    public java.util.List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(java.util.List<String> images) {
+        this.images = images;
+    }
+
     public CategoryJpaEntity getCategory() {
         return category;
     }
