@@ -31,36 +31,36 @@ INSERT INTO product_images (product_id, image_url) VALUES (6, '6.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (7, '7.jpg');
 INSERT INTO product_images (product_id, image_url) VALUES (7, '7.1.png');
-INSERT INTO product_images (product_id, image_url) VALUES (7, '14.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (7, '7.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (8, '8.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (8, '4.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (8, '12.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (8, '8.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (8, '8.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (9, '9.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (9, '5.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (9, '10.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (9, '9.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (9, '9.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (10, '10.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (10, '5.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (10, '13.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (10, '10.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (10, '10.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (11, '11.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (11, '1.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (11, '3.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (11, '11.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (11, '11.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (12, '12.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (12, '4.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (12, '8.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (12, '12.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (12, '12.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (13, '13.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (13, '10.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (13, '5.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (13, '13.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (13, '13.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (14, '14.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (14, '7.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (14, '1.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (14, '14.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (14, '14.2.png');
 
 INSERT INTO product_images (product_id, image_url) VALUES (15, '15.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (15, '2.jpg');
-INSERT INTO product_images (product_id, image_url) VALUES (15, '6.jpg');
+INSERT INTO product_images (product_id, image_url) VALUES (15, '15.1.png');
+INSERT INTO product_images (product_id, image_url) VALUES (15, '15.2.png');
