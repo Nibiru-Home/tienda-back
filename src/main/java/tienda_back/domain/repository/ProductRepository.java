@@ -25,4 +25,6 @@ public interface ProductRepository {
     Product update(Product product);
 
     long count();
+
+    List<Product> findByRoom(String room);
 }

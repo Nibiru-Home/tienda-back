@@ -44,6 +44,21 @@ public class ProductServiceImplTest {
     }
 
     @Test
+    void getByRoom() {
+        Product p1 = new Product();
+        p1.setId(1L);
+        p1.setName("Product 1");
+
+        List<Product> products = Arrays.asList(p1);
+        when(productRepository.findByRoom("Cocina")).thenReturn(products);
+
+        List<Product> result = productService.getByRoom("Cocina");
+
+        assertEquals(1, result.size());
+        verify(productRepository, times(1)).findByRoom("Cocina");
+    }
+
+    @Test
     void getProductByIdFound() {
         Product product = new Product();
         product.setId(1L);

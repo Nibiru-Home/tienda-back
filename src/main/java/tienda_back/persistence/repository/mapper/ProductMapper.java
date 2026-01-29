@@ -54,6 +54,12 @@ public class ProductMapper {
             product.setStyles(new ArrayList<>());
         }
 
+        if (jpaEntity.getRooms() != null) {
+            product.setRooms(jpaEntity.getRooms().stream().map(room -> room.getName()).toList());
+        } else {
+            product.setRooms(new ArrayList<>());
+        }
+
         return product;
     }
 

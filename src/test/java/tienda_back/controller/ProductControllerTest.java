@@ -66,6 +66,18 @@ class ProductControllerTest {
                     .andExpect(jsonPath("$[0].id").value(1))
                     .andExpect(jsonPath("$[0].name").value("Smartphone"));
         }
+
+        @Test
+        void getAllProducts_WithRoom_ShouldReturnFilteredProducts() throws Exception {
+            List<Product> products = Collections.singletonList(product);
+            when(productService.getByRoom("Cocina")).thenReturn(products);
+
+            mockMvc.perform(get("/api/products").param("room", "Cocina"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$[0].id").value(1))
+                    .andExpect(jsonPath("$[0].name").value("Smartphone"));
+        }
     }
 
     @Nested
@@ -89,6 +101,7 @@ class ProductControllerTest {
             ProductDto inputDto = new ProductDto(null, "New Product", "Desc", 50.0, 5, "image.jpg",
                     Collections.emptyList(),
                     Collections.emptyList(),
+                    Collections.emptyList(),
                     Collections.emptyList());
             Product createdProduct = new Product(1L, "New Product", "Desc", 50.0, 5, null, null, "image.jpg");
 
@@ -109,6 +122,7 @@ class ProductControllerTest {
         void updateProduct_ShouldReturnUpdatedProduct() throws Exception {
             Long id = 1L;
             ProductDto inputDto = new ProductDto(id, "Updated Product", "Desc", 60.0, 5, "image.jpg",
+                    Collections.emptyList(),
                     Collections.emptyList(),
                     Collections.emptyList(),
                     Collections.emptyList());

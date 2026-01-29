@@ -82,4 +82,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     public long count() {
         return productJpaDao.count();
     }
+
+    @Override
+    public List<Product> findByRoom(String room) {
+        return productJpaDao.findByRoom(room).stream()
+                .map(ProductMapper.getInstance()::productJpaEntityToProduct)
+                .collect(Collectors.toList());
+    }
 }

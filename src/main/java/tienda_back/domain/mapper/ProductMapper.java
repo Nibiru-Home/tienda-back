@@ -3,6 +3,8 @@ package tienda_back.domain.mapper;
 import tienda_back.domain.model.Product;
 import tienda_back.domain.dto.ProductDto;
 
+import tienda_back.domain.model.Style;
+
 public class ProductMapper {
     private static ProductMapper INSTANCE;
 
@@ -30,7 +32,8 @@ public class ProductMapper {
                 product.getImage(),
                 product.getImages(),
                 product.getCategories().stream().map(CategoryMapper.getInstance()::categoryToCategoryDto).toList(),
-                product.getStyles());
+                product.getStyles().stream().map(Style::name).toList(),
+                product.getRooms());
     }
 
     public Product productDtoToProduct(ProductDto productDto) {
@@ -48,7 +51,8 @@ public class ProductMapper {
         product.setImages(productDto.images());
         product.setCategories(
                 productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
-        product.setStyles(productDto.styles());
+        product.setStyles(productDto.styles().stream().map(Style::valueOf).toList());
+        product.setRooms(productDto.rooms());
 
         return product;
     }

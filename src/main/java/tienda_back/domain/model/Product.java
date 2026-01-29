@@ -13,6 +13,7 @@ public class Product {
     private List<Style> styles;
     private String image;
     private List<String> images;
+    private List<String> rooms;
 
     public Product() {
     }
@@ -99,5 +100,13 @@ public class Product {
 
     public void setImages(List<String> images) {
         this.images = images;
+    }
+
+    public List<String> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(List<String> rooms) {
+        this.rooms = rooms;
     }
 }

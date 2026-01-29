@@ -74,4 +74,12 @@ public class ProductJpaDaoImpl implements ProductJpaDao {
         return query.getResultList();
     }
 
+    @Override
+    public List<ProductJpaEntity> findByRoom(String room) {
+        String sql = "SELECT p FROM ProductJpaEntity p JOIN p.rooms r WHERE r.name = :roomName";
+        TypedQuery<ProductJpaEntity> query = entityManager.createQuery(sql, ProductJpaEntity.class);
+        query.setParameter("roomName", room);
+        return query.getResultList();
+    }
+
 }

@@ -17,4 +17,6 @@ public interface ProductService {
     long count();
 
     List<Product> getByCategoryId(Long categoryId);
+
+    List<Product> getByRoom(String room);
 }

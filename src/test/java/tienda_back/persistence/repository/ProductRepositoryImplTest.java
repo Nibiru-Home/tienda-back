@@ -47,6 +47,18 @@ public class ProductRepositoryImplTest {
     }
 
     @Test
+    void testFindByRoom() {
+        ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
+        when(productJpaDao.findByRoom("Cocina")).thenReturn(Collections.singletonList(entity));
+
+        List<Product> result = productRepository.findByRoom("Cocina");
+
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Laptop", result.get(0).getName());
+    }
+
+    @Test
     void testFindById_Found() {
         ProductJpaEntity entity = new ProductJpaEntity(1, "Laptop");
         when(productJpaDao.findById(1L)).thenReturn(Optional.of(entity));

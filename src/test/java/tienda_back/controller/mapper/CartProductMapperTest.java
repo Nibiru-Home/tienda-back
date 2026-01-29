@@ -35,7 +35,8 @@ class CartProductMapperTest {
         CartRequest cartRequest = new CartRequest(1L, 100.0f, 90.0f, new Date(), "PENDING", userRequest);
         ProductRequest productRequest = new ProductRequest(1L, "Product", "Desc", 50.0, 10, "image.jpg",
                 Collections.emptyList(),
-                Collections.singletonList(Style.MODERNO));
+                Collections.singletonList(Style.MODERNO),
+                Collections.emptyList());
 
         CartProductRequest request = new CartProductRequest(1L, 2, cartRequest, productRequest);
 
@@ -61,7 +62,8 @@ class CartProductMapperTest {
         ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, "image.jpg",
                 Collections.emptyList(),
                 Collections.emptyList(),
-                Collections.singletonList(Style.MODERNO));
+                Collections.singletonList("MODERNO"),
+                Collections.emptyList());
 
         CartProductDto dto = new CartProductDto(1L, 2, cartDto, productDto);
 

@@ -6,4 +6,6 @@ public interface ProductJpaDao extends GenericJpaDao<ProductJpaEntity, Long> {
     long count();
 
     java.util.List<ProductJpaEntity> findByCategoryId(Long categoryId);
+
+    java.util.List<ProductJpaEntity> findByRoom(String room);
 }

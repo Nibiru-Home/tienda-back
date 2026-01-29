@@ -55,6 +55,7 @@ class ProductMapperTest {
                 50,
                 "image.jpg",
                 categories,
+                new ArrayList<>(),
                 new ArrayList<>());
 
         // Execute mapping
@@ -94,6 +95,7 @@ class ProductMapperTest {
                 "image.jpg",
                 new ArrayList<>(),
                 categories,
+                new ArrayList<>(),
                 new ArrayList<>());
 
         // Execute mapping

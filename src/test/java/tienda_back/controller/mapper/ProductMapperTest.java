@@ -35,8 +35,8 @@ class ProductMapperTest {
                 10,
                 "image.jpg",
                 Collections.singletonList(categoryRequest),
-                Collections.singletonList(Style.MODERNO) // Assuming Style is an enum or similar
-        );
+                Collections.singletonList(Style.MODERNO), // Assuming Style is an enum or similar
+                Collections.emptyList());
 
         ProductDto result = mapper.productRequestToProductDto(request);
 
@@ -50,7 +50,7 @@ class ProductMapperTest {
         assertEquals(1, result.category().size());
         assertEquals(categoryRequest.id(), result.category().get(0).id());
         assertEquals(1, result.styles().size());
-        assertEquals(Style.MODERNO, result.styles().get(0));
+        assertEquals(Style.MODERNO.name(), result.styles().get(0));
     }
 
     @Test
@@ -71,7 +71,8 @@ class ProductMapperTest {
                 "image.jpg",
                 Collections.emptyList(),
                 Collections.singletonList(categoryDto),
-                Collections.singletonList(Style.MODERNO));
+                Collections.singletonList(Style.MODERNO.name()),
+                Collections.emptyList());
 
         ProductResponse result = mapper.productDtoToProductResponse(dto);
 

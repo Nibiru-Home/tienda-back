@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 
 @Entity
 @Table(name = "products")
@@ -121,5 +123,17 @@ public class ProductJpaEntity {
 
     public void setCategory(CategoryJpaEntity category) {
         this.category = category;
+    }
+
+    @ManyToMany
+    @JoinTable(name = "product_rooms", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "room_id"))
+    private java.util.List<RoomJpaEntity> rooms = new java.util.ArrayList<>();
+
+    public java.util.List<RoomJpaEntity> getRooms() {
+        return rooms;
+    }
+
+    public void setRooms(java.util.List<RoomJpaEntity> rooms) {
+        this.rooms = rooms;
     }
 }

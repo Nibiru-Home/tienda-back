@@ -21,9 +21,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts(@RequestParam(required = false) Long categoryId) {
+    public ResponseEntity<List<ProductDto>> getAllProducts(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String room) {
         List<Product> products;
-        if (categoryId != null) {
+        if (room != null && !room.isEmpty()) {
+            products = productService.getByRoom(room);
+        } else if (categoryId != null) {
             products = productService.getByCategoryId(categoryId);
         } else {
             products = productService.getAll();
