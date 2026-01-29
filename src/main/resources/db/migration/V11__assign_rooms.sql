@@ -1,14 +1,3 @@
--- Rename products 2-10 to Aromas (Updates because V2/V3 cannot be changed)
-UPDATE products SET name = 'Difusores', description = 'Difusor de aromas', style = 'Vintage' WHERE id = 2;
-UPDATE products SET name = 'Incienso', description = 'Varitas de incienso', style = 'Minimalista' WHERE id = 3;
-UPDATE products SET name = 'Ambientador electrico', description = 'Ambientador electrico moderno', style = 'Contemporaneo' WHERE id = 4;
-UPDATE products SET name = 'Spray', description = 'Spray aromatico', style = 'Anticuado' WHERE id = 5;
-UPDATE products SET name = 'Bolsitas', description = 'Bolsitas aromaticas', style = 'Moderno' WHERE id = 6;
-UPDATE products SET name = 'Aceites', description = 'Aceites esenciales', style = 'Vintage' WHERE id = 7;
-UPDATE products SET name = 'Gel aromatico', description = 'Gel aromatico refrescante', style = 'Minimalista' WHERE id = 8;
-UPDATE products SET name = 'Sahumerio', description = 'Sahumerio tradicional', style = 'Anticuado' WHERE id = 9;
-UPDATE products SET name = 'Atomizador de aromas', description = 'Atomizador de aromas manual', style = 'Contemporaneo' WHERE id = 10;
-
 -- Product Assignments
 
 -- 1. Lampara techo -> Salón (4) (Original)
