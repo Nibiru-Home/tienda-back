@@ -119,7 +119,7 @@ public class SpringConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOriginPatterns("http://localhost:*", "http://127.0.0.1:*")
+                        .allowedOrigins("http://cliente-front-nibiru-home.producciondaw.cip.fpmislata.com")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
