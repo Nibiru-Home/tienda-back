@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 import tienda_back.domain.repository.*;
 import tienda_back.domain.service.*;
 import tienda_back.domain.service.impl.*;
@@ -113,13 +112,31 @@ public class SpringConfig {
     }
 
     // CORS Configuration
+    /*
+     * @Bean
+     * public WebMvcConfigurer corsConfigurer() {
+     * return new WebMvcConfigurer() {
+     * 
+     * @Override
+     * public void addCorsMappings(CorsRegistry registry) {
+     * registry.addMapping("/**")
+     * .allowedOrigins(
+     * "http://cliente-front-nibiru-home.producciondaw.cip.fpmislata.com")
+     * .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+     * .allowedHeaders("*")
+     * .allowCredentials(true);
+     * }
+     * };
+     * }
+     */
     @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
+    public org.springframework.web.servlet.config.annotation.WebMvcConfigurer corsConfigurer() {
+        return new org.springframework.web.servlet.config.annotation.WebMvcConfigurer() {
             @Override
-            public void addCorsMappings(CorsRegistry registry) {
+            public void addCorsMappings(org.springframework.web.servlet.config.annotation.CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://cliente-front-nibiru-home.producciondaw.cip.fpmislata.com")
+                        .allowedOrigins("http://localhost:4200",
+                                "http://cliente-front-nibiru-home.producciondaw.cip.fpmislata.com")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
