@@ -94,8 +94,7 @@ public class OpenAiChatService {
                         }
                         if (line.startsWith("data:")) {
                             if (data.length() > 0) {
-                                data.append('
-');
+                                data.append('\n');
                             }
                             data.append(line.substring(5).trim());
                         }

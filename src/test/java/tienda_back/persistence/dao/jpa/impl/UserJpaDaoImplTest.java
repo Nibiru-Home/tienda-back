@@ -22,6 +22,7 @@ class UserJpaDaoImplTest {
     @Test
     void saveAndFindById_ShouldPersistAndRetrieveUser() {
         UserJpaEntity entity = new UserJpaEntity();
+        entity.setId(java.util.UUID.randomUUID());
         entity.setName("Test");
         entity.setEmail("test@email.com");
         entity.setPassword("pass");
@@ -40,6 +41,7 @@ class UserJpaDaoImplTest {
     @Test
     void findByEmail_ShouldReturnUser_WhenExists() {
         UserJpaEntity entity = new UserJpaEntity();
+        entity.setId(java.util.UUID.randomUUID());
         entity.setName("EmailUser");
         entity.setEmail("unique@email.com");
         entity.setPassword("pass");
@@ -55,9 +57,9 @@ class UserJpaDaoImplTest {
     @Test
     void existsByEmail_ShouldReturnTrue_WhenExists() {
         UserJpaEntity entity = new UserJpaEntity();
+        entity.setId(java.util.UUID.randomUUID());
         entity.setName("ExistsUser");
         entity.setEmail("exist@email.com");
-        entity.setPassword("pass");
         entity.setPassword("pass");
         entity.setPhone("123");
         entity.setAddress("addr");
@@ -71,6 +73,7 @@ class UserJpaDaoImplTest {
     @Test
     void findByName_ShouldReturnUser_WhenExists() {
         UserJpaEntity entity = new UserJpaEntity();
+        entity.setId(java.util.UUID.randomUUID());
         entity.setName("NameUser");
         entity.setEmail("name@email.com");
         entity.setPassword("pass");
@@ -87,6 +90,7 @@ class UserJpaDaoImplTest {
     @Test
     void existsByName_ShouldReturnTrue_WhenExists() {
         UserJpaEntity entity = new UserJpaEntity();
+        entity.setId(java.util.UUID.randomUUID());
         entity.setName("ExistsNameUser");
         entity.setEmail("existsname@email.com");
         entity.setPassword("pass");
@@ -103,6 +107,7 @@ class UserJpaDaoImplTest {
     void findAll_ShouldReturnPagedResults() {
         for (int i = 0; i < 15; i++) {
             UserJpaEntity u = new UserJpaEntity();
+            u.setId(java.util.UUID.randomUUID());
             u.setName("User " + i);
             u.setEmail("user" + i + "@test.com");
             u.setPassword("pass");

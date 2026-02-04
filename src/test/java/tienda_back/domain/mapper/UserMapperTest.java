@@ -2,6 +2,7 @@ package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
 import tienda_back.domain.dto.UserRegisterDto;
+import tienda_back.domain.dto.UserDto;
 import tienda_back.domain.model.RoleUser;
 import tienda_back.domain.model.User;
 
@@ -30,12 +31,13 @@ class UserMapperTest {
                 "123456",
                 RoleUser.CUSTOMER);
 
-        UserRegisterDto result = mapper.userToUserDto(user);
+        UserDto result = mapper.userToUserDto(user);
 
         assertNotNull(result);
         assertEquals(user.getName(), result.name());
         assertEquals(user.getEmail(), result.email());
-        assertEquals(user.getPassword(), result.password());
+        // assertEquals(user.getPassword(), result.password()); // UserDto has no
+        // password
         assertEquals(user.getAddress(), result.address());
         assertEquals(user.getPhone(), result.phone());
     }
@@ -71,7 +73,7 @@ class UserMapperTest {
     @Test
     void testUserDtoToUser_WithNull_ReturnsNull() {
         UserMapper mapper = UserMapper.getInstance();
-        assertNull(mapper.userDtoToUser(null));
+        assertNull(mapper.userDtoToUser((UserRegisterDto) null));
     }
 
     @Test
@@ -90,7 +92,7 @@ class UserMapperTest {
         assertNotNull(result);
         assertEquals(dto.name(), result.getName());
         assertEquals(dto.email(), result.getEmail());
-        assertEquals(passwordHash, result.getPassword()); 
+        assertEquals(passwordHash, result.getPassword());
         assertEquals(dto.address(), result.getAddress());
         assertEquals(dto.phone(), result.getPhone());
         assertEquals(RoleUser.CUSTOMER, result.getRole());

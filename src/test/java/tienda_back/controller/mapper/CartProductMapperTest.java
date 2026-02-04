@@ -9,10 +9,12 @@ import tienda_back.controller.webmodel.response.CartProductResponse;
 import tienda_back.domain.dto.CartDto;
 import tienda_back.domain.dto.CartProductDto;
 import tienda_back.domain.dto.ProductDto;
-import tienda_back.domain.dto.UserRegisterDto;
+import tienda_back.domain.dto.UserDto;
 import tienda_back.domain.model.Style;
-
+import tienda_back.domain.model.RoleUser;
+import java.util.UUID;
 import java.util.Collections;
+
 import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -57,8 +59,9 @@ class CartProductMapperTest {
 
     @Test
     void testCartProductDtoToCartProductResponse_Success() {
-        UserRegisterDto userDto = new UserRegisterDto("John", "john@test.com", "pass", "addr", "123");
-        CartDto cartDto = new CartDto(1L, 100.0f, 90.0f, new Date(), "PENDING", userDto);
+        UserDto userDto = new UserDto(
+                UUID.randomUUID(), "John", "john@example.com", "Address", "123456", RoleUser.CUSTOMER);
+        CartDto cartDto = new CartDto(1L, 100f, 90f, new Date(), "PENDING", userDto);
         ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, "image.jpg",
                 Collections.emptyList(),
                 Collections.emptyList(),

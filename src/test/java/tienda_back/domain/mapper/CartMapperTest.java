@@ -2,7 +2,7 @@ package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
 import tienda_back.domain.dto.CartDto;
-import tienda_back.domain.dto.UserRegisterDto;
+import tienda_back.domain.dto.UserDto;
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.RoleUser;
 import tienda_back.domain.model.User;
@@ -69,8 +69,8 @@ class CartMapperTest {
     @Test
     void testCartDtoToCart_WithCompleteDto_MapsAllFields() {
         CartMapper mapper = CartMapper.getInstance();
-        UserRegisterDto userDto = new UserRegisterDto("Jane Smith", "jane@example.com", "pass456",
-                "789 Oak Rd", "555-9012");
+        UserDto userDto = new UserDto(java.util.UUID.randomUUID(), "Jane Smith", "jane@example.com",
+                "789 Oak Rd", "555-9012", RoleUser.CUSTOMER);
         Date date = new Date();
 
         CartDto cartDto = new CartDto(2L, 5.0f, 299.99f, date, "COMPLETED", userDto);

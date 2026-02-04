@@ -8,5 +8,5 @@ public record CartDto(
                 Float price,
                 Date date,
                 String status,
-        UserRegisterDto user) {
+                UserDto user) {
 }

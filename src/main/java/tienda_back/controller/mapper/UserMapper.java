@@ -2,6 +2,7 @@ package tienda_back.controller.mapper;
 
 import tienda_back.domain.dto.UserLoginDto;
 import tienda_back.domain.dto.UserRegisterDto;
+import tienda_back.domain.dto.UserDto;
 import tienda_back.domain.model.User;
 import tienda_back.controller.webmodel.request.LoginRequest;
 import tienda_back.controller.webmodel.request.RegisterRequest;
@@ -32,23 +33,32 @@ public class UserMapper {
                 request.phone());
     }
 
-    public UserRegisterDto userRequestToUserDto(UserRequest request) {
-        return new UserRegisterDto(
+    public UserDto userRequestToUserDto(UserRequest request) {
+        // Warning: ID and Role are not in UserRequest, setting null/default
+        // If UserRequest represents an existing user, we might need ID.
+        // For Cart creation, maybe we don't need full user info if we have ID.
+        // Assuming strict mapping of available fields.
+        return new UserDto(
+                null, // ID unknown from UserRequest usually or handled elsewhere
                 request.name(),
                 request.email(),
-                request.password(),
                 request.address(),
-                request.phone());
+                request.phone(),
+                null // Role unknown
+        );
     }
 
-    public UserResponse userDtoToUserResponse(UserRegisterDto dto) {
+    public UserResponse userDtoToUserResponse(UserDto dto) {
+        if (dto == null) {
+            return null;
+        }
         return new UserResponse(
-                null,
+                dto.id(),
                 dto.name(),
                 dto.email(),
                 dto.address(),
                 dto.phone(),
-                "CUSTOMER");
+                dto.role() != null ? dto.role().toString() : "CUSTOMER");
     }
 
     public UserResponse toUserResponse(User user) {

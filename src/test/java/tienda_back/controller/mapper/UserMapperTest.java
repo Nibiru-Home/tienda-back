@@ -8,6 +8,7 @@ import tienda_back.controller.webmodel.response.AuthResponse;
 import tienda_back.controller.webmodel.response.UserResponse;
 import tienda_back.domain.dto.UserLoginDto;
 import tienda_back.domain.dto.UserRegisterDto;
+import tienda_back.domain.dto.UserDto;
 import tienda_back.domain.model.RoleUser;
 import tienda_back.domain.model.User;
 
@@ -54,12 +55,13 @@ class UserMapperTest {
                 "456 Oak Ave",
                 "555-5678");
 
-        UserRegisterDto result = mapper.userRequestToUserDto(request);
+        UserDto result = mapper.userRequestToUserDto(request);
 
         assertNotNull(result);
         assertEquals(request.name(), result.name());
         assertEquals(request.email(), result.email());
-        assertEquals(request.password(), result.password());
+        // assertEquals(request.password(), result.password()); // UserDto has no
+        // password
         assertEquals(request.address(), result.address());
         assertEquals(request.phone(), result.phone());
     }
@@ -67,12 +69,13 @@ class UserMapperTest {
     @Test
     void testUserDtoToUserResponse_MapsCorrectly() {
         UserMapper mapper = UserMapper.getInstance();
-        UserRegisterDto dto = new UserRegisterDto(
+        UserDto dto = new UserDto(
+                UUID.randomUUID(),
                 "Bob Smith",
                 "bob@example.com",
-                "securePass",
                 "789 Pine Rd",
-                "555-9012");
+                "555-9012",
+                RoleUser.CUSTOMER);
 
         UserResponse result = mapper.userDtoToUserResponse(dto);
 
