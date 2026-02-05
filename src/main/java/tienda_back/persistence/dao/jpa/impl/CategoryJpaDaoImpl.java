@@ -66,4 +66,12 @@ public class CategoryJpaDaoImpl implements CategoryJpaDao {
         return query.getResultStream().findFirst();
     }
 
+    @Override
+    public Optional<CategoryJpaEntity> findByNameIgnoreCase(String name) {
+        String sql = "SELECT c FROM CategoryJpaEntity c WHERE LOWER(c.name) = LOWER(:name)";
+        TypedQuery<CategoryJpaEntity> query = entityManager.createQuery(sql, CategoryJpaEntity.class);
+        query.setParameter("name", name);
+        return query.getResultStream().findFirst();
+    }
+
 }

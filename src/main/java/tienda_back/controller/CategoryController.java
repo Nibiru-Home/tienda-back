@@ -60,4 +60,11 @@ public class CategoryController {
         categoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/search/name/{name}")
+    public ResponseEntity<CategoryDto> getCategoryByName(@PathVariable String name) {
+        Category category = categoryService.findByName(name);
+        CategoryDto categoryDto = CategoryMapper.getInstance().categoryToCategoryDto(category);
+        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+    }
 }

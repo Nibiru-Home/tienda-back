@@ -6,4 +6,6 @@ import tienda_back.persistence.dao.jpa.entity.CategoryJpaEntity;
 public interface CategoryJpaDao extends GenericJpaDao<CategoryJpaEntity, Long> {
 
     Optional<CategoryJpaEntity> findByName(String name);
+
+    Optional<CategoryJpaEntity> findByNameIgnoreCase(String name);
 }

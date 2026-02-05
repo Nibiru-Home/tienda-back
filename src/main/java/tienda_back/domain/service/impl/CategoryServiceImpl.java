@@ -5,7 +5,10 @@ import java.util.List;
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.Category;
 import tienda_back.domain.repository.CategoryRepository;
+import org.springframework.transaction.annotation.Transactional;
 import tienda_back.domain.service.CategoryService;
+
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
@@ -40,9 +43,12 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteById(Long id) {
-        if (!categoryRepository.existsById(id)) {
-            throw new ResourceNotFoundException("La categoria con el id: " + id + " no existe");
-        }
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Category findByName(String name) {
+        return categoryRepository.findByName(name)
+                .orElseThrow(() -> new ResourceNotFoundException("La categoria con el nombre: " + name + " no existe"));
     }
 }
