@@ -38,8 +38,12 @@ public class CartProductController {
 
     @PostMapping
     public ResponseEntity<CartProductDto> createCartProduct(@RequestBody CartProductDto cartProductDto) {
-        CartProduct cartProduct = CartProductMapper.getInstance().cartProductDtoToCartProduct(cartProductDto);
-        CartProduct createdCartProduct = cartProductService.create(cartProduct);
+        // Use the safe create method with IDs to avoid partial object issues
+        CartProduct createdCartProduct = cartProductService.create(
+                cartProductDto.cart().id(),
+                cartProductDto.product().id(),
+                cartProductDto.quantity());
+
         CartProductDto createdCartProductDto = CartProductMapper.getInstance()
                 .cartProductToCartProductDto(createdCartProduct);
         return new ResponseEntity<>(createdCartProductDto, HttpStatus.CREATED);

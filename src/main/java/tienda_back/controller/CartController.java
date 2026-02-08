@@ -4,8 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tienda_back.domain.dto.CartDto;
+import tienda_back.domain.dto.CartProductDto;
 import tienda_back.domain.mapper.CartMapper;
+import tienda_back.domain.mapper.CartProductMapper;
 import tienda_back.domain.model.Cart;
+import tienda_back.domain.model.CartProduct;
+import tienda_back.domain.service.CartProductService;
 import tienda_back.domain.service.CartService;
 
 import java.util.List;
@@ -15,9 +19,11 @@ import java.util.List;
 public class CartController {
 
     private final CartService cartService;
+    private final CartProductService cartProductService;
 
-    public CartController(CartService cartService) {
+    public CartController(CartService cartService, CartProductService cartProductService) {
         this.cartService = cartService;
+        this.cartProductService = cartProductService;
     }
 
     @GetMapping
@@ -27,6 +33,25 @@ public class CartController {
                 .map(cart -> CartMapper.getInstance().cartToCartDto(cart))
                 .toList();
         return new ResponseEntity<>(cartDtos, HttpStatus.OK);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<CartDto> getActiveCart(@RequestParam String userId) {
+        Cart cart = cartService.getActiveCart(userId);
+        List<CartProduct> cartProducts = cartProductService.getByCart(cart);
+        List<CartProductDto> cartProductDtos = cartProducts.stream()
+                .map(cp -> CartProductMapper.getInstance().cartProductToCartProductDto(cp))
+                .toList();
+
+        CartDto cartDto = new CartDto(
+                cart.getId(),
+                cart.getTotal(),
+                cart.getPrice(),
+                cart.getDate(),
+                cart.getStatus(),
+                tienda_back.domain.mapper.UserMapper.getInstance().userToUserDto(cart.getUser()),
+                cartProductDtos);
+        return new ResponseEntity<>(cartDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

@@ -8,7 +8,8 @@ public class CartMapper {
 
     private static CartMapper INSTANCE;
 
-    private CartMapper() {}
+    private CartMapper() {
+    }
 
     public static CartMapper getInstance() {
         if (INSTANCE == null) {
@@ -28,8 +29,8 @@ public class CartMapper {
                 request.price(),
                 request.date(),
                 request.status(),
-                UserMapper.getInstance().userRequestToUserDto(request.user())
-        );
+                UserMapper.getInstance().userRequestToUserDto(request.user()),
+                java.util.Collections.emptyList());
     }
 
     public CartResponse cartDtoToCartResponse(CartDto dto) {
@@ -43,7 +44,6 @@ public class CartMapper {
                 dto.price(),
                 dto.date(),
                 dto.status(),
-                UserMapper.getInstance().userDtoToUserResponse(dto.user())
-        );
+                UserMapper.getInstance().userDtoToUserResponse(dto.user()));
     }
 }

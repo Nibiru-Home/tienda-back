@@ -82,13 +82,15 @@ public class SpringConfig {
 
     // Services
     @Bean
-    public CartService cartService(CartRepository cartRepository) {
-        return new CartServiceImpl(cartRepository);
+    public CartService cartService(CartRepository cartRepository, UserService userService) {
+        return new CartServiceImpl(cartRepository, userService);
     }
 
     @Bean
-    public CartProductService cartProductService(CartProductRepository cartProductRepository) {
-        return new CartProductServiceImpl(cartProductRepository);
+    public CartProductService cartProductService(CartProductRepository cartProductRepository,
+            CartRepository cartRepository,
+            ProductRepository productRepository) {
+        return new CartProductServiceImpl(cartProductRepository, cartRepository, productRepository);
     }
 
     @Bean

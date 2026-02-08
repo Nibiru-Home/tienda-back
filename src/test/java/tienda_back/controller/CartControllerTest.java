@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import tienda_back.domain.dto.CartDto;
 import tienda_back.domain.model.Cart;
+import tienda_back.domain.service.CartProductService;
 import tienda_back.domain.service.CartService;
 
 import java.util.Collections;
@@ -24,6 +25,8 @@ class CartControllerTest {
 
     @MockitoBean
     private CartService cartService;
+    @MockitoBean
+    private CartProductService cartProductService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,7 +73,7 @@ class CartControllerTest {
     class CreateCartTests {
         @Test
         void createCart_ShouldReturnCreatedCart() throws Exception {
-            CartDto inputDto = new CartDto(null, 0.0f, 0.0f, null, "PENDING", null);
+            CartDto inputDto = new CartDto(null, 0.0f, 0.0f, null, "PENDING", null, new java.util.ArrayList<>());
             Cart createdCart = new Cart();
             createdCart.setId(1L);
             createdCart.setStatus("PENDING");
@@ -91,7 +94,7 @@ class CartControllerTest {
         @Test
         void updateCart_ShouldReturnUpdatedCart() throws Exception {
             Long id = 1L;
-            CartDto inputDto = new CartDto(id, 100.0f, 90.0f, null, "COMPLETED", null);
+            CartDto inputDto = new CartDto(id, 100.0f, 90.0f, null, "COMPLETED", null, new java.util.ArrayList<>());
             Cart updatedCart = new Cart();
             updatedCart.setId(id);
             updatedCart.setStatus("COMPLETED");

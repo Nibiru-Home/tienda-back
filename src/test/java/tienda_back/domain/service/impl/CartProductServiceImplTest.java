@@ -12,16 +12,22 @@ import java.util.Optional;
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.CartProduct;
 import tienda_back.domain.repository.CartProductRepository;
+import tienda_back.domain.repository.CartRepository;
+import tienda_back.domain.repository.ProductRepository;
 import tienda_back.domain.service.CartProductService;
 
 public class CartProductServiceImplTest {
     private CartProductRepository cartProductRepository;
+    private CartRepository cartRepository;
+    private ProductRepository productRepository;
     private CartProductService cartProductService;
 
     @BeforeEach
     void setUp() {
         cartProductRepository = mock(CartProductRepository.class);
-        cartProductService = new CartProductServiceImpl(cartProductRepository);
+        cartRepository = mock(CartRepository.class);
+        productRepository = mock(ProductRepository.class);
+        cartProductService = new CartProductServiceImpl(cartProductRepository, cartRepository, productRepository);
     }
 
     @Test

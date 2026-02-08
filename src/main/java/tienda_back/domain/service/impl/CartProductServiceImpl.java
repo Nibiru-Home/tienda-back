@@ -2,15 +2,26 @@ package tienda_back.domain.service.impl;
 
 import java.util.List;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.domain.model.CartProduct;
 import tienda_back.domain.repository.CartProductRepository;
 import tienda_back.domain.service.CartProductService;
+
+@Transactional
 public class CartProductServiceImpl implements CartProductService {
     private final CartProductRepository cartProductRepository;
 
-    public CartProductServiceImpl(CartProductRepository cartProductRepository) {
+    private final tienda_back.domain.repository.CartRepository cartRepository;
+    private final tienda_back.domain.repository.ProductRepository productRepository;
+
+    public CartProductServiceImpl(CartProductRepository cartProductRepository,
+            tienda_back.domain.repository.CartRepository cartRepository,
+            tienda_back.domain.repository.ProductRepository productRepository) {
         this.cartProductRepository = cartProductRepository;
+        this.cartRepository = cartRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -30,6 +41,22 @@ public class CartProductServiceImpl implements CartProductService {
     }
 
     @Override
+    public CartProduct create(Long cartId, Long productId, int quantity) {
+        tienda_back.domain.model.Cart cart = cartRepository.findById(cartId)
+                .orElseThrow(() -> new ResourceNotFoundException("El carrito con el id: " + cartId + " no existe"));
+
+        tienda_back.domain.model.Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException("El producto con el id: " + productId + " no existe"));
+
+        CartProduct cartProduct = new CartProduct();
+        cartProduct.setCart(cart);
+        cartProduct.setProduct(product);
+        cartProduct.setQuantity(quantity);
+
+        return cartProductRepository.save(cartProduct);
+    }
+
+    @Override
     public CartProduct update(CartProduct cartProduct) {
         Long id = cartProduct.getId();
         if (id == null || !cartProductRepository.existsById(id)) {
@@ -44,5 +71,10 @@ public class CartProductServiceImpl implements CartProductService {
             throw new ResourceNotFoundException("El producto del carrito con el id: " + id + " no existe");
         }
         cartProductRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CartProduct> getByCart(tienda_back.domain.model.Cart cart) {
+        return cartProductRepository.findByCart(cart);
     }
 }

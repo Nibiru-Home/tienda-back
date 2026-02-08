@@ -1,6 +1,5 @@
 package tienda_back.persistence.repository.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,20 +46,36 @@ public class CartRepositoryImpl implements CartRepository {
 
     @Override
     public List<Cart> findByUser(User user) {
-         
-        return Collections.emptyList();
+        if (user == null || user.getId() == null) {
+            return java.util.Collections.emptyList();
+        }
+
+        return findAll().stream()
+                .filter(cart -> cart.getUser() != null && user.getId().equals(cart.getUser().getId()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Cart> findByStatus(String status) {
-         
-        return Collections.emptyList();
+        if (status == null || status.isBlank()) {
+            return java.util.Collections.emptyList();
+        }
+
+        return findAll().stream()
+                .filter(cart -> cart.getStatus() != null && cart.getStatus().equalsIgnoreCase(status))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Cart> findByUserAndStatus(User user, String status) {
-         
-        return Collections.emptyList();
+        if (user == null || user.getId() == null || status == null || status.isBlank()) {
+            return java.util.Collections.emptyList();
+        }
+
+        return findAll().stream()
+                .filter(cart -> cart.getUser() != null && user.getId().equals(cart.getUser().getId()))
+                .filter(cart -> cart.getStatus() != null && cart.getStatus().equalsIgnoreCase(status))
+                .collect(Collectors.toList());
     }
 
     @Override

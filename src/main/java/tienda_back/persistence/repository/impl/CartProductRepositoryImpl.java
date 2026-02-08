@@ -1,6 +1,5 @@
 package tienda_back.persistence.repository.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,20 +48,36 @@ public class CartProductRepositoryImpl implements CartProductRepository {
 
     @Override
     public List<CartProduct> findByCart(Cart cart) {
-         
-        return Collections.emptyList();
+        if (cart == null || cart.getId() == null) {
+            return java.util.Collections.emptyList();
+        }
+
+        return findAll().stream()
+                .filter(item -> item.getCart() != null && cart.getId().equals(item.getCart().getId()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<CartProduct> findByProduct(Product product) {
-         
-        return Collections.emptyList();
+        if (product == null || product.getId() == null) {
+            return java.util.Collections.emptyList();
+        }
+
+        return findAll().stream()
+                .filter(item -> item.getProduct() != null && product.getId().equals(item.getProduct().getId()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public Optional<CartProduct> findByCartAndProduct(Cart cart, Product product) {
-         
-        return Optional.empty();
+        if (cart == null || cart.getId() == null || product == null || product.getId() == null) {
+            return Optional.empty();
+        }
+
+        return findAll().stream()
+                .filter(item -> item.getCart() != null && cart.getId().equals(item.getCart().getId()))
+                .filter(item -> item.getProduct() != null && product.getId().equals(item.getProduct().getId()))
+                .findFirst();
     }
 
     @Override

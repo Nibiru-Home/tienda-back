@@ -61,7 +61,7 @@ class CartProductMapperTest {
     void testCartProductDtoToCartProductResponse_Success() {
         UserDto userDto = new UserDto(
                 UUID.randomUUID(), "John", "john@example.com", "Address", "123456", RoleUser.CUSTOMER);
-        CartDto cartDto = new CartDto(1L, 100f, 90f, new Date(), "PENDING", userDto);
+        CartDto cartDto = new CartDto(1L, 100f, 90f, new Date(), "PENDING", userDto, new java.util.ArrayList<>());
         ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, "image.jpg",
                 Collections.emptyList(),
                 Collections.emptyList(),

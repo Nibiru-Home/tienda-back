@@ -16,12 +16,14 @@ import tienda_back.domain.service.CartService;
 
 public class CartServiceImplTest {
     private CartRepository cartRepository;
+    private tienda_back.domain.service.UserService userService;
     private CartService cartService;
 
     @BeforeEach
     void setUp() {
         cartRepository = mock(CartRepository.class);
-        cartService = new CartServiceImpl(cartRepository);
+        userService = mock(tienda_back.domain.service.UserService.class);
+        cartService = new CartServiceImpl(cartRepository, userService);
     }
 
     @Test

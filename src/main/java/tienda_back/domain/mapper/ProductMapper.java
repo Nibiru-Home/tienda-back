@@ -48,11 +48,19 @@ public class ProductMapper {
         product.setPrice(productDto.price());
         product.setStock(productDto.stock());
         product.setImage(productDto.image());
-        product.setImages(productDto.images());
-        product.setCategories(
-                productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
-        product.setStyles(productDto.styles().stream().map(Style::valueOf).toList());
-        product.setRooms(productDto.rooms());
+        if (productDto.images() != null) {
+            product.setImages(productDto.images());
+        }
+        if (productDto.category() != null) {
+            product.setCategories(
+                    productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategory).toList());
+        }
+        if (productDto.styles() != null) {
+            product.setStyles(productDto.styles().stream().map(Style::valueOf).toList());
+        }
+        if (productDto.rooms() != null) {
+            product.setRooms(productDto.rooms());
+        }
 
         return product;
     }

@@ -41,7 +41,7 @@ public class UserOrderMapper {
         CartDto cartDto = null;
         if (request.cartId() != null) {
             // Create a dummy CartDto with just ID to be resolved by Service
-            cartDto = new CartDto(request.cartId(), null, null, null, null, null);
+            cartDto = new CartDto(request.cartId(), null, null, null, null, null, new java.util.ArrayList<>());
         }
 
         return new UserOrderDto(

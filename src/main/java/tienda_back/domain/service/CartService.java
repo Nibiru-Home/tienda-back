@@ -5,8 +5,14 @@ import tienda_back.domain.model.Cart;
 
 public interface CartService {
     List<Cart> getAll();
+
     Cart getById(Long id);
+
     Cart create(Cart cart);
+
     Cart update(Cart cart);
+
     void deleteById(Long id);
+
+    Cart getActiveCart(String userId);
 }

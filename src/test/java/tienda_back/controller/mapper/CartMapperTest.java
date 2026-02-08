@@ -52,7 +52,7 @@ class CartMapperTest {
     void testCartDtoToCartResponse_Success() {
         UserDto userDto = new UserDto(UUID.randomUUID(), "John", "john@test.com", "addr", "123", RoleUser.CUSTOMER);
         Date date = new Date();
-        CartDto dto = new CartDto(1L, 100.0f, 90.0f, date, "PENDING", userDto);
+        CartDto dto = new CartDto(1L, 100.0f, 90.0f, date, "PENDING", userDto, new java.util.ArrayList<>());
 
         CartResponse result = mapper.cartDtoToCartResponse(dto);
 

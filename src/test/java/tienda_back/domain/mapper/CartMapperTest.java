@@ -73,7 +73,7 @@ class CartMapperTest {
                 "789 Oak Rd", "555-9012", RoleUser.CUSTOMER);
         Date date = new Date();
 
-        CartDto cartDto = new CartDto(2L, 5.0f, 299.99f, date, "COMPLETED", userDto);
+        CartDto cartDto = new CartDto(2L, 5.0f, 299.99f, date, "COMPLETED", userDto, new java.util.ArrayList<>());
 
         Cart result = mapper.cartDtoToCart(cartDto);
 

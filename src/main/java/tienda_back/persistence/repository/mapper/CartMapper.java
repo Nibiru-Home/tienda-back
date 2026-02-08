@@ -23,6 +23,11 @@ public class CartMapper {
         }
         Cart cart = new Cart();
         cart.setId(jpaEntity.getId().longValue());
+        cart.setTotal(jpaEntity.getTotal());
+        cart.setPrice(jpaEntity.getPrice());
+        cart.setDate(jpaEntity.getDate());
+        cart.setStatus(jpaEntity.getStatus());
+        cart.setUser(UserMapper.getInstance().toUser(jpaEntity.getUser()));
 
         return cart;
     }
@@ -35,6 +40,11 @@ public class CartMapper {
         if (domain.getId() != null) {
             entity.setId(domain.getId().intValue());
         }
+        entity.setTotal(domain.getTotal());
+        entity.setPrice(domain.getPrice());
+        entity.setDate(domain.getDate());
+        entity.setStatus(domain.getStatus());
+        entity.setUser(UserMapper.getInstance().toUserJpaEntity(domain.getUser()));
 
         return entity;
     }
