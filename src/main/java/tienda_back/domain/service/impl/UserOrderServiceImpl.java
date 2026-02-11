@@ -1,6 +1,7 @@
 package tienda_back.domain.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import tienda_back.domain.model.User;
 import tienda_back.domain.model.UserOrder;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UserOrderServiceImpl implements UserOrderService {
 
     private final UserOrderRepository userOrderRepository;

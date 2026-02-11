@@ -10,9 +10,11 @@ import tienda_back.domain.dto.CheckoutPaymentResultDto;
 import tienda_back.domain.exception.BusinessException;
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.CartProduct;
+import tienda_back.domain.model.UserOrder;
 import tienda_back.domain.service.CartProductService;
 import tienda_back.domain.service.CartService;
 import tienda_back.domain.service.PaymentCheckoutService;
+import tienda_back.domain.service.UserOrderService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,6 +25,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -30,6 +33,7 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
     private final CartService cartService;
     private final CartProductService cartProductService;
+    private final UserOrderService userOrderService;
     private final ObjectMapper objectMapper;
     private final HttpClient httpClient;
     private final String bankBaseUrl;
@@ -37,18 +41,24 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
     private final String bankPassword;
     private final String destinationIban;
     private final String paymentConcept;
+    private final BigDecimal shippingFee;
+    private final BigDecimal freeShippingThreshold;
 
     public PaymentCheckoutServiceImpl(
             CartService cartService,
             CartProductService cartProductService,
+            UserOrderService userOrderService,
             ObjectMapper objectMapper,
             @Value("${bank.integration.base-url:http://localhost:8081}") String bankBaseUrl,
             @Value("${bank.integration.login:Marta}") String bankLogin,
             @Value("${bank.integration.password:marta123}") String bankPassword,
             @Value("${bank.integration.destination-iban:ES33 0081 5220 0001 2345 6789}") String destinationIban,
-            @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept) {
+            @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept,
+            @Value("${checkout.shipping-fee:6.99}") double shippingFee,
+            @Value("${checkout.free-shipping-threshold:80}") double freeShippingThreshold) {
         this.cartService = cartService;
         this.cartProductService = cartProductService;
+        this.userOrderService = userOrderService;
         this.objectMapper = objectMapper;
         this.httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
@@ -58,6 +68,8 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         this.bankPassword = bankPassword;
         this.destinationIban = normalizeIban(destinationIban);
         this.paymentConcept = paymentConcept;
+        this.shippingFee = BigDecimal.valueOf(Math.max(shippingFee, 0)).setScale(2, RoundingMode.HALF_UP);
+        this.freeShippingThreshold = BigDecimal.valueOf(Math.max(freeShippingThreshold, 0)).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
@@ -70,14 +82,17 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
             throw new BusinessException("El carrito esta vacio.");
         }
 
-        BigDecimal total = calculateTotal(items);
-        if (total.compareTo(BigDecimal.ZERO) <= 0) {
+        BigDecimal subtotal = calculateSubtotal(items);
+        if (subtotal.compareTo(BigDecimal.ZERO) <= 0) {
             throw new BusinessException("El total del carrito no es valido.");
         }
+        BigDecimal shipping = calculateShipping(subtotal);
+        BigDecimal total = subtotal.add(shipping).setScale(2, RoundingMode.HALF_UP);
 
         String apiToken = loginAndGetApiToken();
         payWithBank(request, total, apiToken);
-        clearCart(cart, items);
+        registerOrder(cart, total);
+        closePaidCartAndCreateNewActiveCart(cart, total);
 
         return new CheckoutPaymentResultDto("Pago completado", total);
     }
@@ -104,7 +119,7 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         }
     }
 
-    private BigDecimal calculateTotal(List<CartProduct> items) {
+    private BigDecimal calculateSubtotal(List<CartProduct> items) {
         BigDecimal total = BigDecimal.ZERO;
         for (CartProduct item : items) {
             if (item == null || item.getProduct() == null || item.getProduct().getPrice() == null) {
@@ -116,6 +131,16 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
             total = total.add(price.multiply(quantity));
         }
         return total.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal calculateShipping(BigDecimal subtotal) {
+        if (subtotal.compareTo(BigDecimal.ZERO) <= 0) {
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        }
+        if (subtotal.compareTo(freeShippingThreshold) >= 0) {
+            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        }
+        return shippingFee;
     }
 
     private String loginAndGetApiToken() {
@@ -216,16 +241,30 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         return "Error en el banco (HTTP " + statusCode + ")";
     }
 
-    private void clearCart(Cart cart, List<CartProduct> items) {
-        for (CartProduct item : items) {
-            if (item != null && item.getId() != null) {
-                cartProductService.deleteById(item.getId());
-            }
-        }
+    private void registerOrder(Cart cart, BigDecimal total) {
+        UserOrder order = new UserOrder();
+        order.setUser(cart.getUser());
+        order.setCart(cart);
+        order.setTotal(total.doubleValue());
+        order.setDate(new Date());
+        order.setStatus("PAID");
+        userOrderService.create(order);
+    }
 
-        cart.setTotal(0f);
-        cart.setPrice(0f);
-        cartService.update(cart);
+    private void closePaidCartAndCreateNewActiveCart(Cart paidCart, BigDecimal total) {
+        float finalAmount = total.floatValue();
+        paidCart.setTotal(finalAmount);
+        paidCart.setPrice(finalAmount);
+        paidCart.setStatus("COMPLETED");
+        cartService.update(paidCart);
+
+        Cart newActiveCart = new Cart();
+        newActiveCart.setUser(paidCart.getUser());
+        newActiveCart.setStatus("ACTIVE");
+        newActiveCart.setDate(new Date());
+        newActiveCart.setTotal(0f);
+        newActiveCart.setPrice(0f);
+        cartService.create(newActiveCart);
     }
 
     private String normalizeBaseUrl(String baseUrl) {

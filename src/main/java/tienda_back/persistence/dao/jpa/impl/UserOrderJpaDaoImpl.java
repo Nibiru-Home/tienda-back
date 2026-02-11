@@ -19,8 +19,9 @@ public class UserOrderJpaDaoImpl implements UserOrderJpaDao {
 
     @Override
     public List<UserOrderJpaEntity> findAll(int page, int size) {
-        return entityManager.createQuery("SELECT u FROM UserOrderJpaEntity u", UserOrderJpaEntity.class)
-                .setFirstResult((page - 1) * size)
+        int pageIndex = Math.max(page - 1, 0);
+        return entityManager.createQuery("SELECT u FROM UserOrderJpaEntity u ORDER BY u.date DESC", UserOrderJpaEntity.class)
+                .setFirstResult(pageIndex * size)
                 .setMaxResults(size)
                 .getResultList();
     }

@@ -38,14 +38,14 @@ public class UserOrderRepositoryImpl implements UserOrderRepository {
 
     @Override
     public List<UserOrder> findAll() {
-        return userOrderJpaDao.findAll(0, 10).stream()
+        return userOrderJpaDao.findAll(1, 1000).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<UserOrder> findByUser(User user) {
-        return userOrderJpaDao.findAll(0, 1000).stream()
+        return userOrderJpaDao.findAll(1, 1000).stream()
                 .filter(order -> order.getUser().getId().equals(user.getId()))
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
