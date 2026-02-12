@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import tienda_back.controller.mapper.UserMapper;
@@ -14,6 +15,7 @@ import tienda_back.domain.service.UserService;
 import tienda_back.domain.service.TokenService;
 import tienda_back.controller.webmodel.request.LoginRequest;
 import tienda_back.controller.webmodel.request.RegisterRequest;
+import tienda_back.controller.webmodel.request.UserRequest;
 import tienda_back.controller.webmodel.response.AuthResponse;
 import tienda_back.controller.webmodel.response.UserResponse;
 
@@ -64,8 +66,46 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<UserResponse> getById(@PathVariable UUID id) {
+        User user = userService.getById(id);
+        return ResponseEntity.ok(mapper.toUserResponse(user));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateProfile(@PathVariable UUID id, @RequestBody UserRequest request) {
+        User existingUser = userService.getById(id);
+
+        applyProfileUpdates(existingUser, request);
+
+        User updatedUser = userService.update(existingUser);
+        return ResponseEntity.ok(mapper.toUserResponse(updatedUser));
+    }
+
     @GetMapping("/count")
     public ResponseEntity<Long> countUsers() {
         return new ResponseEntity<>(userService.count(), org.springframework.http.HttpStatus.OK);
+    }
+
+    private void applyProfileUpdates(User user, UserRequest request) {
+        if (request == null) {
+            return;
+        }
+
+        if (request.name() != null) {
+            user.setName(request.name().trim());
+        }
+        if (request.email() != null) {
+            user.setEmail(request.email().trim().toLowerCase());
+        }
+        if (request.address() != null) {
+            user.setAddress(request.address().trim());
+        }
+        if (request.phone() != null) {
+            user.setPhone(request.phone().trim());
+        }
+        if (request.password() != null && !request.password().isBlank()) {
+            user.setPassword(request.password());
+        }
     }
 }
