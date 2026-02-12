@@ -8,20 +8,19 @@ import tienda_back.domain.dto.CheckoutPaymentResultDto;
 import tienda_back.domain.exception.BusinessException;
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.CartProduct;
+import tienda_back.domain.model.UserOrder;
 import tienda_back.domain.service.CartProductService;
 import tienda_back.domain.service.CartService;
 import tienda_back.domain.service.PaymentCheckoutService;
-<<<<<<< Updated upstream
-=======
 import tienda_back.domain.service.UserOrderService;
 import tienda_back.infraestructura.payment.PaymentMicroservice;
 import tienda_back.infraestructura.payment.model.PagoTarjeta;
->>>>>>> Stashed changes
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,47 +28,29 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
     private final CartService cartService;
     private final CartProductService cartProductService;
-<<<<<<< Updated upstream
-    private final ObjectMapper objectMapper;
-    private final HttpClient httpClient;
-    private final String bankBaseUrl;
-=======
     private final UserOrderService userOrderService;
     private final PaymentMicroservice paymentMicroservice;
->>>>>>> Stashed changes
     private final String bankLogin;
     private final String bankApiToken;
     private final String destinationIban;
     private final String paymentConcept;
+    private final BigDecimal shippingFee;
+    private final BigDecimal freeShippingThreshold;
 
     @Autowired
     public PaymentCheckoutServiceImpl(
             CartService cartService,
             CartProductService cartProductService,
-<<<<<<< Updated upstream
-            ObjectMapper objectMapper,
-            @Value("${bank.integration.base-url:http://localhost:8081}") String bankBaseUrl,
-=======
             UserOrderService userOrderService,
             PaymentMicroservice paymentMicroservice,
->>>>>>> Stashed changes
             @Value("${bank.integration.login:Marta}") String bankLogin,
             @Value("${bank.integration.api-token:token1}") String bankApiToken,
             @Value("${bank.integration.destination-iban:ES33 0081 5220 0001 2345 6789}") String destinationIban,
-            @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept) {
+            @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept,
+            @Value("${checkout.shipping-fee:6.99}") double shippingFee,
+            @Value("${checkout.free-shipping-threshold:80}") double freeShippingThreshold) {
         this.cartService = cartService;
         this.cartProductService = cartProductService;
-<<<<<<< Updated upstream
-        this.objectMapper = objectMapper;
-        this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(5))
-                .build();
-        this.bankBaseUrl = normalizeBaseUrl(bankBaseUrl);
-        this.bankLogin = bankLogin;
-        this.bankPassword = bankPassword;
-        this.destinationIban = normalizeIban(destinationIban);
-        this.paymentConcept = paymentConcept;
-=======
         this.userOrderService = userOrderService;
         this.paymentMicroservice = paymentMicroservice;
         this.bankLogin = requireNotBlank(bankLogin, "La configuracion del banco no es valida (login).");
@@ -78,7 +59,6 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         this.paymentConcept = isBlank(paymentConcept) ? "Compra Nibiru Home" : paymentConcept.trim();
         this.shippingFee = BigDecimal.valueOf(Math.max(shippingFee, 0)).setScale(2, RoundingMode.HALF_UP);
         this.freeShippingThreshold = BigDecimal.valueOf(Math.max(freeShippingThreshold, 0)).setScale(2, RoundingMode.HALF_UP);
->>>>>>> Stashed changes
     }
 
     @Override
@@ -87,16 +67,6 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
             throw new BusinessException("Solicitud de pago invalida.");
         }
 
-<<<<<<< Updated upstream
-        BigDecimal total = calculateTotal(items);
-        if (total.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new BusinessException("El total del carrito no es valido.");
-        }
-
-        String apiToken = loginAndGetApiToken();
-        payWithBank(request, total, apiToken);
-        clearCart(cart, items);
-=======
         String userId = requireNotBlank(request.userId(), "El usuario es obligatorio.");
         String cardHolder = requireNotBlank(request.cardHolder(), "El titular de la tarjeta es obligatorio.");
         String cardNumber = formatCardNumber(requireNotBlank(request.cardNumber(), "El numero de tarjeta es obligatorio."));
@@ -116,7 +86,6 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
         registerOrder(cart, total);
         closePaidCartAndCreateNewActiveCart(cart, total);
->>>>>>> Stashed changes
 
         return new CheckoutPaymentResultDto("Pago completado", total);
     }
@@ -126,29 +95,7 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
             throw new BusinessException("El carrito esta vacio.");
         }
 
-<<<<<<< Updated upstream
-        if (isBlank(request.userId())) {
-            throw new BusinessException("El usuario es obligatorio.");
-        }
-        if (isBlank(request.cardHolder())) {
-            throw new BusinessException("El titular de la tarjeta es obligatorio.");
-        }
-        if (isBlank(request.cardNumber())) {
-            throw new BusinessException("El numero de tarjeta es obligatorio.");
-        }
-        if (isBlank(request.expirationMonth())) {
-            throw new BusinessException("La fecha de caducidad es obligatoria.");
-        }
-        if (isBlank(request.cvv())) {
-            throw new BusinessException("El CVV es obligatorio.");
-        }
-    }
-
-    private BigDecimal calculateTotal(List<CartProduct> items) {
-        BigDecimal total = BigDecimal.ZERO;
-=======
         BigDecimal subtotal = BigDecimal.ZERO;
->>>>>>> Stashed changes
         for (CartProduct item : items) {
             if (item == null || item.getProduct() == null || item.getProduct().getPrice() == null) {
                 continue;
@@ -159,22 +106,9 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
             subtotal = subtotal.add(price.multiply(quantity));
         }
 
-<<<<<<< Updated upstream
-    private String loginAndGetApiToken() {
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("login", bankLogin);
-        payload.put("password", bankPassword);
-
-        JsonNode response = sendBankRequest("/api/clients/login", payload, true);
-        String apiToken = response.path("apiToken").asText("").trim();
-
-        if (apiToken.isBlank()) {
-            throw new BusinessException("No se pudo obtener el token de autorizacion del banco.");
-=======
         subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
         if (subtotal.compareTo(BigDecimal.ZERO) <= 0) {
             throw new BusinessException("El total del carrito no es valido.");
->>>>>>> Stashed changes
         }
 
         BigDecimal shipping = subtotal.compareTo(freeShippingThreshold) >= 0
@@ -184,16 +118,30 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         return subtotal.add(shipping).setScale(2, RoundingMode.HALF_UP);
     }
 
-    private void clearCart(Cart cart, List<CartProduct> items) {
-        for (CartProduct item : items) {
-            if (item != null && item.getId() != null) {
-                cartProductService.deleteById(item.getId());
-            }
-        }
+    private void registerOrder(Cart cart, BigDecimal total) {
+        UserOrder order = new UserOrder();
+        order.setUser(cart.getUser());
+        order.setCart(cart);
+        order.setTotal(total.doubleValue());
+        order.setDate(new Date());
+        order.setStatus("PAID");
+        userOrderService.create(order);
+    }
 
-        cart.setTotal(0f);
-        cart.setPrice(0f);
-        cartService.update(cart);
+    private void closePaidCartAndCreateNewActiveCart(Cart paidCart, BigDecimal total) {
+        float finalAmount = total.floatValue();
+        paidCart.setTotal(finalAmount);
+        paidCart.setPrice(finalAmount);
+        paidCart.setStatus("COMPLETED");
+        cartService.update(paidCart);
+
+        Cart newActiveCart = new Cart();
+        newActiveCart.setUser(paidCart.getUser());
+        newActiveCart.setStatus("ACTIVE");
+        newActiveCart.setDate(new Date());
+        newActiveCart.setTotal(0f);
+        newActiveCart.setPrice(0f);
+        cartService.create(newActiveCart);
     }
 
     private String normalizeIban(String iban) {
