@@ -17,6 +17,7 @@ import tienda_back.controller.webmodel.request.LoginRequest;
 import tienda_back.controller.webmodel.request.RegisterRequest;
 import tienda_back.controller.webmodel.request.UserRequest;
 import tienda_back.controller.webmodel.response.AuthResponse;
+import tienda_back.controller.webmodel.response.RegisterResponse;
 import tienda_back.controller.webmodel.response.UserResponse;
 
 @RestController
@@ -34,13 +35,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<RegisterResponse> register(@RequestBody RegisterRequest request) {
 
         UserRegisterDto dto = mapper.toRegisterDto(request);
 
         userService.register(dto);
 
-        return ResponseEntity.ok("Usuario registrado correctamente");
+        return ResponseEntity.status(201).body(new RegisterResponse("Usuario registrado correctamente"));
     }
 
     @PostMapping("/login")
