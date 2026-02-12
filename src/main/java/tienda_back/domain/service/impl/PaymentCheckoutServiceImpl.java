@@ -1,8 +1,6 @@
 package tienda_back.domain.service.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import tienda_back.domain.dto.CheckoutPaymentDto;
@@ -15,14 +13,11 @@ import tienda_back.domain.service.CartProductService;
 import tienda_back.domain.service.CartService;
 import tienda_back.domain.service.PaymentCheckoutService;
 import tienda_back.domain.service.UserOrderService;
+import tienda_back.infraestructura.payment.PaymentMicroservice;
+import tienda_back.infraestructura.payment.model.PagoTarjeta;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.Date;
@@ -34,24 +29,22 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
     private final CartService cartService;
     private final CartProductService cartProductService;
     private final UserOrderService userOrderService;
-    private final ObjectMapper objectMapper;
-    private final HttpClient httpClient;
-    private final String bankBaseUrl;
+    private final PaymentMicroservice paymentMicroservice;
     private final String bankLogin;
-    private final String bankPassword;
+    private final String bankApiToken;
     private final String destinationIban;
     private final String paymentConcept;
     private final BigDecimal shippingFee;
     private final BigDecimal freeShippingThreshold;
 
+    @Autowired
     public PaymentCheckoutServiceImpl(
             CartService cartService,
             CartProductService cartProductService,
             UserOrderService userOrderService,
-            ObjectMapper objectMapper,
-            @Value("${bank.integration.base-url:http://localhost:8081}") String bankBaseUrl,
+            PaymentMicroservice paymentMicroservice,
             @Value("${bank.integration.login:Marta}") String bankLogin,
-            @Value("${bank.integration.password:marta123}") String bankPassword,
+            @Value("${bank.integration.api-token:token1}") String bankApiToken,
             @Value("${bank.integration.destination-iban:ES33 0081 5220 0001 2345 6789}") String destinationIban,
             @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept,
             @Value("${checkout.shipping-fee:6.99}") double shippingFee,
@@ -59,68 +52,50 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         this.cartService = cartService;
         this.cartProductService = cartProductService;
         this.userOrderService = userOrderService;
-        this.objectMapper = objectMapper;
-        this.httpClient = HttpClient.newBuilder()
-                .connectTimeout(Duration.ofSeconds(5))
-                .build();
-        this.bankBaseUrl = normalizeBaseUrl(bankBaseUrl);
-        this.bankLogin = bankLogin;
-        this.bankPassword = bankPassword;
+        this.paymentMicroservice = paymentMicroservice;
+        this.bankLogin = requireNotBlank(bankLogin, "La configuracion del banco no es valida (login).");
+        this.bankApiToken = requireNotBlank(bankApiToken, "La configuracion del banco no es valida (api token).");
         this.destinationIban = normalizeIban(destinationIban);
-        this.paymentConcept = paymentConcept;
+        this.paymentConcept = isBlank(paymentConcept) ? "Compra Nibiru Home" : paymentConcept.trim();
         this.shippingFee = BigDecimal.valueOf(Math.max(shippingFee, 0)).setScale(2, RoundingMode.HALF_UP);
         this.freeShippingThreshold = BigDecimal.valueOf(Math.max(freeShippingThreshold, 0)).setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
     public CheckoutPaymentResultDto checkout(CheckoutPaymentDto request) {
-        validateRequest(request);
-
-        Cart cart = cartService.getActiveCart(request.userId());
-        List<CartProduct> items = cartProductService.getByCart(cart);
-        if (items.isEmpty()) {
-            throw new BusinessException("El carrito esta vacio.");
+        if (request == null) {
+            throw new BusinessException("Solicitud de pago invalida.");
         }
 
-        BigDecimal subtotal = calculateSubtotal(items);
-        if (subtotal.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new BusinessException("El total del carrito no es valido.");
-        }
-        BigDecimal shipping = calculateShipping(subtotal);
-        BigDecimal total = subtotal.add(shipping).setScale(2, RoundingMode.HALF_UP);
+        String userId = requireNotBlank(request.userId(), "El usuario es obligatorio.");
+        String cardHolder = requireNotBlank(request.cardHolder(), "El titular de la tarjeta es obligatorio.");
+        String cardNumber = formatCardNumber(requireNotBlank(request.cardNumber(), "El numero de tarjeta es obligatorio."));
+        String expirationDate = buildExpirationDate(requireNotBlank(request.expirationMonth(), "La fecha de caducidad es obligatoria."));
+        int cvv = parseCvv(requireNotBlank(request.cvv(), "El CVV es obligatorio."));
 
-        String apiToken = loginAndGetApiToken();
-        payWithBank(request, total, apiToken);
+        Cart cart = cartService.getActiveCart(userId);
+        BigDecimal total = calculateTotal(cartProductService.getByCart(cart));
+
+        PagoTarjeta paymentRequest = new PagoTarjeta(
+                new PagoTarjeta.Autorizacion(bankLogin, bankApiToken),
+                new PagoTarjeta.Origen(null, cardNumber, expirationDate, cvv, cardHolder),
+                new PagoTarjeta.Destino(destinationIban),
+                new PagoTarjeta.Pago(total, paymentConcept));
+
+        paymentMicroservice.payment(paymentRequest);
+
         registerOrder(cart, total);
         closePaidCartAndCreateNewActiveCart(cart, total);
 
         return new CheckoutPaymentResultDto("Pago completado", total);
     }
 
-    private void validateRequest(CheckoutPaymentDto request) {
-        if (request == null) {
-            throw new BusinessException("Solicitud de pago invalida.");
+    private BigDecimal calculateTotal(List<CartProduct> items) {
+        if (items == null || items.isEmpty()) {
+            throw new BusinessException("El carrito esta vacio.");
         }
 
-        if (isBlank(request.userId())) {
-            throw new BusinessException("El usuario es obligatorio.");
-        }
-        if (isBlank(request.cardHolder())) {
-            throw new BusinessException("El titular de la tarjeta es obligatorio.");
-        }
-        if (isBlank(request.cardNumber())) {
-            throw new BusinessException("El numero de tarjeta es obligatorio.");
-        }
-        if (isBlank(request.expirationMonth())) {
-            throw new BusinessException("La fecha de caducidad es obligatoria.");
-        }
-        if (isBlank(request.cvv())) {
-            throw new BusinessException("El CVV es obligatorio.");
-        }
-    }
-
-    private BigDecimal calculateSubtotal(List<CartProduct> items) {
-        BigDecimal total = BigDecimal.ZERO;
+        BigDecimal subtotal = BigDecimal.ZERO;
         for (CartProduct item : items) {
             if (item == null || item.getProduct() == null || item.getProduct().getPrice() == null) {
                 continue;
@@ -128,117 +103,19 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
             BigDecimal price = BigDecimal.valueOf(item.getProduct().getPrice());
             BigDecimal quantity = BigDecimal.valueOf(Math.max(item.getQuantity(), 0));
-            total = total.add(price.multiply(quantity));
+            subtotal = subtotal.add(price.multiply(quantity));
         }
-        return total.setScale(2, RoundingMode.HALF_UP);
-    }
 
-    private BigDecimal calculateShipping(BigDecimal subtotal) {
+        subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
         if (subtotal.compareTo(BigDecimal.ZERO) <= 0) {
-            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
-        }
-        if (subtotal.compareTo(freeShippingThreshold) >= 0) {
-            return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
-        }
-        return shippingFee;
-    }
-
-    private String loginAndGetApiToken() {
-        ObjectNode payload = objectMapper.createObjectNode();
-        payload.put("login", bankLogin);
-        payload.put("password", bankPassword);
-
-        JsonNode response = sendBankRequest("/api/clients/login", payload, true);
-        String apiToken = response.path("apiToken").asText("").trim();
-
-        if (apiToken.isBlank()) {
-            throw new BusinessException("No se pudo obtener el token de autorizacion del banco.");
+            throw new BusinessException("El total del carrito no es valido.");
         }
 
-        return apiToken;
-    }
+        BigDecimal shipping = subtotal.compareTo(freeShippingThreshold) >= 0
+                ? BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP)
+                : shippingFee;
 
-    private void payWithBank(CheckoutPaymentDto request, BigDecimal total, String apiToken) {
-        ObjectNode payload = objectMapper.createObjectNode();
-
-        ObjectNode autorizacion = objectMapper.createObjectNode();
-        autorizacion.put("login", bankLogin);
-        autorizacion.put("api_token", apiToken);
-        payload.set("autorizacion", autorizacion);
-
-        ObjectNode origen = objectMapper.createObjectNode();
-        origen.putNull("id");
-        origen.put("number", formatCardNumber(request.cardNumber()));
-        origen.put("expirationDate", buildExpirationDate(request.expirationMonth()));
-        origen.put("cvv", parseCvv(request.cvv()));
-        origen.put("name", request.cardHolder().trim());
-        payload.set("origen", origen);
-
-        ObjectNode destino = objectMapper.createObjectNode();
-        destino.put("iban", destinationIban);
-        payload.set("destino", destino);
-
-        ObjectNode pago = objectMapper.createObjectNode();
-        pago.put("importe", total);
-        pago.put("concepto", paymentConcept);
-        payload.set("pago", pago);
-
-        sendBankRequest("/api/pagoTarjeta", payload, false);
-    }
-
-    private JsonNode sendBankRequest(String path, JsonNode payload, boolean parseJsonResponse) {
-        try {
-            HttpRequest request = HttpRequest.newBuilder(URI.create(bankBaseUrl + path))
-                    .header("Content-Type", "application/json")
-                    .timeout(Duration.ofSeconds(10))
-                    .POST(HttpRequest.BodyPublishers.ofString(objectMapper.writeValueAsString(payload)))
-                    .build();
-
-            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() / 100 != 2) {
-                throw new BusinessException(extractBankError(response.statusCode(), response.body()));
-            }
-
-            if (!parseJsonResponse || response.body() == null || response.body().isBlank()) {
-                return objectMapper.createObjectNode();
-            }
-
-            return objectMapper.readTree(response.body());
-        } catch (BusinessException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new BusinessException("No se pudo conectar con el banco: " + ex.getMessage());
-        }
-    }
-
-    private String extractBankError(int statusCode, String body) {
-        if (body != null && !body.isBlank()) {
-            try {
-                JsonNode node = objectMapper.readTree(body);
-                String error = node.path("error").asText("").trim();
-                String message = node.path("message").asText("").trim();
-
-                if (!error.isBlank() && !message.isBlank()) {
-                    return error + ": " + message;
-                }
-                if (!error.isBlank()) {
-                    return error;
-                }
-                if (!message.isBlank()) {
-                    return message;
-                }
-
-                JsonNode details = node.path("details");
-                if (details.isArray() && !details.isEmpty()) {
-                    return details.get(0).asText("Error en pago");
-                }
-            } catch (Exception ignored) {
-                // body is not JSON
-            }
-        }
-
-        return "Error en el banco (HTTP " + statusCode + ")";
+        return subtotal.add(shipping).setScale(2, RoundingMode.HALF_UP);
     }
 
     private void registerOrder(Cart cart, BigDecimal total) {
@@ -267,23 +144,14 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         cartService.create(newActiveCart);
     }
 
-    private String normalizeBaseUrl(String baseUrl) {
-        if (isBlank(baseUrl)) {
-            throw new BusinessException("La configuracion del banco no es valida (base URL).");
-        }
-        return baseUrl.trim().replaceAll("/+$", "");
-    }
-
     private String normalizeIban(String iban) {
         if (isBlank(iban)) {
             throw new BusinessException("La configuracion del banco no es valida (IBAN destino).");
         }
-
         String compact = iban.replaceAll("\\s+", "").toUpperCase();
         if (compact.length() < 15) {
             throw new BusinessException("La configuracion del banco no es valida (IBAN destino).");
         }
-
         return compact.replaceAll("(.{4})(?=.)", "$1 ").trim();
     }
 
@@ -305,7 +173,6 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
     private String buildExpirationDate(String expirationMonthValue) {
         String value = expirationMonthValue == null ? "" : expirationMonthValue.trim();
-
         try {
             LocalDate expirationDate;
             if (value.matches("^\\d{4}-\\d{2}$")) {
@@ -319,13 +186,19 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
             if (!expirationDate.isAfter(LocalDate.now())) {
                 throw new BusinessException("La tarjeta esta caducada.");
             }
-
             return expirationDate.toString();
         } catch (BusinessException ex) {
             throw ex;
         } catch (Exception ex) {
             throw new BusinessException("La fecha de caducidad no es valida.");
         }
+    }
+
+    private String requireNotBlank(String value, String message) {
+        if (isBlank(value)) {
+            throw new BusinessException(message);
+        }
+        return value.trim();
     }
 
     private boolean isBlank(String value) {
