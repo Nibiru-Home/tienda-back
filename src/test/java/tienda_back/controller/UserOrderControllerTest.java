@@ -11,6 +11,7 @@ import tienda_back.controller.webmodel.request.UserOrderRequest;
 import tienda_back.domain.model.UserOrder;
 import tienda_back.domain.service.UserOrderService;
 import tienda_back.domain.service.UserService;
+import tienda_back.domain.service.CartProductService;
 
 import java.util.UUID;
 
@@ -33,6 +34,9 @@ class UserOrderControllerTest {
 
     @MockitoBean
     private UserService userService;
+
+    @MockitoBean
+    private CartProductService cartProductService;
 
     @Test
     void createOrder_ShouldReturnCreatedOrder() throws Exception {

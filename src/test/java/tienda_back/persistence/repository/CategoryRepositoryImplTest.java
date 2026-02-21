@@ -69,7 +69,7 @@ public class CategoryRepositoryImplTest {
     @Test
     void testFindByName_Found() {
         CategoryJpaEntity entity = new CategoryJpaEntity(1, "Electronics");
-        when(categoryJpaDao.findByName("Electronics")).thenReturn(Optional.of(entity));
+        when(categoryJpaDao.findByNameIgnoreCase("Electronics")).thenReturn(Optional.of(entity));
 
         Optional<Category> result = categoryRepository.findByName("Electronics");
 

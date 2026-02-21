@@ -23,9 +23,11 @@ public class PaymentController {
     }
 
     @PostMapping("/checkout")
-    public ResponseEntity<CheckoutPaymentResponse> checkout(@Valid @RequestBody CheckoutPaymentRequest request) {
+    public ResponseEntity<CheckoutPaymentResponse> checkout(@Valid @RequestBody CheckoutPaymentRequest request,
+            jakarta.servlet.http.HttpServletRequest httpRequest) {
+        java.util.UUID userId = (java.util.UUID) httpRequest.getAttribute("USER_ID");
         CheckoutPaymentResultDto result = paymentCheckoutService.checkout(new CheckoutPaymentDto(
-                request.userId(),
+                userId.toString(),
                 request.cardNumber(),
                 request.expirationMonth(),
                 request.cvv(),

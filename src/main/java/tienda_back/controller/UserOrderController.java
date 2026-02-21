@@ -15,6 +15,7 @@ import tienda_back.domain.model.UserOrder;
 import tienda_back.domain.service.CartProductService;
 import tienda_back.domain.service.UserOrderService;
 import tienda_back.domain.service.UserService;
+import tienda_back.domain.mapper.CartProductMapper;
 
 import java.util.List;
 import java.util.UUID;
@@ -98,7 +99,7 @@ public class UserOrderController {
         }
 
         List<CartProductDto> items = cartProductService.getByCart(order.getCart()).stream()
-                .map(cp -> tienda_back.domain.mapper.CartProductMapper.getInstance().cartProductToCartProductDto(cp))
+                .map(cp -> CartProductMapper.getInstance().cartProductToCartProductDto(cp))
                 .collect(Collectors.toList());
 
         CartDto cart = dto.cart();

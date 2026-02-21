@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import tienda_back.domain.dto.CartProductDto;
+import tienda_back.domain.dto.CartDto;
+import tienda_back.domain.dto.ProductDto;
 import tienda_back.domain.model.CartProduct;
 import tienda_back.domain.service.CartProductService;
 
@@ -73,12 +75,14 @@ class CartProductControllerTest {
     class CreateCartProductTests {
         @Test
         void createCartProduct_ShouldReturnCreatedCartProduct() throws Exception {
-            CartProductDto inputDto = new CartProductDto(null, 2, null, null);
+            CartDto cartDto = new CartDto(1L, null, null, null, null, null, null);
+            ProductDto productDto = new ProductDto(1L, null, null, null, 0, null, null, null, null, null);
+            CartProductDto inputDto = new CartProductDto(null, 2, cartDto, productDto);
             CartProduct createdCartProduct = new CartProduct();
             createdCartProduct.setId(1L);
             createdCartProduct.setQuantity(2);
 
-            when(cartProductService.create(any(CartProduct.class))).thenReturn(createdCartProduct);
+            when(cartProductService.create(1L, 1L, 2)).thenReturn(createdCartProduct);
 
             mockMvc.perform(post("/api/cart-products")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +98,9 @@ class CartProductControllerTest {
         @Test
         void updateCartProduct_ShouldReturnUpdatedCartProduct() throws Exception {
             Long id = 1L;
-            CartProductDto inputDto = new CartProductDto(id, 3, null, null);
+            CartDto cartDto = new CartDto(1L, null, null, null, null, null, null);
+            ProductDto productDto = new ProductDto(1L, null, null, null, 0, null, null, null, null, null);
+            CartProductDto inputDto = new CartProductDto(id, 3, cartDto, productDto);
             CartProduct updatedCartProduct = new CartProduct();
             updatedCartProduct.setId(id);
             updatedCartProduct.setQuantity(3);

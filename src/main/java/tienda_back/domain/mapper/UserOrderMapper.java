@@ -7,7 +7,7 @@ public class UserOrderMapper {
 
     private static UserOrderMapper INSTANCE;
     private final UserMapper userMapper = UserMapper.getInstance();
-    private final tienda_back.domain.mapper.CartMapper cartMapper = tienda_back.domain.mapper.CartMapper.getInstance();
+    private final CartMapper cartMapper = CartMapper.getInstance();
 
     private UserOrderMapper() {
     }

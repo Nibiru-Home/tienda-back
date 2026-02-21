@@ -43,6 +43,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void deleteById(Long id) {
+        if (!categoryRepository.existsById(id)) {
+            throw new ResourceNotFoundException("La categoria con el id: " + id + " no existe");
+        }
         categoryRepository.deleteById(id);
     }
 
