@@ -48,5 +48,5 @@ public class UserOrderMapper {
         return domain;
     }
 
-    // Reverse mapping if needed, though mostly we might create FROM request.
+    
 }

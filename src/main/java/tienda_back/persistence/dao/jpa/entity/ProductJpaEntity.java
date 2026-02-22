@@ -20,7 +20,6 @@ public class ProductJpaEntity {
     private String name;
     private Double price;
     private String description;
-    private Integer stock;
     private String style;
     private String image;
 
@@ -36,13 +35,12 @@ public class ProductJpaEntity {
         this.name = name;
     }
 
-    public ProductJpaEntity(Integer id, String name, Double price, String description, Integer stock, String style,
+    public ProductJpaEntity(Integer id, String name, Double price, String description, String style,
             String image, CategoryJpaEntity category) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
-        this.stock = stock;
         this.style = style;
         this.image = image;
         this.category = category;
@@ -78,14 +76,6 @@ public class ProductJpaEntity {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
     }
 
     public String getStyle() {

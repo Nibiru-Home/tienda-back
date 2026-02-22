@@ -1,6 +1,5 @@
 package tienda_back.persistence.repository.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,22 +44,10 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public List<Product> findByNameContaining(String name) {
-
-        return Collections.emptyList();
-    }
-
-    @Override
     public List<Product> findByCategoryId(Long categoryId) {
         return productJpaDao.findByCategoryId(categoryId).stream()
                 .map(ProductMapper.getInstance()::productJpaEntityToProduct)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Product> findByPriceBetween(Double minPrice, Double maxPrice) {
-
-        return Collections.emptyList();
     }
 
     @Override

@@ -8,7 +8,6 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private int stock;
     private List<Category> categories;
     private List<Style> styles;
     private String image;
@@ -18,13 +17,12 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String name, String description, double price, int stock, List<Category> categories,
+    public Product(Long id, String name, String description, double price, List<Category> categories,
             List<Style> styles, String image) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.stock = stock;
         this.categories = (categories == null || categories.isEmpty()) ? new ArrayList<>() : categories;
         this.styles = (styles == null || styles.isEmpty()) ? new ArrayList<>() : styles;
         this.image = image;
@@ -60,14 +58,6 @@ public class Product {
 
     public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public int getStock() {
-        return stock;
-    }
-
-    public void setStock(int stock) {
-        this.stock = stock;
     }
 
     public List<Category> getCategories() {

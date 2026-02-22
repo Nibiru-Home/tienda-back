@@ -169,7 +169,7 @@ class UserServiceImplTest {
         void login_WithValidCredentials_ShouldReturnUser() {
             String email = "valid@example.com";
             String password = "mypassword";
-            // String hashed = hashPassword(password); // Removed hashing
+            
             User user = new User(UUID.randomUUID(), "User", email, password, "addr", "111", RoleUser.CUSTOMER);
             UserLoginDto loginDto = new UserLoginDto(email, password);
 
@@ -184,7 +184,7 @@ class UserServiceImplTest {
         void login_WithWrongPassword_ShouldThrowException() {
             String email = "valid@example.com";
             String password = "wrongpassword";
-            // String storedHash = hashPassword("correctpassword"); // Removed hashing
+            
             User user = new User(UUID.randomUUID(), "User", email, "correctpassword", "addr", "111", RoleUser.CUSTOMER);
             UserLoginDto loginDto = new UserLoginDto(email, password);
 
@@ -215,7 +215,7 @@ class UserServiceImplTest {
             userService.register(dto);
 
             verify(userRepository).save(argThat(user -> user.getEmail().equals(dto.email()) &&
-                    user.getPassword().equals(dto.password()) && // Expecting plain password
+                    user.getPassword().equals(dto.password()) && 
                     user.getName().equals(dto.name()) &&
                     user.getId() != null));
         }

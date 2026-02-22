@@ -71,7 +71,7 @@ public class UserMapper {
                 userDto.id() != null ? userDto.id() : UUID.randomUUID(),
                 userDto.name(),
                 userDto.email(),
-                "defaultPassword", // OR handle password differently or don't set it if updating
+                "defaultPassword", 
                 userDto.address(),
                 userDto.phone(),
                 userDto.role());

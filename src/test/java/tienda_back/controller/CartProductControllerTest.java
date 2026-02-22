@@ -76,7 +76,7 @@ class CartProductControllerTest {
         @Test
         void createCartProduct_ShouldReturnCreatedCartProduct() throws Exception {
             CartDto cartDto = new CartDto(1L, null, null, null, null, null, null);
-            ProductDto productDto = new ProductDto(1L, null, null, null, 0, null, null, null, null, null);
+            ProductDto productDto = new ProductDto(1L, null, null, null, null, null, null, null, null);
             CartProductDto inputDto = new CartProductDto(null, 2, cartDto, productDto);
             CartProduct createdCartProduct = new CartProduct();
             createdCartProduct.setId(1L);
@@ -99,7 +99,7 @@ class CartProductControllerTest {
         void updateCartProduct_ShouldReturnUpdatedCartProduct() throws Exception {
             Long id = 1L;
             CartDto cartDto = new CartDto(1L, null, null, null, null, null, null);
-            ProductDto productDto = new ProductDto(1L, null, null, null, 0, null, null, null, null, null);
+            ProductDto productDto = new ProductDto(1L, null, null, null, null, null, null, null, null);
             CartProductDto inputDto = new CartProductDto(id, 3, cartDto, productDto);
             CartProduct updatedCartProduct = new CartProduct();
             updatedCartProduct.setId(id);

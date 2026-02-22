@@ -12,11 +12,7 @@ public interface ProductRepository {
 
     List<Product> findAll();
 
-    List<Product> findByNameContaining(String name);
-
     List<Product> findByCategoryId(Long categoryId);
-
-    List<Product> findByPriceBetween(Double minPrice, Double maxPrice);
 
     void deleteById(Long id);
 

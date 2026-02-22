@@ -38,7 +38,7 @@ public class CartProductController {
 
     @PostMapping
     public ResponseEntity<CartProductDto> createCartProduct(@RequestBody CartProductDto cartProductDto) {
-        // Use the safe create method with IDs to avoid partial object issues
+        
         CartProduct createdCartProduct = cartProductService.create(
                 cartProductDto.cart().id(),
                 cartProductDto.product().id(),

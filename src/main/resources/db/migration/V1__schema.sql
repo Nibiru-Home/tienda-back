@@ -6,30 +6,25 @@ create table carts(
     date_cart date not null,
     status varchar(255) not null
 );
-
 create table cart_products(
     id int primary key auto_increment,
     cart_id int not null,
     product_id int not null,
     quantity int not null
 );
-
 create table categories(
     id int primary key auto_increment,
     name varchar(255) not null
 );
-
 create table products(
     id int primary key auto_increment,
     name varchar(255) not null,
     price double not null,
     description varchar(255) not null,
-    stock int not null,
     style varchar(255),
     image varchar(255),
     category_id int not null
 );
-
 create table users(
     id char(36) primary key,
     name varchar(255) not null,
@@ -39,7 +34,6 @@ create table users(
     address varchar(255) not null,
     role varchar(255) not null
 );
-
 create table sesions(
     id char(36) primary key,
     token_value varchar(255) not null unique,

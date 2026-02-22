@@ -34,17 +34,17 @@ public class UserMapper {
     }
 
     public UserDto userRequestToUserDto(UserRequest request) {
-        // Warning: ID and Role are not in UserRequest, setting null/default
-        // If UserRequest represents an existing user, we might need ID.
-        // For Cart creation, maybe we don't need full user info if we have ID.
-        // Assuming strict mapping of available fields.
+        
+        
+        
+        
         return new UserDto(
-                null, // ID unknown from UserRequest usually or handled elsewhere
+                null, 
                 request.name(),
                 request.email(),
                 request.address(),
                 request.phone(),
-                null // Role unknown
+                null 
         );
     }
 

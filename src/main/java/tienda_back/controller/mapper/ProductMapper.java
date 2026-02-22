@@ -28,13 +28,15 @@ public class ProductMapper {
                 productRequest.name(),
                 productRequest.description(),
                 productRequest.price(),
-                productRequest.stock(),
                 productRequest.image(),
-                null, // Images not yet supported in request
-                productRequest.category().stream().map(CategoryMapper.getInstance()::categoryRequestToCategoryDto)
-                        .toList(),
-                productRequest.styles().stream().map(style -> style.name()).toList(),
-                productRequest.rooms());
+                null, 
+                productRequest.category() == null ? java.util.Collections.emptyList()
+                        : productRequest.category().stream()
+                                .map(CategoryMapper.getInstance()::categoryRequestToCategoryDto)
+                                .toList(),
+                productRequest.styles() == null ? java.util.Collections.emptyList()
+                        : productRequest.styles().stream().map(style -> style.name()).toList(),
+                productRequest.rooms() == null ? java.util.Collections.emptyList() : productRequest.rooms());
     }
 
     public ProductResponse productDtoToProductResponse(ProductDto productDto) {
@@ -47,12 +49,14 @@ public class ProductMapper {
                 productDto.name(),
                 productDto.description(),
                 productDto.price(),
-                productDto.stock(),
                 productDto.image(),
                 productDto.images(),
-                productDto.category().stream().map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse)
-                        .toList(),
-                productDto.styles().stream().map(style -> Style.valueOf(style)).toList(),
-                productDto.rooms());
+                productDto.category() == null ? java.util.Collections.emptyList()
+                        : productDto.category().stream()
+                                .map(CategoryMapper.getInstance()::categoryDtoToCategoryResponse)
+                                .toList(),
+                productDto.styles() == null ? java.util.Collections.emptyList()
+                        : productDto.styles().stream().map(style -> Style.valueOf(style)).toList(),
+                productDto.rooms() == null ? java.util.Collections.emptyList() : productDto.rooms());
     }
 }

@@ -5,8 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
-//import org.springframework.web.servlet.config.annotation.CorsRegistry;
-//import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+
 import tienda_back.domain.repository.*;
 import tienda_back.domain.service.*;
 import tienda_back.domain.service.impl.*;
@@ -19,7 +19,7 @@ import tienda_back.persistence.repository.impl.*;
 @EntityScan(basePackages = "tienda_back.persistence.dao.jpa.entity")
 public class SpringConfig {
 
-    // JPA DAOs
+    
     @Bean
     public CartJpaDao cartJpaDao() {
         return new CartJpaDaoImpl();
@@ -50,7 +50,7 @@ public class SpringConfig {
         return new UserJpaDaoImpl();
     }
 
-    // Repositories
+    
     @Bean
     public CartRepository cartRepository(CartJpaDao cartJpaDao) {
         return new CartRepositoryImpl(cartJpaDao);
@@ -81,7 +81,7 @@ public class SpringConfig {
         return new UserRepositoryImpl(userJpaDao);
     }
 
-    // Services
+    
     @Bean
     public CartService cartService(CartRepository cartRepository, UserService userService) {
         return new CartServiceImpl(cartRepository, userService);

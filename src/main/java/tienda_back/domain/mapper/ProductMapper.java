@@ -28,7 +28,6 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getStock(),
                 product.getImage(),
                 product.getImages(),
                 product.getCategories().stream().map(CategoryMapper.getInstance()::categoryToCategoryDto).toList(),
@@ -46,7 +45,6 @@ public class ProductMapper {
         product.setName(productDto.name());
         product.setDescription(productDto.description());
         product.setPrice(productDto.price());
-        product.setStock(productDto.stock());
         product.setImage(productDto.image());
         if (productDto.images() != null) {
             product.setImages(productDto.images());

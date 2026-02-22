@@ -44,11 +44,11 @@ public class UserOrderController {
         UserOrderDto dto = controllerMapper.toDto(request);
         UserOrder domain = domainMapper.toDomain(dto);
 
-        // Note: For product details (price, etc.), Service should handle enrichment or
-        // validation
-        // based on product IDs if validation logic is there.
-        // Currently we trust request or partial mapping.
-        // Usually creation involves logic processing inside Service.
+        
+        
+        
+        
+        
 
         UserOrder created = userOrderService.create(domain);
         return new ResponseEntity<>(toResponseWithItems(created), HttpStatus.CREATED);
@@ -65,7 +65,7 @@ public class UserOrderController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<UserOrderResponse>> getOrdersByUser(@PathVariable String userId) {
-        // Assuming userId is UUID string
+        
         User user = userService.getById(UUID.fromString(userId));
         List<UserOrder> orders = userOrderService.getByUser(user);
 

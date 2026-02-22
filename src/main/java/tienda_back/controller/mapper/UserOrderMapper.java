@@ -31,16 +31,16 @@ public class UserOrderMapper {
         UserDto userDto = null;
         if (request.userId() != null) {
             try {
-                // Temporary UserDto with ID only
+                
                 userDto = new UserDto(UUID.fromString(request.userId()), null, null, request.address(), null, null);
             } catch (IllegalArgumentException e) {
-                // Ignore
+                
             }
         }
 
         CartDto cartDto = null;
         if (request.cartId() != null) {
-            // Create a dummy CartDto with just ID to be resolved by Service
+            
             cartDto = new CartDto(request.cartId(), null, null, null, null, null, new java.util.ArrayList<>());
         }
 

@@ -167,9 +167,9 @@ class UserRepositoryImplTest {
     class UpdateTests {
         @Test
         void update_ShouldDelegatToSave() {
-            // Since update implementation just calls save, we verify the specific behavior
-            // or just rely on save tests. However, let's test it specifically as per
-            // interface.
+            
+            
+            
             UUID id = UUID.randomUUID();
             User user = new User(id, "Update", "u@t.com", "pass", "addr", "123", RoleUser.CUSTOMER);
             UserJpaEntity updatedEntity = new UserJpaEntity();

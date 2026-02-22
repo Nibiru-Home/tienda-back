@@ -47,8 +47,8 @@ class UserOrderControllerTest {
         createdOrder.setId("order-123");
         createdOrder.setTotal(100.0);
         createdOrder.setStatus("PENDING");
-        // We can set dummy values for date etc if needed, mapper usually handles nulls
-        // gracefully
+        
+        
 
         when(userOrderService.create(any(UserOrder.class))).thenReturn(createdOrder);
 

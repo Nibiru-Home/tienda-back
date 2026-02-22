@@ -35,7 +35,7 @@ class CartProductMapperTest {
     void testCartProductRequestToCartProductDto_Success() {
         UserRequest userRequest = new UserRequest("John", "john@test.com", "pass", "addr", "123");
         CartRequest cartRequest = new CartRequest(1L, 100.0f, 90.0f, new Date(), "PENDING", userRequest);
-        ProductRequest productRequest = new ProductRequest(1L, "Product", "Desc", 50.0, 10, "image.jpg",
+        ProductRequest productRequest = new ProductRequest(1L, "Product", "Desc", 50.0, "image.jpg",
                 Collections.emptyList(),
                 Collections.singletonList(Style.MODERNO),
                 Collections.emptyList());
@@ -62,7 +62,7 @@ class CartProductMapperTest {
         UserDto userDto = new UserDto(
                 UUID.randomUUID(), "John", "john@example.com", "Address", "123456", RoleUser.CUSTOMER);
         CartDto cartDto = new CartDto(1L, 100f, 90f, new Date(), "PENDING", userDto, new java.util.ArrayList<>());
-        ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, 10, "image.jpg",
+        ProductDto productDto = new ProductDto(1L, "Product", "Desc", 50.0, "image.jpg",
                 Collections.emptyList(),
                 Collections.emptyList(),
                 Collections.singletonList("MODERNO"),

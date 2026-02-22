@@ -1,14 +1,13 @@
 package tienda_back.domain.mapper;
 
 import org.junit.jupiter.api.Test;
-import tienda_back.controller.mapper.ProductMapper;
-import tienda_back.controller.webmodel.request.CategoryRequest;
-import tienda_back.controller.webmodel.request.ProductRequest;
-import tienda_back.controller.webmodel.response.ProductResponse;
 import tienda_back.domain.dto.CategoryDto;
 import tienda_back.domain.dto.ProductDto;
+import tienda_back.domain.model.Category;
+import tienda_back.domain.model.Product;
+import tienda_back.domain.model.Style;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,100 +18,111 @@ class ProductMapperTest {
     void testGetInstance_ReturnsSameInstance() {
         ProductMapper instance1 = ProductMapper.getInstance();
         ProductMapper instance2 = ProductMapper.getInstance();
-
         assertSame(instance1, instance2, "getInstance should return the same instance");
     }
 
     @Test
-    void testProductRequestToProductDto_WithNullRequest_ReturnsNull() {
-        ProductMapper mapper = ProductMapper.getInstance();
-        ProductDto result = mapper.productRequestToProductDto(null);
-        assertNull(result, "Mapping null request should return null");
+    void testProductToProductDto_WithNull_ReturnsNull() {
+        assertNull(ProductMapper.getInstance().productToProductDto(null));
     }
 
     @Test
-    void testProductDtoToProductResponse_WithNullDto_ReturnsNull() {
-        ProductMapper mapper = ProductMapper.getInstance();
-        ProductResponse result = mapper.productDtoToProductResponse(null);
-        assertNull(result, "Mapping null dto should return null");
+    void testProductDtoToProduct_WithNull_ReturnsNull() {
+        assertNull(ProductMapper.getInstance().productDtoToProduct(null));
     }
 
     @Test
-    void testProductRequestToProductDto_MapsCorrectly() {
-        ProductMapper mapper = ProductMapper.getInstance();
+    void testProductToProductDto_MapsCorrectly() {
+        Product product = new Product();
+        product.setId(10L);
+        product.setName("Mesa");
+        product.setDescription("Mesa de comedor");
+        product.setPrice(120.5);
+        product.setImage("mesa.jpg");
+        product.setImages(Collections.singletonList("mesa-detalles.jpg"));
 
-        // Create CategoryRequest list
-        List<CategoryRequest> categories = new ArrayList<>();
-        categories.add(new CategoryRequest(1L, "Electronics"));
-        categories.add(new CategoryRequest(2L, "Computing"));
+        Category cat = new Category();
+        cat.setId(1L);
+        cat.setName("Hogar");
+        product.setCategories(Collections.singletonList(cat));
 
-        // Create ProductRequest
-        ProductRequest request = new ProductRequest(
-                10L,
-                "Laptop",
-                "High performance laptop",
-                999.99,
-                50,
-                "image.jpg",
-                categories,
-                new ArrayList<>(),
-                new ArrayList<>());
+        product.setStyles(Collections.singletonList(Style.MODERNO));
+        product.setRooms(Collections.singletonList("Comedor"));
 
-        // Execute mapping
-        ProductDto result = mapper.productRequestToProductDto(request);
+        ProductDto dto = ProductMapper.getInstance().productToProductDto(product);
 
-        // Verify
-        assertNotNull(result);
-        assertEquals(request.id(), result.id());
-        assertEquals(request.name(), result.name());
-        assertEquals(request.description(), result.description());
-        assertEquals(request.price(), result.price());
-        assertEquals(request.stock(), result.stock());
+        assertNotNull(dto);
+        assertEquals(10L, dto.id());
+        assertEquals("Mesa", dto.name());
+        assertEquals("Mesa de comedor", dto.description());
+        assertEquals(120.5, dto.price());
+        assertEquals("mesa.jpg", dto.image());
 
-        // Verify Categories
-        assertNotNull(result.category());
-        assertEquals(2, result.category().size());
-        assertEquals(categories.get(0).id(), result.category().get(0).id());
-        assertEquals(categories.get(0).name(), result.category().get(0).name());
-        assertEquals(categories.get(1).id(), result.category().get(1).id());
+        assertNotNull(dto.images());
+        assertEquals("mesa-detalles.jpg", dto.images().get(0));
+
+        assertNotNull(dto.category());
+        assertEquals(1, dto.category().size());
+        assertEquals(1L, dto.category().get(0).id());
+        assertEquals("Hogar", dto.category().get(0).name());
+
+        assertNotNull(dto.styles());
+        assertEquals("MODERNO", dto.styles().get(0));
+
+        assertNotNull(dto.rooms());
+        assertEquals("Comedor", dto.rooms().get(0));
     }
 
     @Test
-    void testProductDtoToProductResponse_MapsCorrectly() {
-        ProductMapper mapper = ProductMapper.getInstance();
-
-        // Create CategoryDto list
-        List<CategoryDto> categories = new ArrayList<>();
-        categories.add(new CategoryDto(3L, "Books"));
-
-        // Create ProductDto
+    void testProductDtoToProduct_MapsCorrectly() {
+        CategoryDto catDto = new CategoryDto(2L, "Jardín");
         ProductDto dto = new ProductDto(
                 20L,
-                "Novel",
-                "Best selling novel",
-                15.50,
-                100,
-                "image.jpg",
-                new ArrayList<>(),
-                categories,
-                new ArrayList<>(),
-                new ArrayList<>());
+                "Silla",
+                "Silla exterior",
+                45.0,
+                "silla.jpg",
+                List.of("silla2.jpg", "silla3.jpg"),
+                Collections.singletonList(catDto),
+                Collections.singletonList("VINTAGE"),
+                Collections.singletonList("Terraza"));
 
-        // Execute mapping
-        ProductResponse result = mapper.productDtoToProductResponse(dto);
+        Product product = ProductMapper.getInstance().productDtoToProduct(dto);
 
-        // Verify
-        assertNotNull(result);
-        assertEquals(dto.id(), result.id());
-        assertEquals(dto.name(), result.name());
-        assertEquals(dto.description(), result.description());
-        assertEquals(dto.price(), result.price());
-        assertEquals(dto.stock(), result.stock());
+        assertNotNull(product);
+        assertEquals(20L, product.getId());
+        assertEquals("Silla", product.getName());
+        assertEquals("Silla exterior", product.getDescription());
+        assertEquals(45.0, product.getPrice());
+        assertEquals("silla.jpg", product.getImage());
 
-        // Verify Categories
-        assertNotNull(result.category());
-        assertEquals(1, result.category().size());
-        assertEquals(categories.get(0).id(), result.category().get(0).id());
-        assertEquals(categories.get(0).name(), result.category().get(0).name());
+        assertNotNull(product.getImages());
+        assertEquals(2, product.getImages().size());
+        assertEquals("silla2.jpg", product.getImages().get(0));
+
+        assertNotNull(product.getCategories());
+        assertEquals(1, product.getCategories().size());
+        assertEquals(2L, product.getCategories().get(0).getId());
+        assertEquals("Jardín", product.getCategories().get(0).getName());
+
+        assertNotNull(product.getStyles());
+        assertEquals(Style.VINTAGE, product.getStyles().get(0));
+
+        assertNotNull(product.getRooms());
+        assertEquals("Terraza", product.getRooms().get(0));
+    }
+
+    @Test
+    void testProductDtoToProduct_WithNullLists_IgnoresThem() {
+        ProductDto dto = new ProductDto(
+                1L, "Test", "Test", 10.0, "test.jpg", null, null, null, null);
+
+        Product product = ProductMapper.getInstance().productDtoToProduct(dto);
+
+        assertNotNull(product);
+        assertEquals("Test", product.getName());
+        assertNull(product.getImages());
+        
+        
     }
 }

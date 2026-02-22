@@ -36,8 +36,8 @@ class UserMapperTest {
         assertNotNull(result);
         assertEquals(user.getName(), result.name());
         assertEquals(user.getEmail(), result.email());
-        // assertEquals(user.getPassword(), result.password()); // UserDto has no
-        // password
+        
+        
         assertEquals(user.getAddress(), result.address());
         assertEquals(user.getPhone(), result.phone());
     }

@@ -47,16 +47,16 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrder.setStatus("PENDING");
         }
 
-        // Enrich with Cart if present
+        
         if (userOrder.getCart() != null && userOrder.getCart().getId() != null) {
             tienda_back.domain.model.Cart cart = cartRepository.findById(userOrder.getCart().getId()).orElse(null);
             if (cart != null) {
                 userOrder.setCart(cart);
-                // Inherit total from cart if not set (or override)
+                
                 if (userOrder.getTotal() == null) {
                     userOrder.setTotal(cart.getTotal() != null ? Double.valueOf(cart.getTotal()) : 0.0);
                 }
-                // Link User from Cart if not set
+                
                 if (userOrder.getUser() == null) {
                     userOrder.setUser(cart.getUser());
                 }
