@@ -1,8 +1,5 @@
 package tienda_back.domain.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import tienda_back.domain.dto.CheckoutPaymentDto;
 import tienda_back.domain.dto.CheckoutPaymentResultDto;
 import tienda_back.domain.exception.BusinessException;
@@ -23,7 +20,6 @@ import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 
-@Service
 public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
     private final CartService cartService;
@@ -37,18 +33,17 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
     private final BigDecimal shippingFee;
     private final BigDecimal freeShippingThreshold;
 
-    @Autowired
     public PaymentCheckoutServiceImpl(
             CartService cartService,
             CartProductService cartProductService,
             UserOrderService userOrderService,
             PaymentMicroservice paymentMicroservice,
-            @Value("${bank.integration.login:Marta}") String bankLogin,
-            @Value("${bank.integration.api-token:token1}") String bankApiToken,
-            @Value("${bank.integration.destination-iban:ES33 0081 5220 0001 2345 6789}") String destinationIban,
-            @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept,
-            @Value("${checkout.shipping-fee:6.99}") double shippingFee,
-            @Value("${checkout.free-shipping-threshold:80}") double freeShippingThreshold) {
+            String bankLogin,
+            String bankApiToken,
+            String destinationIban,
+            String paymentConcept,
+            double shippingFee,
+            double freeShippingThreshold) {
         this.cartService = cartService;
         this.cartProductService = cartProductService;
         this.userOrderService = userOrderService;
@@ -58,7 +53,8 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
         this.destinationIban = normalizeIban(destinationIban);
         this.paymentConcept = isBlank(paymentConcept) ? "Compra Nibiru Home" : paymentConcept.trim();
         this.shippingFee = BigDecimal.valueOf(Math.max(shippingFee, 0)).setScale(2, RoundingMode.HALF_UP);
-        this.freeShippingThreshold = BigDecimal.valueOf(Math.max(freeShippingThreshold, 0)).setScale(2, RoundingMode.HALF_UP);
+        this.freeShippingThreshold = BigDecimal.valueOf(Math.max(freeShippingThreshold, 0)).setScale(2,
+                RoundingMode.HALF_UP);
     }
 
     @Override
@@ -69,8 +65,10 @@ public class PaymentCheckoutServiceImpl implements PaymentCheckoutService {
 
         String userId = requireNotBlank(request.userId(), "El usuario es obligatorio.");
         String cardHolder = requireNotBlank(request.cardHolder(), "El titular de la tarjeta es obligatorio.");
-        String cardNumber = formatCardNumber(requireNotBlank(request.cardNumber(), "El numero de tarjeta es obligatorio."));
-        String expirationDate = buildExpirationDate(requireNotBlank(request.expirationMonth(), "La fecha de caducidad es obligatoria."));
+        String cardNumber = formatCardNumber(
+                requireNotBlank(request.cardNumber(), "El numero de tarjeta es obligatorio."));
+        String expirationDate = buildExpirationDate(
+                requireNotBlank(request.expirationMonth(), "La fecha de caducidad es obligatoria."));
         int cvv = parseCvv(requireNotBlank(request.cvv(), "El CVV es obligatorio."));
 
         Cart cart = cartService.getActiveCart(userId);

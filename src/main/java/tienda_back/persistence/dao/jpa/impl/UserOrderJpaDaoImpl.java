@@ -5,13 +5,10 @@ import java.util.Optional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.springframework.stereotype.Repository;
-
 import tienda_back.persistence.dao.jpa.UserOrderJpaDao;
 import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 import tienda_back.persistence.dao.jpa.entity.UserOrderJpaEntity;
 
-@Repository
 public class UserOrderJpaDaoImpl implements UserOrderJpaDao {
 
     @PersistenceContext
@@ -20,7 +17,8 @@ public class UserOrderJpaDaoImpl implements UserOrderJpaDao {
     @Override
     public List<UserOrderJpaEntity> findAll(int page, int size) {
         int pageIndex = Math.max(page - 1, 0);
-        return entityManager.createQuery("SELECT u FROM UserOrderJpaEntity u ORDER BY u.date DESC", UserOrderJpaEntity.class)
+        return entityManager
+                .createQuery("SELECT u FROM UserOrderJpaEntity u ORDER BY u.date DESC", UserOrderJpaEntity.class)
                 .setFirstResult(pageIndex * size)
                 .setMaxResults(size)
                 .getResultList();

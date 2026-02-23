@@ -6,11 +6,10 @@ import java.util.UUID;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.springframework.stereotype.Repository;
+
 import tienda_back.persistence.dao.jpa.UserJpaDao;
 import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 
-@Repository
 public class UserJpaDaoImpl implements UserJpaDao {
 
     @PersistenceContext

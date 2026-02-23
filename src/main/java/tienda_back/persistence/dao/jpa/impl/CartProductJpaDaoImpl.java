@@ -3,8 +3,6 @@ package tienda_back.persistence.dao.jpa.impl;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -12,7 +10,6 @@ import tienda_back.domain.exception.ResourceNotFoundException;
 import tienda_back.persistence.dao.jpa.CartProductJpaDao;
 import tienda_back.persistence.dao.jpa.entity.CartProductJpaEntity;
 
-@Repository
 public class CartProductJpaDaoImpl implements CartProductJpaDao {
 
     @PersistenceContext

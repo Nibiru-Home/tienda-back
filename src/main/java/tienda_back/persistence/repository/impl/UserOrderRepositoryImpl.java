@@ -1,7 +1,5 @@
 package tienda_back.persistence.repository.impl;
 
-import org.springframework.stereotype.Repository;
-
 import tienda_back.domain.model.User;
 import tienda_back.domain.model.UserOrder;
 import tienda_back.domain.repository.UserOrderRepository;
@@ -14,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Repository
 public class UserOrderRepositoryImpl implements UserOrderRepository {
 
     private final UserOrderJpaDao userOrderJpaDao;

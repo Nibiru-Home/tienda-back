@@ -5,7 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.beans.factory.annotation.Value;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import tienda_back.chat.OpenAiChatService;
+import tienda_back.infraestructura.payment.PaymentMicroservice;
 
 import tienda_back.domain.repository.*;
 import tienda_back.domain.service.*;
@@ -19,7 +23,6 @@ import tienda_back.persistence.repository.impl.*;
 @EntityScan(basePackages = "tienda_back.persistence.dao.jpa.entity")
 public class SpringConfig {
 
-    
     @Bean
     public CartJpaDao cartJpaDao() {
         return new CartJpaDaoImpl();
@@ -50,7 +53,11 @@ public class SpringConfig {
         return new UserJpaDaoImpl();
     }
 
-    
+    @Bean
+    public UserOrderJpaDao userOrderJpaDao() {
+        return new UserOrderJpaDaoImpl();
+    }
+
     @Bean
     public CartRepository cartRepository(CartJpaDao cartJpaDao) {
         return new CartRepositoryImpl(cartJpaDao);
@@ -81,7 +88,11 @@ public class SpringConfig {
         return new UserRepositoryImpl(userJpaDao);
     }
 
-    
+    @Bean
+    public UserOrderRepository userOrderRepository(UserOrderJpaDao userOrderJpaDao) {
+        return new UserOrderRepositoryImpl(userOrderJpaDao);
+    }
+
     @Bean
     public CartService cartService(CartRepository cartRepository, UserService userService) {
         return new CartServiceImpl(cartRepository, userService);
@@ -112,6 +123,37 @@ public class SpringConfig {
     @Bean
     public UserService userService(UserRepository userRepository) {
         return new UserServiceImpl(userRepository);
+    }
+
+    @Bean
+    public UserOrderService userOrderService(UserOrderRepository userOrderRepository,
+            CartRepository cartRepository) {
+        return new UserOrderServiceImpl(userOrderRepository, cartRepository);
+    }
+
+    @Bean
+    public PaymentCheckoutService paymentCheckoutService(
+            CartService cartService,
+            CartProductService cartProductService,
+            UserOrderService userOrderService,
+            PaymentMicroservice paymentMicroservice,
+            @Value("${bank.integration.login:Marta}") String bankLogin,
+            @Value("${bank.integration.api-token:token1}") String bankApiToken,
+            @Value("${bank.integration.destination-iban:ES33 0081 5220 0001 2345 6789}") String destinationIban,
+            @Value("${bank.integration.concept:Compra Nibiru Home}") String paymentConcept,
+            @Value("${checkout.shipping-fee:6.99}") double shippingFee,
+            @Value("${checkout.free-shipping-threshold:80}") double freeShippingThreshold) {
+        return new PaymentCheckoutServiceImpl(
+                cartService, cartProductService, userOrderService, paymentMicroservice,
+                bankLogin, bankApiToken, destinationIban, paymentConcept, shippingFee, freeShippingThreshold);
+    }
+
+    @Bean
+    public OpenAiChatService openAiChatService(
+            ObjectMapper objectMapper,
+            @Value("${openai.api-key:}") String apiKey,
+            @Value("${openai.model:gpt-4.1-mini}") String model) {
+        return new OpenAiChatService(objectMapper, apiKey, model);
     }
 
     @Bean

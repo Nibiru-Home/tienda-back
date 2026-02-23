@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Repository;
-
 import tienda_back.domain.model.Product;
 import tienda_back.domain.repository.ProductRepository;
 import tienda_back.persistence.dao.jpa.ProductJpaDao;
 import tienda_back.persistence.dao.jpa.entity.ProductJpaEntity;
 import tienda_back.persistence.repository.mapper.ProductMapper;
 
-@Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
     private final ProductJpaDao productJpaDao;

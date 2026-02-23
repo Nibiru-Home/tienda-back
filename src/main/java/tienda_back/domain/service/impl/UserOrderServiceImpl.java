@@ -1,6 +1,5 @@
 package tienda_back.domain.service.impl;
 
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tienda_back.domain.model.User;
@@ -12,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-@Service
 @Transactional
 public class UserOrderServiceImpl implements UserOrderService {
 
@@ -47,16 +45,15 @@ public class UserOrderServiceImpl implements UserOrderService {
             userOrder.setStatus("PENDING");
         }
 
-        
         if (userOrder.getCart() != null && userOrder.getCart().getId() != null) {
             tienda_back.domain.model.Cart cart = cartRepository.findById(userOrder.getCart().getId()).orElse(null);
             if (cart != null) {
                 userOrder.setCart(cart);
-                
+
                 if (userOrder.getTotal() == null) {
                     userOrder.setTotal(cart.getTotal() != null ? Double.valueOf(cart.getTotal()) : 0.0);
                 }
-                
+
                 if (userOrder.getUser() == null) {
                     userOrder.setUser(cart.getUser());
                 }

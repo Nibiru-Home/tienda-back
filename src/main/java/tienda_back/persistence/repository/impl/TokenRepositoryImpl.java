@@ -2,15 +2,12 @@ package tienda_back.persistence.repository.impl;
 
 import java.util.Optional;
 
-import org.springframework.stereotype.Repository;
-
 import tienda_back.domain.model.Token;
 import tienda_back.domain.repository.TokenRepository;
 import tienda_back.persistence.dao.jpa.TokenJpaDao;
 import tienda_back.persistence.dao.jpa.entity.TokenJpaEntity;
 import tienda_back.persistence.repository.mapper.TokenMapper;
 
-@Repository
 public class TokenRepositoryImpl implements TokenRepository {
 
     private final TokenJpaDao tokenJpaDao;

@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Repository;
-
 import tienda_back.domain.model.Category;
 import tienda_back.domain.repository.CategoryRepository;
 import tienda_back.persistence.dao.jpa.CategoryJpaDao;
 import tienda_back.persistence.dao.jpa.entity.CategoryJpaEntity;
 import tienda_back.persistence.repository.mapper.CategoryMapper;
 
-@Repository
 public class CategoryRepositoryImpl implements CategoryRepository {
 
     private final CategoryJpaDao categoryJpaDao;

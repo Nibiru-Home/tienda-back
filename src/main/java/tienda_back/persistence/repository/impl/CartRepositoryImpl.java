@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Repository;
-
 import tienda_back.domain.model.Cart;
 import tienda_back.domain.model.User;
 import tienda_back.domain.repository.CartRepository;
@@ -13,7 +11,6 @@ import tienda_back.persistence.dao.jpa.CartJpaDao;
 import tienda_back.persistence.dao.jpa.entity.CartJpaEntity;
 import tienda_back.persistence.repository.mapper.CartMapper;
 
-@Repository
 public class CartRepositoryImpl implements CartRepository {
 
     private final CartJpaDao cartJpaDao;

@@ -5,8 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PreDestroy;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.BufferedReader;
@@ -21,7 +19,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Service
 public class OpenAiChatService {
     private static final URI RESPONSES_URI = URI.create("https://api.openai.com/v1/responses");
 
@@ -32,8 +29,8 @@ public class OpenAiChatService {
     private final String model;
 
     public OpenAiChatService(ObjectMapper objectMapper,
-                             @Value("${openai.api-key:}") String apiKey,
-                             @Value("${openai.model:gpt-4.1-mini}") String model) {
+            String apiKey,
+            String model) {
         this.objectMapper = objectMapper;
         this.apiKey = apiKey;
         this.model = model;
@@ -70,20 +67,17 @@ public class OpenAiChatService {
 
                 HttpResponse<java.io.InputStream> response = httpClient.send(
                         httpRequest,
-                        HttpResponse.BodyHandlers.ofInputStream()
-                );
+                        HttpResponse.BodyHandlers.ofInputStream());
 
                 if (response.statusCode() / 100 != 2) {
                     String errorBody = new String(response.body().readAllBytes(), StandardCharsets.UTF_8);
                     emitter.completeWithError(new IllegalStateException(
-                            "OpenAI error " + response.statusCode() + ": " + errorBody
-                    ));
+                            "OpenAI error " + response.statusCode() + ": " + errorBody));
                     return;
                 }
 
                 try (BufferedReader reader = new BufferedReader(
-                        new InputStreamReader(response.body(), StandardCharsets.UTF_8)
-                )) {
+                        new InputStreamReader(response.body(), StandardCharsets.UTF_8))) {
                     String line;
                     StringBuilder data = new StringBuilder();
                     while ((line = reader.readLine()) != null) {

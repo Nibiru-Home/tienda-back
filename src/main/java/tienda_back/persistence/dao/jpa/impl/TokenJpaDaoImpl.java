@@ -4,15 +4,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.stereotype.Repository;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
 import tienda_back.persistence.dao.jpa.TokenJpaDao;
 import tienda_back.persistence.dao.jpa.entity.TokenJpaEntity;
 
-@Repository
 public class TokenJpaDaoImpl implements TokenJpaDao {
 
     @PersistenceContext

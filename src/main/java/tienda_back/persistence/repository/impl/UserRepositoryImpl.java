@@ -5,15 +5,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Repository;
-
 import tienda_back.domain.model.User;
 import tienda_back.domain.repository.UserRepository;
 import tienda_back.persistence.dao.jpa.UserJpaDao;
 import tienda_back.persistence.dao.jpa.entity.UserJpaEntity;
 import tienda_back.persistence.repository.mapper.UserMapper;
 
-@Repository
 public class UserRepositoryImpl implements UserRepository {
 
     private final UserJpaDao userJpaDao;
